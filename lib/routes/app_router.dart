@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
+import 'profile_page.dart';
 
 final router = GoRouter(
   initialLocation: '/login',
@@ -17,7 +18,10 @@ final router = GoRouter(
       path: '/patients',
       builder: (context, state) => const PatientsPage(),
     ),
-    GoRoute(path: '/add-patient', builder: (context, state) => AddPatientPage()),
+    GoRoute(
+      path: '/add-patient',
+      builder: (context, state) => AddPatientPage(),
+    ),
     GoRoute(
       path: '/patient/:id',
       builder: (context, state) {
@@ -25,6 +29,6 @@ final router = GoRouter(
         return PatientDetailPage(patientId: id);
       },
     ),
-    //GoRoute(path: '/profile', builder: (context, state) => ProfilePage()),
+    GoRoute(path: '/profile', builder: (context, state) => ProfilePage()),
   ],
 );

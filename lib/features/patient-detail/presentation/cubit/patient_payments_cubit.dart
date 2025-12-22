@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../data/patient_detail_api.dart';
@@ -25,8 +24,7 @@ class PatientPaymentsCubit extends Cubit<PatientPaymentsState> {
     }
   }
 
-  Future<void> createPayment(
-      int patientId, String amount, String note) async {
+  Future<void> createPayment(int patientId, String amount, String note) async {
     try {
       final token = await storage.read('accessToken');
       if (token == null) throw Exception('No access token');
@@ -35,7 +33,6 @@ class PatientPaymentsCubit extends Cubit<PatientPaymentsState> {
         'amount': int.parse(amount),
         'note': note,
       });
-
 
       // Refresh list
       await fetchPayments(patientId);

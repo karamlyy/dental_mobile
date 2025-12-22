@@ -42,4 +42,18 @@ class PatientAppointmentsCubit extends Cubit<PatientAppointmentsState> {
       emit(PatientAppointmentsError(e.toString()));
     }
   }
+
+  Future<void> updateAppointmentStatus(
+      int appointmentId, Map<String, dynamic> body) async {
+    try {
+      final token = await storage.read('accessToken');
+      if (token == null) throw Exception('No access token');
+
+      await api.updateAppointmentStatus(appointmentId, token, body);
+
+      emit(PatientAppointmentsInitial());
+    } catch (e) {
+      emit(PatientAppointmentsError(e.toString()));
+    }
+  }
 }

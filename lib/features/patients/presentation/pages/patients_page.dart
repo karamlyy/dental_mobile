@@ -1,5 +1,6 @@
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/features/patients/presentation/cubit/patients_cubit.dart';
+import 'package:dental_mobile/features/patients/presentation/widgets/add_patient_sheet.dart';
 import 'package:dental_mobile/features/patients/presentation/widgets/patients_page_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,12 +16,21 @@ class PatientsPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: const Text('Pasiyentlər')),
         body: PatientsPageContent(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Yeni pasiyent əlavə etmək üçün yönləndirmə
-            context.go('/add-patient');
-          },
-          child: const Icon(Icons.add),
+        floatingActionButton: Builder(
+            builder: (context) {
+              return FloatingActionButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (_) => AddPatientSheet(
+                      cubit: context.read<PatientsCubit>(),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.add),
+              );
+            }
         ),
       ),
     );

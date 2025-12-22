@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'status_dot.dart';
 import 'add_appointment_sheet.dart';
+import 'update_appointment_sheet.dart';
 
 class AppointmentsTab extends StatelessWidget {
   final int patientId;
@@ -43,17 +44,24 @@ class AppointmentsTab extends StatelessWidget {
 
                   return ListTile(
                     leading: StatusDot(appt['status']),
-                    title: Text(
-                      '${appt['startTime']} - ${appt['endTime']}',
-                    ),
-                    subtitle: Text(
-                      _formatDate(appt['date']),
-                    ),
+                    title: Text('${appt['startTime']} - ${appt['endTime']}'),
+                    subtitle: Text(_formatDate(appt['date'])),
                     trailing: Text(
                       appt['status'],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600),
+                      style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (_) => UpdateAppointmentSheet(
+                          appointmentId: appt['id'],
+                          currentStatus: appt['status'],
+                          cubit: context.read<PatientAppointmentsCubit>(),
+                          patientId: patientId,
+                        ),
+                      );
+                    },
                   );
                 },
               );

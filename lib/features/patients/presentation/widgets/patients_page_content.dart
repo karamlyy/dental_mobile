@@ -8,39 +8,89 @@ class PatientsPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Patients List
-        Expanded(
-          child: BlocBuilder<PatientsCubit, PatientsState>(
-            builder: (context, state) {
-              if (state is PatientsLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is PatientsLoaded) {
-                if (state.patients.isEmpty) {
-                  return const Center(child: Text('Pasiyent tapılmadı'));
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Column(
+        children: [
+          Expanded(
+            child: BlocBuilder<PatientsCubit, PatientsState>(
+              builder: (context, state) {
+                if (state is PatientsLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is PatientsLoaded) {
+                  if (state.patients.isEmpty) {
+                    return const Center(
+                        child: Text('Pasiyent tapılmadı',
+                            style: TextStyle(fontSize: 16)));
+                  }
+                  return ListView.separated(
+                    itemCount: state.patients.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      final patient = state.patients[index];
+
+                      return GestureDetector(
+                        onTap: () {
+                          context.go('/patient/${patient['id']}');
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          elevation: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 16),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 28,
+                                  child: Text(
+                                    patient['fullName'][0],
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        patient['fullName'],
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        patient['phone'],
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(Icons.arrow_forward_ios,
+                                    color: Colors.grey, size: 16),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                } else if (state is PatientsError) {
+                  return Center(child: Text(state.message));
                 }
-                return ListView.builder(
-                  itemCount: state.patients.length,
-                  itemBuilder: (context, index) {
-                    final patient = state.patients[index];
-                    return ListTile(
-                      title: Text(patient['fullName']),
-                      subtitle: Text(patient['phone']),
-                      onTap: () {
-                        context.go('/patient/${patient['id']}');
-                      },
-                    );
-                  },
-                );
-              } else if (state is PatientsError) {
-                return Center(child: Text(state.message));
-              }
-              return const SizedBox();
-            },
+                return const SizedBox();
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

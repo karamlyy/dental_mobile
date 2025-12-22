@@ -32,6 +32,19 @@ class PatientDetailApi {
     return List<Map<String, dynamic>>.from(res.data);
   }
 
+
+  Future<Map<String, dynamic>> updateAppointmentStatus(
+      int appointmentId, String token, Map<String, dynamic> body) async {
+    final res = await dioClient.dio.patch(
+      '/appointments/$appointmentId',
+      data: body,
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+    );
+    return res.data;
+  }
+
+
+
   Future<List<Map<String, dynamic>>> getPayments(int patientId, String token) async {
     final res = await dioClient.dio.get(
       '/patients/$patientId/payments',

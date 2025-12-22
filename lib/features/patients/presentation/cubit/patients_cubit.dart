@@ -29,10 +29,7 @@ class PatientsCubit extends Cubit<PatientsState> {
       final token = await storage.read('accessToken');
       if (token == null) throw Exception('No access token');
 
-      final newPatient = await api.createPatient(token, {'fullName': fullName, 'phone': phone});
-
-      final current = (state is PatientsLoaded) ? (state as PatientsLoaded).patients : [];
-      emit(PatientsLoaded([...current, newPatient]));
+      await fetchPatients();
     } catch (e) {
       emit(PatientsError(e.toString()));
     }

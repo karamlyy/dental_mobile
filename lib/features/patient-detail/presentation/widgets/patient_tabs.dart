@@ -15,7 +15,7 @@ class PatientTabs extends StatelessWidget {
         children: [
           const TabBar(
             tabs: [
-              Tab(text: 'Appointmentlər'),
+              Tab(text: 'Görüşlər'),
               Tab(text: 'Ödənişlər'),
             ],
           ),

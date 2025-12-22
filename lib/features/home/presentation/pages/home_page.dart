@@ -16,6 +16,7 @@ class HomePage extends StatelessWidget {
       create: (_) => sl<AppointmentsCubit>()..fetchAppointments(),
       child: Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: FutureBuilder<String?>(
             future: SecureStorage().read('fullName'),
             builder: (context, snapshot) {

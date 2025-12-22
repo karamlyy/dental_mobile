@@ -6,51 +6,139 @@ import 'package:go_router/go_router.dart';
 class HomePageContent extends StatelessWidget {
   const HomePageContent({super.key});
 
+  Color _statusColor(String status) {
+    switch (status) {
+      case 'SCHEDULED':
+        return Colors.orange;
+      case 'CONFIRMED':
+        return Colors.blue;
+      case 'COMPLETED':
+        return Colors.green;
+      case 'CANCELLED':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () {
-            context.go('/patients');
-          },
-          child: Container(
-            color: Colors.blueAccent,
-            margin: const EdgeInsets.all(16),
-            padding: const EdgeInsets.all(16),
-            child: const Center(
-                child: Text('Pasiyentlərim', style: TextStyle(color: Colors.white, fontSize: 18))),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () => context.go('/patients'),
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+              child: const Center(
+                  child: Text(
+                    'Pasiyentlərim',
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                  )),
+            ),
           ),
-        ),
-        Expanded(
-          child: BlocBuilder<AppointmentsCubit, AppointmentsState>(
-            builder: (context, state) {
-              if (state is AppointmentsLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is AppointmentsLoaded) {
-                if (state.appointments.isEmpty) {
-                  return const Center(child: Text('Növbəti 3 gün üçün appointment yoxdur'));
+          const SizedBox(height: 20),
+
+          // Appointments list
+          Text('Növbəti görüşlər',
+              style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 10),
+          Expanded(
+            child: BlocBuilder<AppointmentsCubit, AppointmentsState>(
+              builder: (context, state) {
+                if (state is AppointmentsLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is AppointmentsLoaded) {
+                  if (state.appointments.isEmpty) {
+                    return const Center(
+                        child: Text('Növbəti 3 gün üçün appointment yoxdur',
+                            style: TextStyle(fontSize: 16)));
+                  }
+                  return ListView.separated(
+                    itemCount: state.appointments.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 0),
+                    itemBuilder: (context, index) {
+                      final a = state.appointments[index];
+                      final patient = a['patient'];
+
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 0,
+
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Status indicator
+                              Container(
+                                width: 12,
+                                height: 12,
+                                margin: const EdgeInsets.only(top: 4, right: 12),
+                                decoration: BoxDecoration(
+                                  color: _statusColor(a['status']),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      patient['fullName'],
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${a['date']} | ${a['startTime']} - ${a['endTime']}',
+                                      style: const TextStyle(
+                                          fontSize: 14, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 4, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color:
+                                  _statusColor(a['status']).withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  a['status'],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: _statusColor(a['status'])),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                } else if (state is AppointmentsError) {
+                  return Center(child: Text(state.message));
                 }
-                return ListView.builder(
-                  itemCount: state.appointments.length,
-                  itemBuilder: (context, index) {
-                    final a = state.appointments[index];
-                    final patient = a['patient'];
-                    return ListTile(
-                      title: Text(patient['fullName']),
-                      subtitle: Text('${a['date']} ${a['startTime']} - ${a['endTime']}'),
-                      trailing: Text(a['status']),
-                    );
-                  },
-                );
-              } else if (state is AppointmentsError) {
-                return Center(child: Text(state.message));
-              }
-              return const SizedBox();
-            },
+                return const SizedBox();
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
