@@ -1,0 +1,17 @@
+import 'package:dio/dio.dart';
+import '../constants.dart';
+
+class DioClient {
+  final Dio dio;
+  DioClient(this.dio) {
+    dio.options.baseUrl = AppConstants.baseUrl;
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'accept': '*/*',
+    };
+  }
+
+  Future<Response> post(String path, {dynamic data, Map<String, dynamic>? headers}) async {
+    return dio.post(path, data: data, options: Options(headers: headers));
+  }
+}
