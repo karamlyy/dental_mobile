@@ -1,4 +1,4 @@
-import 'package:dental_mobile/features/patients/data/patients_api.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../data/patient_detail_api.dart';
@@ -22,6 +22,22 @@ class PatientAppointmentsCubit extends Cubit<PatientAppointmentsState> {
       final list = await api.getPatientAppointments(token, patientId);
 
       emit(PatientAppointmentsLoaded(list));
+    } catch (e) {
+      emit(PatientAppointmentsError(e.toString()));
+    }
+  }
+
+
+  Future<void> createAppointment(
+      int patientId, Map<String, dynamic> appointmentData) async {
+    try {
+      final token = await storage.read('accessToken');
+      if (token == null) throw Exception('No access token');
+
+      await api.createAppointment(patientId, token, appointmentData);
+      
+      // Refresh list
+      await fetchAppointments(patientId);
     } catch (e) {
       emit(PatientAppointmentsError(e.toString()));
     }

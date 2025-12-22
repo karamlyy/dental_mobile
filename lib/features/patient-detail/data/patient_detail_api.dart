@@ -49,4 +49,12 @@ class PatientDetailApi {
     return res.data;
   }
 
+  Future<void> createAppointment(
+      int patientId, String token, Map<String, dynamic> body) async {
+    await dioClient.dio.post(
+      '/patients/$patientId/appointments',
+      data: body,
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+    );
+  }
 }
