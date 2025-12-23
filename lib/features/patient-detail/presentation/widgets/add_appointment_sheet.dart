@@ -29,9 +29,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
       firstDate: now,
       lastDate: DateTime(now.year + 2),
     );
-    if (picked != null) {
-      setState(() => _selectedDate = picked);
-    }
+    if (picked != null) setState(() => _selectedDate = picked);
   }
 
   Future<void> _pickTime(bool isStart) async {
@@ -41,20 +39,13 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
     );
     if (picked != null) {
       setState(() {
-        if (isStart) {
-          _startTime = picked;
-        } else {
-          _endTime = picked;
-        }
+        isStart ? _startTime = picked : _endTime = picked;
       });
     }
   }
 
-  String _formatTime(TimeOfDay time) {
-    final hour = time.hour.toString().padLeft(2, '0');
-    final minute = time.minute.toString().padLeft(2, '0');
-    return '$hour:$minute';
-  }
+  String _formatTime(TimeOfDay time) =>
+      '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
 
   Future<void> _save() async {
     if (_selectedDate == null || _startTime == null || _endTime == null) {
@@ -66,99 +57,155 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
 
     setState(() => _isLoading = true);
 
-    final dateIso = _selectedDate!.toIso8601String();
-    final startStr = _formatTime(_startTime!);
-    final endStr = _formatTime(_endTime!);
+    await widget.cubit.createAppointment(
+      widget.patientId,
+      {
+        'date': _selectedDate!.toIso8601String(),
+        'startTime': _formatTime(_startTime!),
+        'endTime': _formatTime(_endTime!),
+      },
+    );
 
-    final body = {
-      'date': dateIso,
-      'startTime': startStr,
-      'endTime': endStr,
-    };
-
-    await widget.cubit.createAppointment(widget.patientId, body);
-
-    if (mounted) {
-      Navigator.pop(context);
-    }
+    if (mounted) Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(context).bottom,
-        left: 16,
-        right: 16,
-        top: 16,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Yeni Appointment',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 24),
-          
-          ListTile(
-            title: Text(_selectedDate == null
-                ? 'Tarix seç'
-                : '${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}'),
-            trailing: const Icon(Icons.calendar_today),
-            onTap: _pickDate,
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          const SizedBox(height: 16),
-          
-          Row(
-            children: [
-              Expanded(
-                child: ListTile(
-                  title: Text(_startTime == null
-                      ? 'Başlama'
-                      : _formatTime(_startTime!)),
-                  trailing: const Icon(Icons.access_time),
-                  onTap: () => _pickTime(true),
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+    final theme = Theme.of(context);
+
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.viewInsetsOf(context).bottom,
+          left: 16,
+          right: 16,
+          top: 8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            /// 🔹 Drag handle
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: ListTile(
-                  title: Text(_endTime == null
-                      ? 'Bitmə'
-                      : _formatTime(_endTime!)),
-                  trailing: const Icon(Icons.access_time),
-                  onTap: () => _pickTime(false),
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
+            ),
+
+            /// 🔹 Title
+            Text(
+              'Yeni appointment',
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Pasiyent üçün görüş vaxtı təyin edin',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade600,
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            /// 📅 Date card
+            Card(
+              elevation: 0,
+              color: theme.colorScheme.surfaceVariant,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: ListTile(
+                onTap: _pickDate,
+                leading: const Icon(Icons.calendar_month_outlined),
+                title: const Text('Tarix'),
+                subtitle: Text(
+                  _selectedDate == null
+                      ? 'Tarix seçin'
+                      : '${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}',
+                ),
+                trailing: const Icon(Icons.chevron_right),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            /// ⏰ Time cards
+            Row(
+              children: [
+                Expanded(
+                  child: Card(
+                    elevation: 0,
+                    color: theme.colorScheme.surfaceVariant,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: ListTile(
+                      onTap: () => _pickTime(true),
+                      leading: const Icon(Icons.schedule_outlined),
+                      title: const Text('Başlama'),
+                      subtitle: Text(
+                        _startTime == null
+                            ? '--:--'
+                            : _formatTime(_startTime!),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: _isLoading ? null : _save,
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Card(
+                    elevation: 0,
+                    color: theme.colorScheme.surfaceVariant,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: ListTile(
+                      onTap: () => _pickTime(false),
+                      leading: const Icon(Icons.schedule_outlined),
+                      title: const Text('Bitmə'),
+                      subtitle: Text(
+                        _endTime == null ? '--:--' : _formatTime(_endTime!),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            child: _isLoading
-                ? const CircularProgressIndicator()
-                : const Text('Yarat'),
-          ),
-          const SizedBox(height: 32),
-        ],
+
+            const SizedBox(height: 24),
+
+            /// 🔹 Action button
+            FilledButton(
+              onPressed: _isLoading ? null : _save,
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              child: _isLoading
+                  ? const SizedBox(
+                height: 22,
+                width: 22,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+                  : const Text(
+                'Görüş yarat',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }

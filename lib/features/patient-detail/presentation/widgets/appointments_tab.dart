@@ -19,37 +19,44 @@ class AppointmentsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<PatientAppointmentsCubit>()
-        ..fetchAppointments(patientId),
+      create: (_) => sl<PatientAppointmentsCubit>()..fetchAppointments(patientId),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: BlocBuilder<PatientAppointmentsCubit,
-            PatientAppointmentsState>(
+        body: BlocBuilder<PatientAppointmentsCubit, PatientAppointmentsState>(
           builder: (context, state) {
             if (state is PatientAppointmentsLoading) {
-              return const Center(
-                  child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             if (state is PatientAppointmentsLoaded) {
               if (state.appointments.isEmpty) {
-                return const Center(
-                    child: Text('Appointment yoxdur'));
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.event_busy,
+                        size: 64,
+                        color: Colors.grey.shade400,
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Bu pasiyentin hələ görüşü yoxdur',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                );
               }
 
-              return ListView.builder(
+              return ListView.separated(
+                padding: const EdgeInsets.all(16),
                 itemCount: state.appointments.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final appt = state.appointments[index];
 
-                  return ListTile(
-                    leading: StatusDot(appt['status']),
-                    title: Text('${appt['startTime']} - ${appt['endTime']}'),
-                    subtitle: Text(_formatDate(appt['date'])),
-                    trailing: Text(
-                      appt['status'],
-                      style: const TextStyle(fontWeight: FontWeight.w600),
-                    ),
+                  return GestureDetector(
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
@@ -62,14 +69,64 @@ class AppointmentsTab extends StatelessWidget {
                         ),
                       );
                     },
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+
+
+                      ),
+                      child: Row(
+                        children: [
+                          StatusDot(appt['status']),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${appt['startTime']} - ${appt['endTime']}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  _formatDate(appt['date']),
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.blue.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              appt['status'],
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 },
               );
             }
 
             if (state is PatientAppointmentsError) {
-              return Center(
-                  child: Text(state.message));
+              return Center(child: Text(state.message));
             }
 
             return const SizedBox();
@@ -90,7 +147,7 @@ class AppointmentsTab extends StatelessWidget {
               },
               child: const Icon(Icons.add),
             );
-          }
+          },
         ),
       ),
     );

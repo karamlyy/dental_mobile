@@ -14,7 +14,13 @@ class PatientDetailPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => sl<PatientDetailCubit>()..fetchPatient(patientId),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Pasiyent')),
+        appBar: AppBar(
+          elevation: 0,
+          title: const Text(
+            'Pasiyent profili',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
         body: BlocBuilder<PatientDetailCubit, PatientDetailState>(
           builder: (context, state) {
             if (state is PatientDetailLoading) {

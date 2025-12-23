@@ -1,3 +1,4 @@
+import 'package:dental_mobile/config/theme/theme_cubit.dart';
 import 'package:dental_mobile/features/home/data/stats_api.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_appointments_cubit.dart';
@@ -21,6 +22,9 @@ final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton<DioClient>(() => DioClient(Dio()));
   sl.registerLazySingleton<SecureStorage>(() => SecureStorage());
+
+  // Theme
+  sl.registerLazySingleton<ThemeCubit>(() => ThemeCubit(sl<SecureStorage>()));
 
   sl.registerLazySingleton<AuthApi>(() => AuthApi(sl<DioClient>()));
   sl.registerFactory(() => AuthCubit(sl<AuthApi>(), sl<SecureStorage>()));

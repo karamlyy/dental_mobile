@@ -16,7 +16,8 @@ class UpdateAppointmentSheet extends StatefulWidget {
   });
 
   @override
-  State<UpdateAppointmentSheet> createState() => _UpdateAppointmentSheetState();
+  State<UpdateAppointmentSheet> createState() =>
+      _UpdateAppointmentSheetState();
 }
 
 class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
@@ -29,6 +30,20 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
     'COMPLETED',
     'CANCELLED',
   ];
+
+  final Map<String, String> _statusLabels = {
+    'SCHEDULED': 'Planlaşdırılıb',
+    'CONFIRMED': 'Təsdiqlənib',
+    'COMPLETED': 'Tamamlandı',
+    'CANCELLED': 'Ləğv edildi',
+  };
+
+  final Map<String, IconData> _statusIcons = {
+    'SCHEDULED': Icons.schedule_outlined,
+    'CONFIRMED': Icons.check_circle_outline,
+    'COMPLETED': Icons.done_all,
+    'CANCELLED': Icons.cancel_outlined,
+  };
 
   @override
   void initState() {
@@ -51,48 +66,113 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(context).bottom,
-        left: 16,
-        right: 16,
-        top: 16,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Appointment Statusunu dəyiş',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 24),
+    final theme = Theme.of(context);
 
-          DropdownButtonFormField<String>(
-            value: _selectedStatus,
-            items: _statuses
-                .map((s) => DropdownMenuItem(value: s, child: Text(s)))
-                .toList(),
-            onChanged: (val) {
-              if (val != null) setState(() => _selectedStatus = val);
-            },
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Status',
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.viewInsetsOf(context).bottom,
+          left: 16,
+          right: 16,
+          top: 8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            /// 🔹 Drag handle
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: _isLoading ? null : _save,
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+
+            /// 🔹 Title
+            Text(
+              'Appointment statusu',
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            child: _isLoading
-                ? const CircularProgressIndicator()
-                : const Text('Təsdiqlə'),
-          ),
-          const SizedBox(height: 32),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              'Görüşün cari vəziyyətini dəyişin',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade600,
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            /// 🔄 Status selector (Card style)
+            Card(
+              elevation: 0,
+              color: theme.colorScheme.surfaceVariant,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: DropdownButtonFormField<String>(
+                value: _selectedStatus,
+                icon: const Icon(Icons.keyboard_arrow_down),
+                items: _statuses.map((status) {
+                  return DropdownMenuItem(
+                    value: status,
+                    child: Row(
+                      children: [
+                        Icon(
+                          _statusIcons[status],
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(_statusLabels[status]!),
+                      ],
+                    ),
+                  );
+                }).toList(),
+                onChanged: (val) {
+                  if (val != null) setState(() => _selectedStatus = val);
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Status',
+                  border: InputBorder.none,
+                  contentPadding:
+                  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            /// 🔹 Action button
+            FilledButton(
+              onPressed: _isLoading ? null : _save,
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              child: _isLoading
+                  ? const SizedBox(
+                height: 22,
+                width: 22,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+                  : const Text(
+                'Təsdiqlə',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }

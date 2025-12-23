@@ -11,7 +11,11 @@ class AddPatientPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => sl<AddPatientCubit>(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Yeni Pasiyent')),
+        appBar: AppBar(
+          title: const Text('Yeni pasiyent'),
+          centerTitle: true,
+          elevation: 0,
+        ),
         body: BlocListener<AddPatientCubit, AddPatientState>(
           listener: (context, state) {
             if (state.status == AddPatientStatus.success) {
@@ -25,63 +29,119 @@ class AddPatientPage extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                BlocBuilder<AddPatientCubit, AddPatientState>(
-                  buildWhen: (previous, current) =>
-                      previous.fullName != current.fullName,
-                  builder: (context, state) {
-                    return TextFormField(
-                      initialValue: state.fullName,
-                      decoration: const InputDecoration(
-                        labelText: 'Ad və Soyad',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.person),
+                // 🔹 Header
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: const [
+                      CircleAvatar(
+                        radius: 32,
+                        backgroundColor: Colors.blue,
+                        child: Icon(Icons.person_add,
+                            color: Colors.white, size: 32),
                       ),
-                      onChanged: (value) => context
-                          .read<AddPatientCubit>()
-                          .fullNameChanged(value),
-                      autofocus: true,
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-                BlocBuilder<AddPatientCubit, AddPatientState>(
-                  buildWhen: (previous, current) =>
-                      previous.phone != current.phone,
-                  builder: (context, state) {
-                    return TextFormField(
-                      initialValue: state.phone,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        labelText: 'Nömrə',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.phone),
+                      SizedBox(height: 12),
+                      Text(
+                        'Yeni pasiyent əlavə et',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      onChanged: (value) =>
-                          context.read<AddPatientCubit>().phoneChanged(value),
-                    );
-                  },
+                      SizedBox(height: 4),
+                      Text(
+                        'Pasiyentin əsas məlumatlarını daxil edin',
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
+
                 const SizedBox(height: 24),
-                BlocBuilder<AddPatientCubit, AddPatientState>(
-                  buildWhen: (previous, current) =>
-                      previous.status != current.status,
-                  builder: (context, state) {
-                    return ElevatedButton(
-                      onPressed: state.status == AddPatientStatus.loading
-                          ? null
-                          : () => context.read<AddPatientCubit>().submit(),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+
+                // 🔹 Form Card
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      BlocBuilder<AddPatientCubit, AddPatientState>(
+                        buildWhen: (p, c) => p.fullName != c.fullName,
+                        builder: (context, state) {
+                          return TextFormField(
+                            initialValue: state.fullName,
+                            decoration: const InputDecoration(
+                              labelText: 'Ad və Soyad',
+                              prefixIcon: Icon(Icons.person),
+                            ),
+                            onChanged: (value) => context
+                                .read<AddPatientCubit>()
+                                .fullNameChanged(value),
+                            autofocus: true,
+                          );
+                        },
                       ),
-                      child: state.status == AddPatientStatus.loading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Text('Əlavə et'),
+                      const SizedBox(height: 16),
+                      BlocBuilder<AddPatientCubit, AddPatientState>(
+                        buildWhen: (p, c) => p.phone != c.phone,
+                        builder: (context, state) {
+                          return TextFormField(
+                            initialValue: state.phone,
+                            keyboardType: TextInputType.phone,
+                            decoration: const InputDecoration(
+                              labelText: 'Telefon nömrəsi',
+                              prefixIcon: Icon(Icons.phone),
+
+                            ),
+                            onChanged: (value) => context
+                                .read<AddPatientCubit>()
+                                .phoneChanged(value),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+
+                // 🔹 Action Button
+                BlocBuilder<AddPatientCubit, AddPatientState>(
+                  buildWhen: (p, c) => p.status != c.status,
+                  builder: (context, state) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: state.status ==
+                            AddPatientStatus.loading
+                            ? null
+                            : () => context
+                            .read<AddPatientCubit>()
+                            .submit(),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: state.status ==
+                            AddPatientStatus.loading
+                            ? const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2),
+                        )
+                            : const Text(
+                          'Pasiyenti əlavə et',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
                     );
                   },
                 ),

@@ -22,6 +22,23 @@ class HomePageContent extends StatelessWidget {
     }
   }
 
+  String _statusLabel(String status) {
+    switch (status) {
+      case 'SCHEDULED':
+        return 'Planlaşdırılıb';
+      case 'CONFIRMED':
+        return 'Təsdiqlənib';
+      case 'COMPLETED':
+        return 'Tamamlanıb';
+      case 'CANCELLED':
+        return 'Ləğv edilib';
+      case 'NO_SHOW':
+        return 'Gəlmədi';
+      default:
+        return status;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,9 +48,7 @@ class HomePageContent extends StatelessWidget {
         children: [
           const HomeStats(),
           const SizedBox(height: 20),
-          // Appointments list
-          Text('Növbəti görüşlər',
-              style: Theme.of(context).textTheme.titleMedium),
+          Text('Növbəti görüşlər', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 10),
           Expanded(
             child: BlocBuilder<AppointmentsCubit, AppointmentsState>(
@@ -86,13 +101,14 @@ class HomePageContent extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      '${a['date']} | ${a['startTime']} - ${a['endTime']}',
+                                      '${a['date'].substring(0, 10)} | ${a['startTime']} - ${a['endTime']}',
                                       style: const TextStyle(
                                           fontSize: 14, color: Colors.grey),
                                     ),
                                   ],
                                 ),
                               ),
+
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4, horizontal: 8),
@@ -102,10 +118,11 @@ class HomePageContent extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  a['status'],
+                                  _statusLabel(a['status']),
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: _statusColor(a['status'])),
+                                    fontWeight: FontWeight.bold,
+                                    color: _statusColor(a['status']),
+                                  ),
                                 ),
                               )
                             ],

@@ -1,4 +1,7 @@
 import 'package:dental_mobile/config/di.dart';
+import 'package:dental_mobile/config/theme/app_theme.dart';
+import 'package:dental_mobile/config/theme/theme_cubit.dart';
+import 'package:dental_mobile/config/theme/theme_state.dart';
 import 'package:dental_mobile/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:dental_mobile/features/auth/presentation/pages/login_page.dart';
 import 'package:dental_mobile/features/home/presentation/pages/home_page.dart';
@@ -44,10 +47,19 @@ class App extends StatelessWidget {
       ],
     );
 
-    return MaterialApp.router(
-      routerConfig: router,
-      title: 'Dental CRM',
-      theme: ThemeData(primarySwatch: Colors.blue),
+    return BlocProvider<ThemeCubit>(
+      create: (_) => sl<ThemeCubit>()..loadTheme(),
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, themeState) {
+          return MaterialApp.router(
+            routerConfig: router,
+            title: 'Dental CRM',
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: themeState.themeMode,
+          );
+        },
+      ),
     );
   }
 }

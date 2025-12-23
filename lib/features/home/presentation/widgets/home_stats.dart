@@ -38,8 +38,8 @@ class HomeStats extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              if (state.nextAppointment != null)
-                Text('Növbəti görüşlər',
+              if (state.nextAppointment != null) ...[
+                Text('Növbəti görüş',
                     style: Theme.of(context).textTheme.titleMedium),
                 Card(
                   elevation: 0,
@@ -49,19 +49,12 @@ class HomeStats extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
+                      color: Colors.blue.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(16),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.blue.shade600,
-                          Colors.blue.shade400,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
                     ),
                     child: Row(
                       children: [
-                        // Time badge
+
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                           decoration: BoxDecoration(
@@ -91,18 +84,11 @@ class HomeStats extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Növbəti görüş',
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 13,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
+
                               Text(
                                 state.nextAppointment!['patientName'],
                                 style: const TextStyle(
-                                  color: Colors.white,
+
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -111,7 +97,7 @@ class HomeStats extends StatelessWidget {
                               Text(
                                 '${state.nextAppointment!['date'].substring(0, 10)}',
                                 style: const TextStyle(
-                                  color: Colors.white70,
+
                                   fontSize: 14,
                                 ),
                               ),
@@ -121,7 +107,8 @@ class HomeStats extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ),
+              ],
             ],
           );
         }

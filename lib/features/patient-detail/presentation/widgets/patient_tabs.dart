@@ -14,6 +14,10 @@ class PatientTabs extends StatelessWidget {
       child: Column(
         children: [
           const TabBar(
+            labelColor: Colors.blue,
+            unselectedLabelColor: Colors.grey,
+            indicatorWeight: 3,
+            indicatorSize: TabBarIndicatorSize.label,
             tabs: [
               Tab(text: 'Görüşlər'),
               Tab(text: 'Ödənişlər'),

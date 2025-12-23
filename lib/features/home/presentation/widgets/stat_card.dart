@@ -27,7 +27,7 @@ class StatCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: const TextStyle(color: Colors.black54)),
+              Text(title),
               const SizedBox(height: 8),
               Text(
                 value,

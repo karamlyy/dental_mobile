@@ -44,63 +44,127 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
       _noteController.text.trim(),
     );
 
-    if (mounted) {
-      Navigator.pop(context);
-    }
+    if (mounted) Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(context).bottom,
-        left: 16,
-        right: 16,
-        top: 16,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'YENİ ÖDƏNİŞ',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 24),
-          
-          TextField(
-            controller: _amountController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: const InputDecoration(
-              labelText: 'Məbləğ (AZN)',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.attach_money),
+    final theme = Theme.of(context);
+
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.viewInsetsOf(context).bottom,
+          left: 16,
+          right: 16,
+          top: 8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            /// 🔹 Drag Handle
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
             ),
-            autofocus: true,
-          ),
-          const SizedBox(height: 16),
-          
-          TextField(
-            controller: _noteController,
-            decoration: const InputDecoration(
-              labelText: 'Qeyd',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.note),
+
+            /// 🔹 Title
+            Text(
+              'Yeni ödəniş',
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: _isLoading ? null : _save,
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+            const SizedBox(height: 4),
+            Text(
+              'Pasiyent üçün yeni ödəniş əlavə edin',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade600,
+              ),
             ),
-            child: _isLoading
-                ? const CircularProgressIndicator()
-                : const Text('Əlavə et'),
-          ),
-          const SizedBox(height: 32),
-        ],
+
+            const SizedBox(height: 24),
+
+            /// 🔹 Amount Card
+            Card(
+              elevation: 0,
+              color: theme.colorScheme.surfaceVariant,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Məbləğ (AZN)',
+                    prefixIcon: Icon(Icons.payments_outlined),
+                  ),
+                  autofocus: true,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            /// 🔹 Note Card
+            Card(
+              elevation: 0,
+              color: theme.colorScheme.surfaceVariant,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: TextField(
+                  controller: _noteController,
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Qeyd (istəyə bağlı)',
+                    prefixIcon: Icon(Icons.notes_outlined),
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            /// 🔹 Action Button
+            FilledButton(
+              onPressed: _isLoading ? null : _save,
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              child: _isLoading
+                  ? const SizedBox(
+                height: 22,
+                width: 22,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+                  : const Text(
+                'Ödənişi əlavə et',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }

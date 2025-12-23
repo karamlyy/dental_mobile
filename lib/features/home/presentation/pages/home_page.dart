@@ -29,7 +29,12 @@ class HomePage extends StatelessWidget {
               final name = snapshot.data ?? '';
               return Row(
                 children: [
-                  CircleAvatar(child: Text(name.isNotEmpty ? name[0] : '?')),
+                  GestureDetector(
+                    onTap: () => context.push('/profile'),
+                    child: CircleAvatar(
+                      child: Text(name.isNotEmpty ? name[0] : '?'),
+                    ),
+                  ),
                   const SizedBox(width: 8),
                   Text(name),
                 ],
