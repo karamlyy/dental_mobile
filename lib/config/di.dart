@@ -1,3 +1,5 @@
+import 'package:dental_mobile/features/home/data/stats_api.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_appointments_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_detail_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_payments_cubit.dart';
@@ -45,4 +47,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => PatientPaymentsCubit(sl<PatientDetailApi>(), sl<SecureStorage>()),
   );
+
+  sl.registerLazySingleton<StatsApi>(() => StatsApi(sl<DioClient>()));
+  sl.registerFactory(() => StatsCubit(sl<StatsApi>(), sl<SecureStorage>()));
 }

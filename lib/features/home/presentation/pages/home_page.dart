@@ -1,6 +1,7 @@
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/widgets/home_page_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +13,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<AppointmentsCubit>()..fetchAppointments(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => sl<AppointmentsCubit>()..fetchAppointments(),
+        ),
+        BlocProvider(create: (_) => sl<StatsCubit>()..fetchStats()),
+      ],
       child: Scaffold(
         appBar: AppBar(
           scrolledUnderElevation: 0,
@@ -30,16 +36,8 @@ class HomePage extends StatelessWidget {
               );
             },
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.person),
-              onPressed: () {
-                context.go('/profile');
-              },
-            ),
-          ],
         ),
-        body: HomePageContent()
+        body: const HomePageContent(),
       ),
     );
   }

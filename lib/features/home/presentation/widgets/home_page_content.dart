@@ -1,4 +1,5 @@
 import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
+import 'package:dental_mobile/features/home/presentation/widgets/home_stats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -28,25 +29,8 @@ class HomePageContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () => context.go('/patients'),
-            child: Container(
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-              child: const Center(
-                  child: Text(
-                    'Pasiyentlərim',
-                    style: TextStyle(
-                        color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                  )),
-            ),
-          ),
+          const HomeStats(),
           const SizedBox(height: 20),
-
           // Appointments list
           Text('Növbəti görüşlər',
               style: Theme.of(context).textTheme.titleMedium),
@@ -114,7 +98,7 @@ class HomePageContent extends StatelessWidget {
                                     vertical: 4, horizontal: 8),
                                 decoration: BoxDecoration(
                                   color:
-                                  _statusColor(a['status']).withOpacity(0.2),
+                                  _statusColor(a['status']).withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(

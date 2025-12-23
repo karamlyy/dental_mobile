@@ -25,13 +25,13 @@ class PatientsPageContent extends StatelessWidget {
                   }
                   return ListView.separated(
                     itemCount: state.patients.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    separatorBuilder: (_, __) => const SizedBox(height: 0),
                     itemBuilder: (context, index) {
                       final patient = state.patients[index];
 
                       return GestureDetector(
                         onTap: () {
-                          context.go('/patient/${patient['id']}');
+                          context.push('/patient/${patient['id']}');
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
