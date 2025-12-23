@@ -43,7 +43,7 @@ class PatientsPageContent extends StatelessWidget {
                             child: Row(
                               children: [
                                 CircleAvatar(
-                                  radius: 28,
+                                  radius: 18,
                                   child: Text(
                                     patient['fullName'][0],
                                     style: const TextStyle(
