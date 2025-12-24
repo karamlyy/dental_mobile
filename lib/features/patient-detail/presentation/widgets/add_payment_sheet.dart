@@ -1,3 +1,4 @@
+import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import '../cubit/patient_payments_cubit.dart';
 
@@ -140,26 +141,10 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
             ),
 
             const SizedBox(height: 24),
-
-            /// 🔹 Action Button
-            FilledButton(
+            PrimaryButton(
+              text: 'Ödənişi əlavə et',
               onPressed: _isLoading ? null : _save,
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
-                ),
-              ),
-              child: _isLoading
-                  ? const SizedBox(
-                height: 22,
-                width: 22,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-                  : const Text(
-                'Ödənişi əlavə et',
-                style: TextStyle(fontSize: 16),
-              ),
+              icon: _isLoading ? null : Icons.add,
             ),
 
             const SizedBox(height: 16),

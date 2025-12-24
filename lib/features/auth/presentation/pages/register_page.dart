@@ -21,7 +21,7 @@ class RegisterPage extends StatelessWidget {
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
-              context.go('/');
+              context.go('/login');
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.message)));
@@ -30,11 +30,10 @@ class RegisterPage extends StatelessWidget {
           builder: (context, state) {
             return Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    /// 🔹 LOGO / ICON
                     Center(
                       child: Container(
                         padding: const EdgeInsets.all(18),

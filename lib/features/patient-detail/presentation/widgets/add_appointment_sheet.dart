@@ -1,3 +1,4 @@
+import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import '../cubit/patient_appointments_cubit.dart';
 
@@ -143,7 +144,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                 Expanded(
                   child: Card(
                     elevation: 0,
-                    color: theme.colorScheme.surfaceVariant,
+                    color: theme.colorScheme.surfaceContainerHighest,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -163,7 +164,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                 Expanded(
                   child: Card(
                     elevation: 0,
-                    color: theme.colorScheme.surfaceVariant,
+                    color: theme.colorScheme.surfaceContainerHighest,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -182,25 +183,13 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
 
             const SizedBox(height: 24),
 
+            const SizedBox(height: 24),
+
             /// 🔹 Action button
-            FilledButton(
+            PrimaryButton(
+              text: 'Görüş yarat',
               onPressed: _isLoading ? null : _save,
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
-                ),
-              ),
-              child: _isLoading
-                  ? const SizedBox(
-                height: 22,
-                width: 22,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-                  : const Text(
-                'Görüş yarat',
-                style: TextStyle(fontSize: 16),
-              ),
+              icon: _isLoading ? null : Icons.add,
             ),
 
             const SizedBox(height: 16),

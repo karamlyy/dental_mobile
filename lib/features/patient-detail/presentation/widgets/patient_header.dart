@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class PatientHeader extends StatelessWidget {
   final Map<String, dynamic> patient;
-  const PatientHeader({required this.patient});
+  const PatientHeader({super.key, required this.patient});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16),
+
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
 
@@ -16,8 +16,6 @@ class PatientHeader extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            radius: 28,
-            backgroundColor: Colors.blueAccent,
             child: Text(
               patient['fullName'][0],
               style: const TextStyle(
