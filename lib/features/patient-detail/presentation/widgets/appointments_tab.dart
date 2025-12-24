@@ -16,6 +16,38 @@ class AppointmentsTab extends StatelessWidget {
     return '${date.day}.${date.month}.${date.year}';
   }
 
+  String _statusLabel(String status) {
+    switch (status) {
+      case 'SCHEDULED':
+        return 'Planlaşdırılıb';
+      case 'CONFIRMED':
+        return 'Təsdiqlənib';
+      case 'COMPLETED':
+        return 'Tamamlanıb';
+      case 'CANCELLED':
+        return 'Ləğv edilib';
+      case 'NO_SHOW':
+        return 'Gəlmədi';
+      default:
+        return status;
+    }
+  }
+
+  Color _statusColor(String status) {
+    switch (status) {
+      case 'SCHEDULED':
+        return Colors.orange;
+      case 'CONFIRMED':
+        return Colors.blue;
+      case 'COMPLETED':
+        return Colors.green;
+      case 'CANCELLED':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -105,15 +137,16 @@ class AppointmentsTab extends StatelessWidget {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.blue.withValues(alpha: 0.1),
+                              color: _statusColor(appt['status']).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              appt['status'],
-                              style: const TextStyle(
+
+                              _statusLabel(appt['status'],),
+                              style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.blue,
+                                color: _statusColor(appt['status']),
                               ),
                             ),
                           ),
