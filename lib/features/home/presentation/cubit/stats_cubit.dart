@@ -19,12 +19,14 @@ class StatsCubit extends Cubit<StatsState> {
 
       final data = await api.getHomeStats(token);
 
+      if (isClosed) return;
       emit(StatsLoaded(
         todayAppointments: data['todayAppointments'],
         totalPatients: data['totalPatients'],
         nextAppointment: data['nextAppointment'],
       ));
     } catch (e) {
+      if (isClosed) return;
       emit(StatsError(e.toString()));
     }
   }

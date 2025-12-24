@@ -20,8 +20,10 @@ class AuthCubit extends Cubit<AuthState> {
       });
       await storage.write('accessToken', res['accessToken']);
       await storage.write('refreshToken', res['refreshToken']);
+      if (isClosed) return;
       emit(AuthSuccess(res['fullName']));
     } catch (e) {
+      if (isClosed) return;
       emit(AuthError(e.toString()));
     }
   }
@@ -40,8 +42,10 @@ class AuthCubit extends Cubit<AuthState> {
       await storage.write('role', res['role']);
       await storage.write('fullName', res['fullName']);
 
+      if (isClosed) return;
       emit(AuthSuccess(res['fullName']));
     } catch (e) {
+      if (isClosed) return;
       emit(AuthError(e.toString()));
     }
   }

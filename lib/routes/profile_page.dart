@@ -11,9 +11,13 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final storage = SecureStorage();
+    final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profil')),
+      appBar: AppBar(
+        title: const Text('Profil'),
+        centerTitle: true,
+      ),
       body: FutureBuilder<Map<String, String?>>(
         future: _loadUserData(storage),
         builder: (context, snapshot) {
@@ -28,114 +32,109 @@ class ProfilePage extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              // Doctor Information Section
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Həkim Məlumatları',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+              /// 🔹 PROFILE HEADER
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 32,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        size: 36,
+                        color: theme.colorScheme.primary,
                       ),
-                      const SizedBox(height: 16),
-                      ListTile(
-                        leading: const Icon(Icons.person),
-                        title: const Text('Ad Soyad'),
-                        subtitle: Text(fullName),
-                        contentPadding: EdgeInsets.zero,
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            fullName,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            role,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white.withValues(alpha: 0.9),
+                            ),
+                          ),
+                        ],
                       ),
-                      ListTile(
-                        leading: const Icon(Icons.badge),
-                        title: const Text('Rol'),
-                        subtitle: Text(role),
-                        contentPadding: EdgeInsets.zero,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 16),
 
-              // Settings Section
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Tənzimləmələr',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+              const SizedBox(height: 24),
+
+              /// ⚙️ SETTINGS
+              _SectionCard(
+                title: 'Tənzimləmələr',
+                icon: Icons.settings_outlined,
+                child: BlocBuilder<ThemeCubit, ThemeState>(
+                  builder: (context, state) {
+                    return Column(
+                      children: [
+                        _ThemeTile(
+                          title: 'Sistem',
+                          icon: Icons.settings_suggest_outlined,
+                          selected: state.themeMode == ThemeMode.system,
+                          onTap: () => context
+                              .read<ThemeCubit>()
+                              .setTheme(ThemeMode.system),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Tema',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(height: 8),
-                      BlocBuilder<ThemeCubit, ThemeState>(
-                        builder: (context, state) {
-                          return Column(
-                            children: [
-                              RadioListTile<ThemeMode>(
-                                title: const Text('Sistem'),
-                                value: ThemeMode.system,
-                                groupValue: state.themeMode,
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    context.read<ThemeCubit>().setTheme(value);
-                                  }
-                                },
-                                contentPadding: EdgeInsets.zero,
-                              ),
-                              RadioListTile<ThemeMode>(
-                                title: const Text('Açıq'),
-                                value: ThemeMode.light,
-                                groupValue: state.themeMode,
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    context.read<ThemeCubit>().setTheme(value);
-                                  }
-                                },
-                                contentPadding: EdgeInsets.zero,
-                              ),
-                              RadioListTile<ThemeMode>(
-                                title: const Text('Qaranlıq'),
-                                value: ThemeMode.dark,
-                                groupValue: state.themeMode,
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    context.read<ThemeCubit>().setTheme(value);
-                                  }
-                                },
-                                contentPadding: EdgeInsets.zero,
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                        _ThemeTile(
+                          title: 'Açıq',
+                          icon: Icons.light_mode_outlined,
+                          selected: state.themeMode == ThemeMode.light,
+                          onTap: () => context
+                              .read<ThemeCubit>()
+                              .setTheme(ThemeMode.light),
+                        ),
+                        _ThemeTile(
+                          title: 'Qaranlıq',
+                          icon: Icons.dark_mode_outlined,
+                          selected: state.themeMode == ThemeMode.dark,
+                          onTap: () => context
+                              .read<ThemeCubit>()
+                              .setTheme(ThemeMode.dark),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
-              const SizedBox(height: 16),
 
-              // Logout Section
+              const SizedBox(height: 24),
+
+              /// 🚪 LOGOUT
               Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: ListTile(
                   leading: const Icon(Icons.logout, color: Colors.red),
                   title: const Text(
-                    'Çıxış',
-                    style: TextStyle(color: Colors.red),
+                    'Çıxış et',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () async {
                     await storage.deleteAll();
                     if (context.mounted) {
@@ -155,5 +154,96 @@ class ProfilePage extends StatelessWidget {
     final fullName = await storage.read('fullName');
     final role = await storage.read('role');
     return {'fullName': fullName, 'role': role};
+  }
+}
+
+class _SectionCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Widget child;
+
+  const _SectionCard({
+    required this.title,
+    required this.icon,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon),
+                const SizedBox(width: 8),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            child,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class _ThemeTile extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _ThemeTile({
+    required this.title,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        decoration: BoxDecoration(
+          color: selected
+              ? theme.colorScheme.primary.withValues(alpha: 0.1)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(icon),
+            const SizedBox(width: 12),
+            Expanded(child: Text(title)),
+            if (selected)
+              Icon(
+                Icons.check_circle,
+                color: theme.colorScheme.primary,
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'app_colors.dart';
+import 'text_theme_extension.dart';
 
 class AppTheme {
   static ThemeData get light {
@@ -11,6 +13,12 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         centerTitle: true,
       ),
+      extensions: const [
+        AppTextColors(
+          primary: AppColors.lightPrimaryText,
+          secondary: AppColors.lightSecondaryText,
+        ),
+      ],
     );
   }
 
@@ -24,6 +32,12 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         centerTitle: true,
       ),
+      extensions: const [
+        AppTextColors(
+          primary: AppColors.darkPrimaryText,
+          secondary: AppColors.darkSecondaryText,
+        ),
+      ],
     );
   }
 }

@@ -27,8 +27,10 @@ class AppointmentsCubit extends Cubit<AppointmentsState> {
             date.isBefore(threeDaysLater.add(const Duration(days:1)));
       }).toList();
 
+      if (isClosed) return;
       emit(AppointmentsLoaded(upcoming));
     } catch (e) {
+      if (isClosed) return;
       emit(AppointmentsError(e.toString()));
     }
   }

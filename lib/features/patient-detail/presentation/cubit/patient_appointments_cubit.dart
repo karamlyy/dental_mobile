@@ -21,8 +21,10 @@ class PatientAppointmentsCubit extends Cubit<PatientAppointmentsState> {
 
       final list = await api.getPatientAppointments(token, patientId);
 
+      if (isClosed) return;
       emit(PatientAppointmentsLoaded(list));
     } catch (e) {
+      if (isClosed) return;
       emit(PatientAppointmentsError(e.toString()));
     }
   }
@@ -39,6 +41,7 @@ class PatientAppointmentsCubit extends Cubit<PatientAppointmentsState> {
       // Refresh list
       await fetchAppointments(patientId);
     } catch (e) {
+      if (isClosed) return;
       emit(PatientAppointmentsError(e.toString()));
     }
   }
@@ -51,8 +54,10 @@ class PatientAppointmentsCubit extends Cubit<PatientAppointmentsState> {
 
       await api.updateAppointmentStatus(appointmentId, token, body);
 
+      if (isClosed) return;
       emit(PatientAppointmentsInitial());
     } catch (e) {
+      if (isClosed) return;
       emit(PatientAppointmentsError(e.toString()));
     }
   }

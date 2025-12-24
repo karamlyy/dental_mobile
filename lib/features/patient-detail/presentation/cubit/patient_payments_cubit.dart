@@ -18,8 +18,10 @@ class PatientPaymentsCubit extends Cubit<PatientPaymentsState> {
       if (token == null) throw Exception('No access token');
 
       final payments = await api.getPayments(patientId, token);
+      if (isClosed) return;
       emit(PatientPaymentsLoaded(payments));
     } catch (e) {
+      if (isClosed) return;
       emit(PatientPaymentsError(e.toString()));
     }
   }
@@ -37,6 +39,7 @@ class PatientPaymentsCubit extends Cubit<PatientPaymentsState> {
       // Refresh list
       await fetchPayments(patientId);
     } catch (e) {
+      if (isClosed) return;
       emit(PatientPaymentsError(e.toString()));
     }
   }

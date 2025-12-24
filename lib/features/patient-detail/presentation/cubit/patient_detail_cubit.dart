@@ -18,8 +18,10 @@ class PatientDetailCubit extends Cubit<PatientDetailState> {
       if (token == null) throw Exception('No access token');
 
       final patient = await api.getPatientById(token, id);
+      if (isClosed) return;
       emit(PatientDetailLoaded(patient));
     } catch (e) {
+      if (isClosed) return;
       emit(PatientDetailError(e.toString()));
     }
   }

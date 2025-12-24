@@ -1,3 +1,4 @@
+import 'package:dental_mobile/config/theme/text_theme_extension.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -86,16 +87,16 @@ class HomeStats extends StatelessWidget {
                             children: [
 
                               Text(
-                                state.nextAppointment!['patientName'],
-                                style: const TextStyle(
-
+                                state.nextAppointment?['patientName'],
+                                style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
+
                                 ),
                               ),
                               const SizedBox(height: 6),
                               Text(
-                                '${state.nextAppointment!['date'].substring(0, 10)}',
+                                '${state.nextAppointment?['date'].substring(0, 10)}',
                                 style: const TextStyle(
 
                                   fontSize: 14,

@@ -4,6 +4,7 @@ import 'package:dental_mobile/config/theme/theme_cubit.dart';
 import 'package:dental_mobile/config/theme/theme_state.dart';
 import 'package:dental_mobile/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:dental_mobile/features/auth/presentation/pages/login_page.dart';
+import 'package:dental_mobile/features/auth/presentation/pages/register_page.dart';
 import 'package:dental_mobile/features/home/presentation/pages/home_page.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/pages/patient_detail_page.dart';
 import 'package:dental_mobile/features/patients/presentation/pages/add_patient_page.dart';
@@ -24,9 +25,9 @@ class App extends StatelessWidget {
       routes: [
         GoRoute(
           path: '/login',
-          builder: (context, state) =>
-              BlocProvider(create: (_) => sl<AuthCubit>(), child: LoginPage()),
+          builder: (context, state) => LoginPage(),
         ),
+        GoRoute(path: '/register', builder: (context, state) => RegisterPage()),
         GoRoute(path: '/', builder: (context, state) => const HomePage()),
         GoRoute(
           path: '/patients',
@@ -47,8 +48,15 @@ class App extends StatelessWidget {
       ],
     );
 
-    return BlocProvider<ThemeCubit>(
-      create: (_) => sl<ThemeCubit>()..loadTheme(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemeCubit>(
+          create: (_) => sl<ThemeCubit>()..loadTheme(),
+        ),
+        BlocProvider<AuthCubit>(
+          create: (_) => sl<AuthCubit>(),
+        ),
+      ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeState) {
           return MaterialApp.router(

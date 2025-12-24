@@ -38,8 +38,10 @@ class AddPatientCubit extends Cubit<AddPatientState> {
         'phone': state.phone,
       });
 
+      if (isClosed) return;
       emit(state.copyWith(status: AddPatientStatus.success));
     } catch (e) {
+      if (isClosed) return;
       emit(state.copyWith(
         status: AddPatientStatus.error,
         errorMessage: e.toString(),

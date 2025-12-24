@@ -1,6 +1,5 @@
 import 'package:dental_mobile/core/network/dio_client.dart';
 
-
 class AuthApi {
   final DioClient dioClient;
   AuthApi(this.dioClient);

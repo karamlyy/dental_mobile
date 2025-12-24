@@ -17,8 +17,10 @@ class PatientsCubit extends Cubit<PatientsState> {
       if (token == null) throw Exception('No access token');
 
       final patients = await api.getPatients(token);
+      if (isClosed) return;
       emit(PatientsLoaded(patients));
     } catch (e) {
+      if (isClosed) return;
       emit(PatientsError(e.toString()));
     }
   }
@@ -36,6 +38,7 @@ class PatientsCubit extends Cubit<PatientsState> {
 
       await fetchPatients();
     } catch (e) {
+      if (isClosed) return;
       emit(PatientsError(e.toString()));
     }
   }
