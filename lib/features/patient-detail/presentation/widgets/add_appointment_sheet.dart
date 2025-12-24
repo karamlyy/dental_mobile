@@ -1,5 +1,8 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../home/presentation/cubit/appointments_cubit.dart';
+import '../../../home/presentation/cubit/stats_cubit.dart';
 import '../cubit/patient_appointments_cubit.dart';
 
 class AddAppointmentSheet extends StatefulWidget {
@@ -67,7 +70,11 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
       },
     );
 
-    if (mounted) Navigator.pop(context);
+    if (mounted) {
+      context.read<StatsCubit>().fetchStats();
+      context.read<AppointmentsCubit>().fetchAppointments();
+      Navigator.pop(context);
+    }
   }
 
   @override

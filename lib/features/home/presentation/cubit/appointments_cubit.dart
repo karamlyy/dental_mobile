@@ -34,4 +34,8 @@ class AppointmentsCubit extends Cubit<AppointmentsState> {
       emit(AppointmentsError(e.toString()));
     }
   }
+
+  void clear() {
+    emit(AppointmentsInitial());
+  }
 }

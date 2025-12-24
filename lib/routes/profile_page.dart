@@ -1,6 +1,9 @@
 import 'package:dental_mobile/config/theme/theme_cubit.dart';
 import 'package:dental_mobile/config/theme/theme_state.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
+import 'package:dental_mobile/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -65,7 +68,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            role,
+                            role == 'DOCTOR' ? 'Həkim' : role,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.white.withValues(alpha: 0.9),
@@ -135,11 +138,11 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () async {
-                    await storage.deleteAll();
-                    if (context.mounted) {
-                      context.go('/login');
-                    }
+                  onTap: () {
+                    context.read<AuthCubit>().logout();
+                    context.read<StatsCubit>().clear();
+                    context.read<AppointmentsCubit>().clear();
+                    context.go('/login');
                   },
                 ),
               ),

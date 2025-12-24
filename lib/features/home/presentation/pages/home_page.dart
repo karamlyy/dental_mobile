@@ -13,37 +13,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => sl<AppointmentsCubit>()..fetchAppointments(),
-        ),
-        BlocProvider(create: (_) => sl<StatsCubit>()..fetchStats()),
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
-          title: FutureBuilder<String?>(
-            future: SecureStorage().read('fullName'),
-            builder: (context, snapshot) {
-              final name = snapshot.data ?? '';
-              return Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => context.push('/profile'),
-                    child: CircleAvatar(
-                      child: Text(name.isNotEmpty ? name[0] : '?'),
-                    ),
+    return Scaffold(
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        title: FutureBuilder<String?>(
+          future: SecureStorage().read('fullName'),
+          builder: (context, snapshot) {
+            final name = snapshot.data ?? '';
+            return Row(
+              children: [
+                GestureDetector(
+                  onTap: () => context.push('/profile'),
+                  child: CircleAvatar(
+                    child: Text(name.isNotEmpty ? name[0] : '?'),
                   ),
-                  const SizedBox(width: 8),
-                  Text(name),
-                ],
-              );
-            },
-          ),
+                ),
+                const SizedBox(width: 8),
+                Text(name),
+              ],
+            );
+          },
         ),
-        body: const HomePageContent(),
       ),
+      body: const HomePageContent(),
     );
   }
 }

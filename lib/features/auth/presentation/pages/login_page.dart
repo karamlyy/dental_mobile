@@ -1,4 +1,6 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +22,8 @@ class LoginPage extends StatelessWidget {
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
+              context.read<StatsCubit>().fetchStats();
+              context.read<AppointmentsCubit>().fetchAppointments();
               context.go('/');
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context).showSnackBar(

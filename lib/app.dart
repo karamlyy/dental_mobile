@@ -5,6 +5,8 @@ import 'package:dental_mobile/config/theme/theme_state.dart';
 import 'package:dental_mobile/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:dental_mobile/features/auth/presentation/pages/login_page.dart';
 import 'package:dental_mobile/features/auth/presentation/pages/register_page.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/pages/home_page.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/pages/patient_detail_page.dart';
 import 'package:dental_mobile/features/patients/presentation/pages/add_patient_page.dart';
@@ -55,6 +57,12 @@ class App extends StatelessWidget {
         ),
         BlocProvider<AuthCubit>(
           create: (_) => sl<AuthCubit>(),
+        ),
+        BlocProvider<StatsCubit>(
+          create: (_) => sl<StatsCubit>()..fetchStats(),
+        ),
+        BlocProvider<AppointmentsCubit>(
+          create: (_) => sl<AppointmentsCubit>()..fetchAppointments(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

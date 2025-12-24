@@ -30,4 +30,8 @@ class StatsCubit extends Cubit<StatsState> {
       emit(StatsError(e.toString()));
     }
   }
+
+  void clear() {
+    emit(StatsInitial());
+  }
 }

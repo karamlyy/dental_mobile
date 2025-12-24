@@ -1,8 +1,9 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/config/di.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
+import 'package:dental_mobile/features/patients/presentation/cubit/add_patient_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/add_patient_cubit.dart';
 
 class AddPatientPage extends StatelessWidget {
   const AddPatientPage({super.key});
@@ -20,6 +21,7 @@ class AddPatientPage extends StatelessWidget {
         body: BlocListener<AddPatientCubit, AddPatientState>(
           listener: (context, state) {
             if (state.status == AddPatientStatus.success) {
+              context.read<StatsCubit>().fetchStats();
               Navigator.pop(context, true);
             } else if (state.status == AddPatientStatus.error) {
               ScaffoldMessenger.of(context).showSnackBar(
