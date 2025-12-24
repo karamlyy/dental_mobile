@@ -13,7 +13,10 @@ class AssistantsLoaded extends AssistantsState {
 
 class AssistantsError extends AssistantsState {
   final String message;
-  AssistantsError(this.message);
+  final String? error;
+  final int? statusCode;
+
+  AssistantsError(this.message, {this.error, this.statusCode});
 }
 
 class AssistantCreating extends AssistantsState {}

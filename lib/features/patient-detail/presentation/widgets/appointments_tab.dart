@@ -90,13 +90,14 @@ class AppointmentsTab extends StatelessWidget {
 
                   return GestureDetector(
                     onTap: () {
+                      final cubit = context.read<PatientAppointmentsCubit>();
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         builder: (_) => UpdateAppointmentSheet(
                           appointmentId: appt['id'],
                           currentStatus: appt['status'],
-                          cubit: context.read<PatientAppointmentsCubit>(),
+                          cubit: cubit,
                           patientId: patientId,
                         ),
                       );
@@ -169,12 +170,13 @@ class AppointmentsTab extends StatelessWidget {
           builder: (context) {
             return FloatingActionButton(
               onPressed: () {
+                final cubit = context.read<PatientAppointmentsCubit>();
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
                   builder: (_) => AddAppointmentSheet(
                     patientId: patientId,
-                    cubit: context.read<PatientAppointmentsCubit>(),
+                    cubit: cubit,
                   ),
                 );
               },

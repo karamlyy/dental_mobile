@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/assistants_api.dart';
 import '../../../../core/storage/secure_storage.dart';
+import '../../../../core/error/error_handler.dart';
 
 part 'assistants_state.dart';
 
@@ -21,7 +22,12 @@ class AssistantsCubit extends Cubit<AssistantsState> {
       emit(AssistantsLoaded(assistants));
     } catch (e) {
       if (isClosed) return;
-      emit(AssistantsError(e.toString()));
+      final error = ErrorHandler.handle(e);
+      emit(AssistantsError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
     }
   }
 
@@ -46,7 +52,12 @@ class AssistantsCubit extends Cubit<AssistantsState> {
       await fetchAssistants();
     } catch (e) {
       if (isClosed) return;
-      emit(AssistantsError(e.toString()));
+      final error = ErrorHandler.handle(e);
+      emit(AssistantsError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
     }
   }
 }

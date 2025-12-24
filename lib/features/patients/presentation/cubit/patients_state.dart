@@ -13,5 +13,8 @@ class PatientsLoaded extends PatientsState {
 
 class PatientsError extends PatientsState {
   final String message;
-  PatientsError(this.message);
+  final String? error;
+  final int? statusCode;
+
+  PatientsError(this.message, {this.error, this.statusCode});
 }

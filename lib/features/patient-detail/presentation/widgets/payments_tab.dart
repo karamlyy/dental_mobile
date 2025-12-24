@@ -99,12 +99,13 @@ class PaymentsTab extends StatelessWidget {
           builder: (context) {
             return FloatingActionButton(
               onPressed: () {
+                final cubit = context.read<PatientPaymentsCubit>();
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
                   builder: (_) => AddPaymentSheet(
                     patientId: patientId,
-                    cubit: context.read<PatientPaymentsCubit>(),
+                    cubit: cubit,
                   ),
                 );
               },

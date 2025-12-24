@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../data/patients_api.dart';
+import '../../../../core/error/error_handler.dart';
 
 part 'add_patient_state.dart';
 
@@ -42,9 +43,12 @@ class AddPatientCubit extends Cubit<AddPatientState> {
       emit(state.copyWith(status: AddPatientStatus.success));
     } catch (e) {
       if (isClosed) return;
+      final error = ErrorHandler.handle(e);
       emit(state.copyWith(
         status: AddPatientStatus.error,
-        errorMessage: e.toString(),
+        errorMessage: error.message,
+        error: error.error,
+        statusCode: error.statusCode,
       ));
     }
   }

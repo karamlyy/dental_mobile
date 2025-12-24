@@ -1,6 +1,8 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dental_mobile/core/error/app_error.dart';
+import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
 import '../cubit/assistants_cubit.dart';
 
 class AddAssistantSheet extends StatefulWidget {
@@ -46,8 +48,13 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
             const SnackBar(content: Text('Assistant yaradıldı')),
           );
         } else if (state is AssistantsError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+          ErrorBottomSheet.show(
+            context,
+            AppError(
+              message: state.message,
+              error: state.error,
+              statusCode: state.statusCode,
+            ),
           );
         }
       },

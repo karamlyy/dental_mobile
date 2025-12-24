@@ -3,6 +3,8 @@ import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/patients/presentation/cubit/add_patient_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:dental_mobile/core/error/app_error.dart';
+import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPatientPage extends StatelessWidget {
@@ -24,8 +26,13 @@ class AddPatientPage extends StatelessWidget {
               context.read<StatsCubit>().fetchStats();
               Navigator.pop(context, true);
             } else if (state.status == AddPatientStatus.error) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errorMessage ?? 'Xəta baş verdi')),
+              ErrorBottomSheet.show(
+                context,
+                AppError(
+                  message: state.errorMessage ?? 'Xəta baş verdi',
+                  error: state.error,
+                  statusCode: state.statusCode,
+                ),
               );
             }
           },

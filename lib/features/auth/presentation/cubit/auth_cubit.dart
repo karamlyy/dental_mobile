@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/auth_api.dart';
 import '../../../../core/storage/secure_storage.dart';
+import '../../../../core/error/error_handler.dart';
 
 part 'auth_state.dart';
 
@@ -24,7 +25,12 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthSuccess(res['fullName']));
     } catch (e) {
       if (isClosed) return;
-      emit(AuthError(e.toString()));
+      final error = ErrorHandler.handle(e);
+      emit(AuthError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
     }
   }
 
@@ -46,7 +52,12 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthSuccess(res['fullName']));
     } catch (e) {
       if (isClosed) return;
-      emit(AuthError(e.toString()));
+      final error = ErrorHandler.handle(e);
+      emit(AuthError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
     }
   }
 

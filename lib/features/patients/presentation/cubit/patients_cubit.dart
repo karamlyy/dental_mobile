@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/patients_api.dart';
 import '../../../../core/storage/secure_storage.dart';
+import '../../../../core/error/error_handler.dart';
 
 part 'patients_state.dart';
 
@@ -21,7 +22,12 @@ class PatientsCubit extends Cubit<PatientsState> {
       emit(PatientsLoaded(patients));
     } catch (e) {
       if (isClosed) return;
-      emit(PatientsError(e.toString()));
+      final error = ErrorHandler.handle(e);
+      emit(PatientsError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
     }
   }
 
@@ -39,7 +45,12 @@ class PatientsCubit extends Cubit<PatientsState> {
       await fetchPatients();
     } catch (e) {
       if (isClosed) return;
-      emit(PatientsError(e.toString()));
+      final error = ErrorHandler.handle(e);
+      emit(PatientsError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
     }
   }
 }

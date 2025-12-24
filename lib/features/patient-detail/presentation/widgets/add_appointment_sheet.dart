@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../home/presentation/cubit/appointments_cubit.dart';
 import '../../../home/presentation/cubit/stats_cubit.dart';
 import '../cubit/patient_appointments_cubit.dart';
+import 'package:dental_mobile/core/error/app_error.dart';
+import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
 
 class AddAppointmentSheet extends StatefulWidget {
   final int patientId;
@@ -69,138 +71,150 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
         'endTime': _formatTime(_endTime!),
       },
     );
-
-    if (mounted) {
-      context.read<StatsCubit>().fetchStats();
-      context.read<AppointmentsCubit>().fetchAppointments();
-      Navigator.pop(context);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.viewInsetsOf(context).bottom,
-          left: 16,
-          right: 16,
-          top: 8,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            /// 🔹 Drag handle
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade400,
-                  borderRadius: BorderRadius.circular(8),
+    return BlocListener<PatientAppointmentsCubit, PatientAppointmentsState>(
+      bloc: widget.cubit,
+      listener: (context, state) {
+        if (state is PatientAppointmentsError) {
+          setState(() => _isLoading = false);
+          ErrorBottomSheet.show(
+            context,
+            AppError(
+              message: state.message,
+              error: state.error,
+              statusCode: state.statusCode,
+            ),
+          );
+        } else if (state is PatientAppointmentsLoaded) {
+          Navigator.pop(context);
+        }
+      },
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
+            left: 16,
+            right: 16,
+            top: 8,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              /// 🔹 Drag handle
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade400,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
-            ),
-
-            /// 🔹 Title
-            Text(
-              'Yeni appointment',
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Pasiyent üçün görüş vaxtı təyin edin',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: Colors.grey.shade600,
-              ),
-            ),
-
-            const SizedBox(height: 24),
-
-            /// 📅 Date card
-            Card(
-              elevation: 0,
-              color: theme.colorScheme.surfaceVariant,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: ListTile(
-                onTap: _pickDate,
-                leading: const Icon(Icons.calendar_month_outlined),
-                title: const Text('Tarix'),
-                subtitle: Text(
-                  _selectedDate == null
-                      ? 'Tarix seçin'
-                      : '${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}',
+  
+              /// 🔹 Title
+              Text(
+                'Yeni appointment',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-                trailing: const Icon(Icons.chevron_right),
               ),
-            ),
-
-            const SizedBox(height: 16),
-
-            /// ⏰ Time cards
-            Row(
-              children: [
-                Expanded(
-                  child: Card(
-                    elevation: 0,
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: ListTile(
-                      onTap: () => _pickTime(true),
-                      leading: const Icon(Icons.schedule_outlined),
-                      title: const Text('Başlama'),
-                      subtitle: Text(
-                        _startTime == null
-                            ? '--:--'
-                            : _formatTime(_startTime!),
+              const SizedBox(height: 4),
+              Text(
+                'Pasiyent üçün görüş vaxtı təyin edin',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey.shade600,
+                ),
+              ),
+  
+              const SizedBox(height: 24),
+  
+              /// 📅 Date card
+              Card(
+                elevation: 0,
+                color: theme.colorScheme.surfaceVariant,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: ListTile(
+                  onTap: _pickDate,
+                  leading: const Icon(Icons.calendar_month_outlined),
+                  title: const Text('Tarix'),
+                  subtitle: Text(
+                    _selectedDate == null
+                        ? 'Tarix seçin'
+                        : '${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}',
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                ),
+              ),
+  
+              const SizedBox(height: 16),
+  
+              /// ⏰ Time cards
+              Row(
+                children: [
+                  Expanded(
+                    child: Card(
+                      elevation: 0,
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: ListTile(
+                        onTap: () => _pickTime(true),
+                        leading: const Icon(Icons.schedule_outlined),
+                        title: const Text('Başlama'),
+                        subtitle: Text(
+                          _startTime == null
+                              ? '--:--'
+                              : _formatTime(_startTime!),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Card(
-                    elevation: 0,
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: ListTile(
-                      onTap: () => _pickTime(false),
-                      leading: const Icon(Icons.schedule_outlined),
-                      title: const Text('Bitmə'),
-                      subtitle: Text(
-                        _endTime == null ? '--:--' : _formatTime(_endTime!),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Card(
+                      elevation: 0,
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: ListTile(
+                        onTap: () => _pickTime(false),
+                        leading: const Icon(Icons.schedule_outlined),
+                        title: const Text('Bitmə'),
+                        subtitle: Text(
+                          _endTime == null ? '--:--' : _formatTime(_endTime!),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-
-            const SizedBox(height: 24),
-
-            /// 🔹 Action button
-            PrimaryButton(
-              text: 'Görüş yarat',
-              onPressed: _isLoading ? null : _save,
-              icon: _isLoading ? null : Icons.add,
-            ),
-
-            const SizedBox(height: 16),
-          ],
+                ],
+              ),
+  
+              const SizedBox(height: 24),
+  
+              const SizedBox(height: 24),
+  
+              /// 🔹 Action button
+              PrimaryButton(
+                text: 'Görüş yarat',
+                onPressed: _isLoading ? null : _save,
+                icon: _isLoading ? null : Icons.add,
+              ),
+  
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );

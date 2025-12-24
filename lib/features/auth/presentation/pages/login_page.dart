@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:dental_mobile/core/error/app_error.dart';
+import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
 import '../cubit/auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
@@ -26,8 +28,13 @@ class LoginPage extends StatelessWidget {
               context.read<AppointmentsCubit>().fetchAppointments();
               context.go('/');
             } else if (state is AuthError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
+              ErrorBottomSheet.show(
+                context,
+                AppError(
+                  message: state.message,
+                  error: state.error,
+                  statusCode: state.statusCode,
+                ),
               );
             }
           },

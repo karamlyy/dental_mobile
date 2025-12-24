@@ -17,5 +17,8 @@ class PatientAppointmentsLoaded
 class PatientAppointmentsError
     extends PatientAppointmentsState {
   final String message;
-  PatientAppointmentsError(this.message);
+  final String? error;
+  final int? statusCode;
+
+  PatientAppointmentsError(this.message, {this.error, this.statusCode});
 }
