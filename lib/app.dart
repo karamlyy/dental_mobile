@@ -11,6 +11,8 @@ import 'package:dental_mobile/features/home/presentation/pages/home_page.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/pages/patient_detail_page.dart';
 import 'package:dental_mobile/features/patients/presentation/pages/add_patient_page.dart';
 import 'package:dental_mobile/features/patients/presentation/pages/patients_page.dart';
+import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
+import 'package:dental_mobile/features/assistants/presentation/pages/assistants_page.dart';
 import 'package:dental_mobile/routes/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,7 +48,11 @@ class App extends StatelessWidget {
             return PatientDetailPage(patientId: id);
           },
         ),
-        GoRoute(path: '/profile', builder: (context, state) => ProfilePage())
+        GoRoute(path: '/profile', builder: (context, state) => const ProfilePage()),
+        GoRoute(
+          path: '/assistants',
+          builder: (context, state) => const AssistantsPage(),
+        ),
       ],
     );
 
@@ -64,10 +70,14 @@ class App extends StatelessWidget {
         BlocProvider<AppointmentsCubit>(
           create: (_) => sl<AppointmentsCubit>()..fetchAppointments(),
         ),
+        BlocProvider<AssistantsCubit>(
+          create: (_) => sl<AssistantsCubit>()..fetchAssistants(),
+        ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeState) {
           return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
             routerConfig: router,
             title: 'Dental CRM',
             theme: AppTheme.light,

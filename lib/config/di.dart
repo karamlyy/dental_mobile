@@ -1,4 +1,6 @@
 import 'package:dental_mobile/config/theme/theme_cubit.dart';
+import 'package:dental_mobile/features/assistants/data/assistants_api.dart';
+import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/home/data/stats_api.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_appointments_cubit.dart';
@@ -58,4 +60,9 @@ Future<void> init() async {
 
   sl.registerLazySingleton<StatsApi>(() => StatsApi(sl<DioClient>()));
   sl.registerFactory(() => StatsCubit(sl<StatsApi>(), sl<SecureStorage>()));
+
+  sl.registerLazySingleton<AssistantsApi>(() => AssistantsApi(sl<DioClient>()));
+  sl.registerFactory(
+    () => AssistantsCubit(sl<AssistantsApi>(), sl<SecureStorage>()),
+  );
 }

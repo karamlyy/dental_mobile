@@ -22,7 +22,6 @@ class PatientsPage extends StatelessWidget {
                 onPressed: () async {
                   final result = await context.push('/add-patient');
                   if (result == true) {
-                    // Refresh if patient was added
                     if (context.mounted) {
                       context.read<PatientsCubit>().fetchPatients();
                     }

@@ -91,7 +91,7 @@ class AddPatientPage extends StatelessWidget {
                             onChanged: (value) => context
                                 .read<AddPatientCubit>()
                                 .fullNameChanged(value),
-                            autofocus: true,
+
                           );
                         },
                       ),

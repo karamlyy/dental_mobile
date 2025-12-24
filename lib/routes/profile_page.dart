@@ -17,10 +17,7 @@ class ProfilePage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profil'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Profil'), centerTitle: true),
       body: FutureBuilder<Map<String, String?>>(
         future: _loadUserData(storage),
         builder: (context, snapshot) {
@@ -35,17 +32,11 @@ class ProfilePage extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              /// 🔹 PROFILE HEADER
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary,
-                  borderRadius: BorderRadius.circular(24),
-                ),
+              _SectionCard(
+                title: 'Profil',
                 child: Row(
                   children: [
                     CircleAvatar(
-                      radius: 32,
                       backgroundColor: Colors.white,
                       child: Icon(
                         Icons.person,
@@ -63,16 +54,12 @@ class ProfilePage extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            role == 'DOCTOR' ? 'Həkim' : role,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white.withValues(alpha: 0.9),
-                            ),
+                            role == 'DOCTOR' ? 'Həkim' : 'Assistant',
+                            style: TextStyle(fontSize: 14),
                           ),
                         ],
                       ),
@@ -86,40 +73,67 @@ class ProfilePage extends StatelessWidget {
               /// ⚙️ SETTINGS
               _SectionCard(
                 title: 'Tənzimləmələr',
-                icon: Icons.settings_outlined,
                 child: BlocBuilder<ThemeCubit, ThemeState>(
                   builder: (context, state) {
+                    final isDark = state.themeMode == ThemeMode.dark;
+
                     return Column(
                       children: [
-                        _ThemeTile(
-                          title: 'Sistem',
-                          icon: Icons.settings_suggest_outlined,
-                          selected: state.themeMode == ThemeMode.system,
-                          onTap: () => context
-                              .read<ThemeCubit>()
-                              .setTheme(ThemeMode.system),
-                        ),
-                        _ThemeTile(
-                          title: 'Açıq',
-                          icon: Icons.light_mode_outlined,
-                          selected: state.themeMode == ThemeMode.light,
-                          onTap: () => context
-                              .read<ThemeCubit>()
-                              .setTheme(ThemeMode.light),
-                        ),
-                        _ThemeTile(
-                          title: 'Qaranlıq',
-                          icon: Icons.dark_mode_outlined,
-                          selected: state.themeMode == ThemeMode.dark,
-                          onTap: () => context
-                              .read<ThemeCubit>()
-                              .setTheme(ThemeMode.dark),
+                        /// 🌗 Dark / Light switch
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest
+                                .withValues(alpha: 0.4),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  isDark ? 'Qaranlıq rejim' : 'Açıq rejim',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Switch.adaptive(
+                                value: isDark,
+                                onChanged: (value) {
+                                  context.read<ThemeCubit>().setTheme(
+                                    value ? ThemeMode.dark : ThemeMode.light,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     );
                   },
                 ),
               ),
+
+
+              /// ⚙️ ASSISTANTS
+              if (role == 'DOCTOR') ...[
+                const SizedBox(height: 24),
+                _SectionCard(
+                  title: 'Assistantlar',
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Assistant siyahısı'),
+                    subtitle: const Text('Assistantları idarə edin'),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () => context.push('/assistants'),
+                  ),
+                ),
+              ],
 
               const SizedBox(height: 24),
 
@@ -138,18 +152,53 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () {
-                    context.read<AuthCubit>().logout();
-                    context.read<StatsCubit>().clear();
-                    context.read<AppointmentsCubit>().clear();
-                    context.go('/login');
-                  },
+                  onTap: () => _showLogoutDialog(context),
+                  // onTap: () {
+                  //   context.read<AuthCubit>().logout();
+                  //   context.read<StatsCubit>().clear();
+                  //   context.read<AppointmentsCubit>().clear();
+                  //   context.go('/login');
+                  // },
                 ),
               ),
             ],
           );
         },
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showAdaptiveDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog.adaptive(
+          title: const Text('Hesabdan çıxış'),
+          content: const Text(
+            'Hesabdan çıxmaq istədiyinizə əminsiniz?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Ləğv et'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+
+                context.read<AuthCubit>().logout();
+                context.read<StatsCubit>().clear();
+                context.read<AppointmentsCubit>().clear();
+                context.go('/login');
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red,
+              ),
+              child: const Text('Çıxış et'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -162,21 +211,15 @@ class ProfilePage extends StatelessWidget {
 
 class _SectionCard extends StatelessWidget {
   final String title;
-  final IconData icon;
+
   final Widget child;
 
-  const _SectionCard({
-    required this.title,
-    required this.icon,
-    required this.child,
-  });
+  const _SectionCard({required this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -184,8 +227,6 @@ class _SectionCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(icon),
-                const SizedBox(width: 8),
                 Text(
                   title,
                   style: const TextStyle(
@@ -197,53 +238,6 @@ class _SectionCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             child,
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
-class _ThemeTile extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const _ThemeTile({
-    required this.title,
-    required this.icon,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-        decoration: BoxDecoration(
-          color: selected
-              ? theme.colorScheme.primary.withValues(alpha: 0.1)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            Icon(icon),
-            const SizedBox(width: 12),
-            Expanded(child: Text(title)),
-            if (selected)
-              Icon(
-                Icons.check_circle,
-                color: theme.colorScheme.primary,
-              ),
           ],
         ),
       ),
