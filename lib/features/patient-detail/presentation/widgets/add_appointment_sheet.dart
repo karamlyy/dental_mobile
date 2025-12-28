@@ -1,8 +1,6 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../home/presentation/cubit/appointments_cubit.dart';
-import '../../../home/presentation/cubit/stats_cubit.dart';
 import '../cubit/patient_appointments_cubit.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
@@ -139,7 +137,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
               /// 📅 Date card
               Card(
                 elevation: 0,
-                color: theme.colorScheme.surfaceVariant,
+                color: theme.colorScheme.surfaceContainerHighest,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),

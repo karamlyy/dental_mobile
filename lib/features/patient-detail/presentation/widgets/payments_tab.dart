@@ -95,10 +95,12 @@ class PaymentsTab extends StatelessWidget {
             return const SizedBox();
           },
         ),
+
         floatingActionButton: Builder(
           builder: (context) {
-            return FloatingActionButton(
-              onPressed: () {
+            return InkWell(
+              borderRadius: BorderRadius.circular(18),
+              onTap: () {
                 final cubit = context.read<PatientPaymentsCubit>();
                 showModalBottomSheet(
                   context: context,
@@ -107,7 +109,34 @@ class PaymentsTab extends StatelessWidget {
                       AddPaymentSheet(patientId: patientId, cubit: cubit),
                 );
               },
-              child: const Icon(Icons.add),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                decoration: BoxDecoration(
+                  color: Color(0xFF4CAF50),
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.green.withValues(alpha: 0.35),
+                      blurRadius: 12,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(Icons.add, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      'Yeni ödəniş',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             );
           },
         ),

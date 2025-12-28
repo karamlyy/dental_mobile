@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class StatusDot extends StatelessWidget {
   final String status;
-  const StatusDot(this.status);
+  const StatusDot(this.status, {super.key});
 
   @override
   Widget build(BuildContext context) {

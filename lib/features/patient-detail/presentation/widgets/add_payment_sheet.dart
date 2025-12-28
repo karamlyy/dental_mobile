@@ -115,7 +115,7 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
               /// 🔹 Amount Card
               Card(
                 elevation: 0,
-                color: theme.colorScheme.surfaceVariant,
+                color: theme.colorScheme.surfaceContainerHighest,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -140,7 +140,7 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
               /// 🔹 Note Card
               Card(
                 elevation: 0,
-                color: theme.colorScheme.surfaceVariant,
+                color: theme.colorScheme.surfaceContainerHighest,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),

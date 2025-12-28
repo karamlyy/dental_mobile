@@ -140,12 +140,12 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
               /// 🔄 Status selector (Card style)
               Card(
                 elevation: 0,
-                color: theme.colorScheme.surfaceVariant,
+                color: theme.colorScheme.surfaceContainerHighest,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: DropdownButtonFormField<String>(
-                  value: _selectedStatus,
+                  initialValue: _selectedStatus,
                   icon: const Icon(Icons.keyboard_arrow_down),
                   items: _statuses.map((status) {
                     return DropdownMenuItem(

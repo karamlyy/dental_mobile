@@ -3,11 +3,21 @@ import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'stat_card.dart';
 
 class HomeStats extends StatelessWidget {
   const HomeStats({super.key});
+
+  Future<void> callPatient(String phone) async {
+    final uri = Uri(scheme: 'tel', path: phone);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      debugPrint('Could not launch $phone');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +50,7 @@ class HomeStats extends StatelessWidget {
               const SizedBox(height: 16),
 
               if (state.nextAppointment != null) ...[
-                Text('Növbəti görüş',
-                    style: Theme.of(context).textTheme.titleMedium),
+                Text('Növbəti görüş', style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
                 Card(
                   elevation: 0,
@@ -102,6 +111,23 @@ class HomeStats extends StatelessWidget {
                                 ),
                               ),
                             ],
+                          ),
+                        ),
+
+                        InkWell(
+                          borderRadius: BorderRadius.circular(14),
+                          onTap: () => callPatient(state.nextAppointment!['patientPhone']),
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.green.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: const Icon(
+                              Icons.call,
+                              color: Colors.green,
+                              size: 20,
+                            ),
                           ),
                         ),
                       ],

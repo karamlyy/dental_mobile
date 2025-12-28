@@ -84,7 +84,7 @@ class ProfilePage extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
-                              vertical: 6,
+                              vertical: 0,
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -229,7 +229,7 @@ class _SectionCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             child,
           ],
         ),

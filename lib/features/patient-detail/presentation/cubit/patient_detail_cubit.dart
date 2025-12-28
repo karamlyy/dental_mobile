@@ -1,5 +1,4 @@
 import 'package:dental_mobile/features/patient-detail/data/patient_detail_api.dart';
-import 'package:dental_mobile/features/patients/data/patients_api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/storage/secure_storage.dart';
 

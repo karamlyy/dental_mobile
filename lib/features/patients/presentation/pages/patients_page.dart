@@ -17,19 +17,45 @@ class PatientsPage extends StatelessWidget {
         appBar: AppBar(title: const Text('Pasiyentlər')),
         body: PatientsPageContent(),
         floatingActionButton: Builder(
-            builder: (context) {
-              return FloatingActionButton(
-                onPressed: () async {
-                  final result = await context.push('/add-patient');
-                  if (result == true) {
-                    if (context.mounted) {
-                      context.read<PatientsCubit>().fetchPatients();
-                    }
-                  }
-                },
-                child: const Icon(Icons.add),
-              );
-            }
+          builder: (context) {
+            return InkWell(
+              borderRadius: BorderRadius.circular(18),
+              onTap: () async {
+                final result = await context.push('/add-patient');
+                if (result == true && context.mounted) {
+                  context.read<PatientsCubit>().fetchPatients();
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                decoration: BoxDecoration(
+                  color: Color(0xFF4CAF50),
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.green.withValues(alpha: 0.35),
+                      blurRadius: 12,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(Icons.add, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      'Yeni pasiyent',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

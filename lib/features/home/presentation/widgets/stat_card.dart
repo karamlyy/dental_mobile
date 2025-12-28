@@ -6,7 +6,7 @@ class StatCard extends StatelessWidget {
   final Color color;
   final VoidCallback? onTap;
 
-  const StatCard({
+  const StatCard({super.key,
     required this.title,
     required this.value,
     required this.color,

@@ -5,7 +5,7 @@ import 'payments_tab.dart';
 
 class PatientTabs extends StatelessWidget {
   final int patientId;
-  const PatientTabs({required this.patientId});
+  const PatientTabs({super.key, required this.patientId});
 
   @override
   Widget build(BuildContext context) {
