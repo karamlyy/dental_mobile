@@ -2,7 +2,6 @@ import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubi
 import 'package:dental_mobile/features/home/presentation/widgets/home_stats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class HomePageContent extends StatelessWidget {
   const HomePageContent({super.key});
@@ -70,7 +69,7 @@ class HomePageContent extends StatelessWidget {
 
                       return Card(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(18),
                         ),
                         elevation: 0,
 

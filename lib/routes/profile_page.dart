@@ -142,6 +142,7 @@ class ProfilePage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
+                  elevation: 0,
                   child: ListTile(
                     leading: const Icon(Icons.logout, color: Colors.red),
                     title: const Text(

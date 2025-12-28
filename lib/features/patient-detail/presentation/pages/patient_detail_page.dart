@@ -32,7 +32,6 @@ class PatientDetailPage extends StatelessWidget {
               return Column(
                 children: [
                   PatientHeader(patient: patient),
-
                   Expanded(child: PatientTabs(patientId: patientId)),
                 ],
               );

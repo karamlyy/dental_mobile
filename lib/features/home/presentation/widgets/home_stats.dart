@@ -49,7 +49,7 @@ class HomeStats extends StatelessWidget {
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(20),

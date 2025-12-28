@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PatientHeader extends StatelessWidget {
   final Map<String, dynamic> patient;
   const PatientHeader({super.key, required this.patient});
+
+  Future<void> callPatient(String phone) async {
+    final uri = Uri(scheme: 'tel', path: phone);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      debugPrint('Could not launch $phone');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,21 +55,22 @@ class PatientHeader extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.blue.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              'ID ${patient['id']}',
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: Colors.blue,
+          InkWell(
+            borderRadius: BorderRadius.circular(14),
+            onTap: () => callPatient(patient['phone']),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.green.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Icon(
+                Icons.call,
+                color: Colors.green,
+                size: 20,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
