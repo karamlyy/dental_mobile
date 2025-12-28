@@ -9,9 +9,24 @@ class PatientsPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Column(
         children: [
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Axtar...',
+              prefixIcon: const Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              filled: true,
+              contentPadding: const EdgeInsets.symmetric(vertical: 0),
+            ),
+            onChanged: (value) =>
+                context.read<PatientsCubit>().onSearchChanged(value),
+          ),
+          const SizedBox(height: 16),
           Expanded(
             child: BlocBuilder<PatientsCubit, PatientsState>(
               builder: (context, state) {
@@ -20,8 +35,11 @@ class PatientsPageContent extends StatelessWidget {
                 } else if (state is PatientsLoaded) {
                   if (state.patients.isEmpty) {
                     return const Center(
-                        child: Text('Pasiyent tapılmadı',
-                            style: TextStyle(fontSize: 16)));
+                      child: Text(
+                        'Pasiyent tapılmadı',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    );
                   }
                   return ListView.separated(
                     itemCount: state.patients.length,
@@ -35,11 +53,14 @@ class PatientsPageContent extends StatelessWidget {
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
                           elevation: 0,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 16),
+                              vertical: 16,
+                              horizontal: 16,
+                            ),
                             child: Row(
                               children: [
                                 CircleAvatar(
@@ -47,34 +68,40 @@ class PatientsPageContent extends StatelessWidget {
                                   child: Text(
                                     patient['fullName'][0],
                                     style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         patient['fullName'],
                                         style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
                                         patient['phone'],
                                         style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey),
+                                          fontSize: 14,
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                const Icon(Icons.arrow_forward_ios,
-                                    color: Colors.grey, size: 16),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.grey,
+                                  size: 16,
+                                ),
                               ],
                             ),
                           ),

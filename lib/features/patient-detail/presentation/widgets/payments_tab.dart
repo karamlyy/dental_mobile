@@ -21,7 +21,6 @@ class PaymentsTab extends StatelessWidget {
             }
 
             if (state is PatientPaymentsLoaded) {
-
               if (state.payments.isEmpty) {
                 return Center(
                   child: Column(
@@ -45,43 +44,44 @@ class PaymentsTab extends StatelessWidget {
               return ListView.separated(
                 padding: const EdgeInsets.all(16),
                 itemCount: state.payments.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, __) => const SizedBox(height: 0),
                 itemBuilder: (context, index) {
                   final payment = state.payments[index];
-
-                  return Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
+                  return Card(
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.payments, color: Colors.green),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${payment['amount']} AZN',
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                payment['note'] ?? 'Qeyd yoxdur',
+                    elevation: 0,
+                    child: ListTile(
 
-                              ),
-                            ],
-                          ),
+                      leading: const Icon(
+                        Icons.payments,
+                        color: Colors.green,
+                        size: 32,
+                      ),
+
+                      title: Text(
+                        '${payment['amount']} AZN',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Text(
-                          payment['createdAt'].substring(0, 10),
-                          style: const TextStyle(color: Colors.grey),
+                      ),
+
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          (payment['note'] == null ||
+                              payment['note'].toString().trim().isEmpty)
+                              ? 'Qeyd yoxdur'
+                              : payment['note'],
                         ),
-                      ],
+                      ),
+
+                      trailing: Text(
+                        payment['createdAt'].substring(0, 10),
+                        style: const TextStyle(color: Colors.grey),
+                      ),
                     ),
                   );
                 },
@@ -103,15 +103,13 @@ class PaymentsTab extends StatelessWidget {
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
-                  builder: (_) => AddPaymentSheet(
-                    patientId: patientId,
-                    cubit: cubit,
-                  ),
+                  builder: (_) =>
+                      AddPaymentSheet(patientId: patientId, cubit: cubit),
                 );
               },
               child: const Icon(Icons.add),
             );
-          }
+          },
         ),
       ),
     );

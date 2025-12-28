@@ -46,7 +46,7 @@ class HomeStats extends StatelessWidget {
                 Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   child: Container(
                     padding: const EdgeInsets.all(16),

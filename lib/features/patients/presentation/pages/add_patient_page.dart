@@ -50,7 +50,7 @@ class AddPatientPage extends StatelessWidget {
                     children: const [
                       CircleAvatar(
                         radius: 32,
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Color(0xff4FACFE),
                         child: Icon(Icons.person_add,
                             color: Colors.white, size: 32),
                       ),
@@ -73,9 +73,7 @@ class AddPatientPage extends StatelessWidget {
 
                 // 🔹 Form Card
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
                   decoration: BoxDecoration(
-
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(

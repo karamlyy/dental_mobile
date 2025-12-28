@@ -5,9 +5,10 @@ class PatientsApi {
   final DioClient dioClient;
   PatientsApi(this.dioClient);
 
-  Future<List<Map<String, dynamic>>> getPatients(String accessToken) async {
+  Future<List<Map<String, dynamic>>> getPatients(String accessToken, {String? search}) async {
     final res = await dioClient.dio.get(
       '/patients',
+      queryParameters: search != null && search.isNotEmpty ? {'search': search} : null,
       options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
     );
     return List<Map<String, dynamic>>.from(res.data);

@@ -84,74 +84,64 @@ class AppointmentsTab extends StatelessWidget {
               return ListView.separated(
                 padding: const EdgeInsets.all(16),
                 itemCount: state.appointments.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, __) => const SizedBox(height: 0),
                 itemBuilder: (context, index) {
                   final appt = state.appointments[index];
 
-                  return GestureDetector(
-                    onTap: () {
-                      final cubit = context.read<PatientAppointmentsCubit>();
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (_) => UpdateAppointmentSheet(
-                          appointmentId: appt['id'],
-                          currentStatus: appt['status'],
-                          cubit: cubit,
-                          patientId: patientId,
+                  return Card(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: ListTile(
+
+
+                      onTap: () {
+                        final cubit = context.read<PatientAppointmentsCubit>();
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (_) => UpdateAppointmentSheet(
+                            appointmentId: appt['id'],
+                            currentStatus: appt['status'],
+                            cubit: cubit,
+                            patientId: patientId,
+                          ),
+                        );
+                      },
+
+                      leading: StatusDot(appt['status']),
+
+                      title: Text(
+                        '${appt['startTime']} - ${appt['endTime']}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-
-
                       ),
-                      child: Row(
-                        children: [
-                          StatusDot(appt['status']),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${appt['startTime']} - ${appt['endTime']}',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  _formatDate(appt['date']),
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _statusColor(appt['status']).withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
 
-                              _statusLabel(appt['status'],),
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: _statusColor(appt['status']),
-                              ),
-                            ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          _formatDate(appt['date']),
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ),
+
+                      trailing: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: _statusColor(appt['status']).withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          _statusLabel(appt['status']),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: _statusColor(appt['status']),
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   );
