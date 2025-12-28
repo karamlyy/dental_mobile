@@ -1,0 +1,17 @@
+{
+  "@@locale": "az",
+  "profile": "Profil",
+  "settings": "Tənzimləmələr",
+  "darkMode": "Qaranlıq rejim",
+  "lightMode": "Açıq rejim",
+  "assistants": "Assistantlar",
+  "assistantsList": "Assistant siyahısı",
+  "logout": "Çıxış et",
+  "logoutConfirmTitle": "Hesabdan çıxış",
+  "logoutConfirmMessage": "Hesabdan çıxmaq istədiyinizə əminsiniz?",
+  "cancel": "Ləğv et",
+  "changeLanguage": "Dili dəyiş",
+  "azerbaijani": "Azərbaycan dili",
+  "english": "İngilis dili",
+  "russian": "Rus dili"
+}

@@ -1,0 +1,17 @@
+{
+  "@@locale": "en",
+  "profile": "Profile",
+  "settings": "Settings",
+  "darkMode": "Dark mode",
+  "lightMode": "Light mode",
+  "assistants": "Assistants",
+  "assistantsList": "Assistant list",
+  "logout": "Logout",
+  "logoutConfirmTitle": "Logout",
+  "logoutConfirmMessage": "Are you sure you want to logout?",
+  "cancel": "Cancel",
+  "changeLanguage": "Change language",
+  "azerbaijani": "Azerbaijani",
+  "english": "English",
+  "russian": "Russian"
+}

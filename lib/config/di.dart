@@ -1,4 +1,5 @@
 import 'package:dental_mobile/config/theme/theme_cubit.dart';
+import 'package:dental_mobile/core/localization/locale_cubit.dart';
 import 'package:dental_mobile/features/assistants/data/assistants_api.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/home/data/stats_api.dart';
@@ -27,6 +28,9 @@ Future<void> init() async {
 
   // Theme
   sl.registerLazySingleton<ThemeCubit>(() => ThemeCubit(sl<SecureStorage>()));
+
+  // Localization
+  sl.registerLazySingleton<LocaleCubit>(() => LocaleCubit(sl<SecureStorage>()));
 
   sl.registerLazySingleton<AuthApi>(() => AuthApi(sl<DioClient>()));
   sl.registerFactory(() => AuthCubit(sl<AuthApi>(), sl<SecureStorage>()));

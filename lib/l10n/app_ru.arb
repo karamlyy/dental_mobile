@@ -1,0 +1,17 @@
+{
+  "@@locale": "ru",
+  "profile": "Профиль",
+  "settings": "Настройки",
+  "darkMode": "Темный режим",
+  "lightMode": "Светлый режим",
+  "assistants": "Ассистенты",
+  "assistantsList": "Список ассистентов",
+  "logout": "Выйти",
+  "logoutConfirmTitle": "Выход из аккаунта",
+  "logoutConfirmMessage": "Вы уверены, что хотите выйти?",
+  "cancel": "Отмена",
+  "changeLanguage": "Сменить язык",
+  "azerbaijani": "Азербайджанский",
+  "english": "Английский",
+  "russian": "Русский"
+}

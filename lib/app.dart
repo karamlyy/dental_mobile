@@ -2,6 +2,8 @@ import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/config/theme/app_theme.dart';
 import 'package:dental_mobile/config/theme/theme_cubit.dart';
 import 'package:dental_mobile/config/theme/theme_state.dart';
+import 'package:dental_mobile/core/localization/locale_cubit.dart';
+import 'package:dental_mobile/core/localization/locale_state.dart';
 import 'package:dental_mobile/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:dental_mobile/features/auth/presentation/pages/login_page.dart';
 import 'package:dental_mobile/features/auth/presentation/pages/register_page.dart';
@@ -13,9 +15,11 @@ import 'package:dental_mobile/features/patients/presentation/pages/add_patient_p
 import 'package:dental_mobile/features/patients/presentation/pages/patients_page.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/assistants/presentation/pages/assistants_page.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:dental_mobile/routes/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class App extends StatelessWidget {
@@ -61,6 +65,9 @@ class App extends StatelessWidget {
         BlocProvider<ThemeCubit>(
           create: (_) => sl<ThemeCubit>()..loadTheme(),
         ),
+        BlocProvider<LocaleCubit>(
+          create: (_) => sl<LocaleCubit>()..loadLocale(),
+        ),
         BlocProvider<AuthCubit>(
           create: (_) => sl<AuthCubit>(),
         ),
@@ -76,13 +83,29 @@ class App extends StatelessWidget {
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeState) {
-          return MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            routerConfig: router,
-            title: 'Dental CRM',
-            theme: AppTheme.light,
-            darkTheme: AppTheme.dark,
-            themeMode: themeState.themeMode,
+          return BlocBuilder<LocaleCubit, LocaleState>(
+            builder: (context, localeState) {
+              return MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                routerConfig: router,
+                title: 'Dental CRM',
+                theme: AppTheme.light,
+                darkTheme: AppTheme.dark,
+                themeMode: themeState.themeMode,
+                locale: localeState.locale,
+                localizationsDelegates: [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('az'),
+                  Locale('en'),
+                  Locale('ru'),
+                ],
+              );
+            },
           );
         },
       ),
