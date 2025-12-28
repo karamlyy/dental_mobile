@@ -34,7 +34,7 @@ class ProfilePage extends StatelessWidget {
             child: Column(
               children: [
                 _SectionCard(
-                  title: 'Profil',
+                  //title: 'Profil',
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -69,7 +69,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
 
                 /// ⚙️ SETTINGS
                 _SectionCard(
@@ -122,20 +122,19 @@ class ProfilePage extends StatelessWidget {
 
                 /// ⚙️ ASSISTANTS
                 if (role == 'DOCTOR') ...[
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
                   _SectionCard(
                     title: 'Assistantlar',
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: const Text('Assistant siyahısı'),
-                      subtitle: const Text('Assistantları idarə edin'),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () => context.push('/assistants'),
                     ),
                   ),
                 ],
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
 
                 /// 🚪 LOGOUT
                 Card(
@@ -202,11 +201,11 @@ class ProfilePage extends StatelessWidget {
 }
 
 class _SectionCard extends StatelessWidget {
-  final String title;
+  final String? title;
 
   final Widget child;
 
-  const _SectionCard({required this.title, required this.child});
+  const _SectionCard({this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -218,10 +217,11 @@ class _SectionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (title != null) ...[
             Row(
               children: [
                 Text(
-                  title,
+                  title ?? '',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -229,6 +229,7 @@ class _SectionCard extends StatelessWidget {
                 ),
               ],
             ),
+            ],
             const SizedBox(height: 8),
             child,
           ],
