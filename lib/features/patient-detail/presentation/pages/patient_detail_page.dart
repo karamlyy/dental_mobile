@@ -1,3 +1,4 @@
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/di.dart';
@@ -11,13 +12,15 @@ class PatientDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocProvider(
       create: (_) => sl<PatientDetailCubit>()..fetchPatient(patientId),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const Text(
-            'Pasiyent profili',
+          title:  Text(
+            l10n.patientProfile,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),

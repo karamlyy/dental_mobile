@@ -1,3 +1,4 @@
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'appointments_tab.dart';
@@ -9,18 +10,19 @@ class PatientTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return DefaultTabController(
       length: 2,
       child: Column(
         children: [
-          const TabBar(
+           TabBar(
             labelColor: Colors.blue,
             unselectedLabelColor: Colors.grey,
             indicatorWeight: 3,
             indicatorSize: TabBarIndicatorSize.label,
             tabs: [
-              Tab(text: 'Görüşlər'),
-              Tab(text: 'Ödənişlər'),
+              Tab(text: l10n.appointments),
+              Tab(text: l10n.payments),
             ],
           ),
           Expanded(

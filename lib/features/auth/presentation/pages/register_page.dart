@@ -1,4 +1,5 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +18,8 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+
 
     return Scaffold(
       body: SafeArea(
@@ -60,10 +63,9 @@ class RegisterPage extends StatelessWidget {
 
                     const SizedBox(height: 20),
 
-                    /// 🔹 TITLE
-                    const Center(
+                    Center(
                       child: Text(
-                        'Qeydiyyat',
+                        l10n.register,
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
@@ -75,7 +77,7 @@ class RegisterPage extends StatelessWidget {
 
                     Center(
                       child: Text(
-                        'Hesab yaratmaq üçün məlumatları yazın',
+                        l10n.enterCredentialsToRegister,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -85,11 +87,10 @@ class RegisterPage extends StatelessWidget {
 
                     const SizedBox(height: 40),
 
-                    /// 📝 FULL NAME
                     TextField(
                       controller: _fullNameController,
                       decoration: InputDecoration(
-                        labelText: 'Ad və Soyad',
+                        labelText: l10n.nameAndSurname,
                         filled: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -100,11 +101,10 @@ class RegisterPage extends StatelessWidget {
 
                     const SizedBox(height: 16),
 
-                    /// 📧 EMAIL
                     TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                        labelText: 'Email',
+                        labelText: l10n.email,
                         filled: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -115,12 +115,11 @@ class RegisterPage extends StatelessWidget {
 
                     const SizedBox(height: 16),
 
-                    /// 🔑 PASSWORD
                     TextField(
                       controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
-                        labelText: 'Şifrə',
+                        labelText: l10n.password,
                         filled: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -132,7 +131,7 @@ class RegisterPage extends StatelessWidget {
                     const SizedBox(height: 32),
 
                     PrimaryButton(
-                      text: 'Hesab yarat',
+                      text: l10n.createAccount,
 
                       onPressed: state is AuthLoading
                           ? null
@@ -146,15 +145,13 @@ class RegisterPage extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 24),
-
-                    /// ➕ LOGIN REDIRECT
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Hesabınız var?'),
+                        Text(l10n.haveAccount),
                         TextButton(
                           onPressed: () => context.go('/login'),
-                          child: const Text('Daxil ol'),
+                          child: Text(l10n.login),
                         ),
                       ],
                     ),

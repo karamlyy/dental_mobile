@@ -1,9 +1,11 @@
 import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/widgets/home_stats.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePageContent extends StatelessWidget {
+
   const HomePageContent({super.key});
 
   Color _statusColor(String status) {
@@ -21,18 +23,16 @@ class HomePageContent extends StatelessWidget {
     }
   }
 
-  String _statusLabel(String status) {
+  String _statusLabel(String status, AppLocalizations l10n) {
     switch (status) {
       case 'SCHEDULED':
-        return 'Planlaşdırılıb';
+        return l10n.scheduled;
       case 'CONFIRMED':
-        return 'Təsdiqlənib';
+        return l10n.confirmed;
       case 'COMPLETED':
-        return 'Tamamlanıb';
+        return l10n.completed;
       case 'CANCELLED':
-        return 'Ləğv edilib';
-      case 'NO_SHOW':
-        return 'Gəlmədi';
+        return l10n.canceled;
       default:
         return status;
     }
@@ -40,6 +40,8 @@ class HomePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(
@@ -47,7 +49,7 @@ class HomePageContent extends StatelessWidget {
         children: [
           const HomeStats(),
           const SizedBox(height: 20),
-          Text('Növbəti görüşlər', style: Theme.of(context).textTheme.titleMedium),
+          Text(l10n.nextAppointments, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 10),
           Expanded(
             child: BlocBuilder<AppointmentsCubit, AppointmentsState>(
@@ -117,7 +119,7 @@ class HomePageContent extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  _statusLabel(a['status']),
+                                  _statusLabel(a['status'], l10n),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: _statusColor(a['status']),

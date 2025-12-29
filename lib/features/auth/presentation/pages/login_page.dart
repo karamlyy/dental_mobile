@@ -1,6 +1,7 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,6 +19,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: SafeArea(
@@ -45,7 +47,6 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    /// 🔹 LOGO / ICON
                     Center(
                       child: Container(
                         padding: const EdgeInsets.all(18),
@@ -57,17 +58,15 @@ class LoginPage extends StatelessWidget {
                           'assets/icons/onboarding_hero.svg',
                           width: 42,
                           height: 42,
-
                         ),
                       ),
                     ),
 
                     const SizedBox(height: 20),
 
-                    /// 🔹 TITLE
-                    const Center(
+                    Center(
                       child: Text(
-                        'Xoş gəlmisiniz',
+                        l10n.welcome,
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
@@ -79,21 +78,17 @@ class LoginPage extends StatelessWidget {
 
                     Center(
                       child: Text(
-                        'Daxil olmaq üçün məlumatları yazın',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
+                        l10n.enterCredentials,
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                     ),
 
                     const SizedBox(height: 10),
 
-                    /// 📧 EMAIL
                     TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                        labelText: 'Email',
+                        labelText: l10n.email,
                         filled: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -104,12 +99,11 @@ class LoginPage extends StatelessWidget {
 
                     const SizedBox(height: 16),
 
-                    /// 🔑 PASSWORD
                     TextField(
                       controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
-                        labelText: 'Şifrə',
+                        labelText: l10n.password,
                         filled: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -120,30 +114,28 @@ class LoginPage extends StatelessWidget {
 
                     const SizedBox(height: 32),
 
-                    /// 🔘 LOGIN BUTTON
                     PrimaryButton(
-                      text: 'Daxil ol',
+                      text: l10n.login,
 
                       onPressed: state is AuthLoading
                           ? null
                           : () {
-                        context.read<AuthCubit>().login(
-                          _emailController.text,
-                          _passwordController.text,
-                        );
-                      },
+                              context.read<AuthCubit>().login(
+                                _emailController.text,
+                                _passwordController.text,
+                              );
+                            },
                     ),
 
                     const SizedBox(height: 24),
 
-                    /// ➕ REGISTER
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Hesabınız yoxdur?'),
+                        Text(l10n.noAccount),
                         TextButton(
                           onPressed: () => context.go('/register'),
-                          child: const Text('Qeydiyyat'),
+                          child: Text(l10n.register),
                         ),
                       ],
                     ),

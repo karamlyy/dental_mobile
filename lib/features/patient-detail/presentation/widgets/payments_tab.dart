@@ -1,5 +1,6 @@
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_payments_cubit.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'add_payment_sheet.dart';
@@ -10,6 +11,8 @@ class PaymentsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocProvider(
       create: (_) => sl<PatientPaymentsCubit>()..fetchPayments(patientId),
       child: Scaffold(
@@ -32,8 +35,8 @@ class PaymentsTab extends StatelessWidget {
                         color: Colors.grey.shade400,
                       ),
                       const SizedBox(height: 12),
-                      const Text(
-                        'Bu pasiyentin ödənişi yoxdur',
+                       Text(
+                        l10n.noPaymentsFound,
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
@@ -124,11 +127,11 @@ class PaymentsTab extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Icon(Icons.add, color: Colors.white),
                     SizedBox(width: 8),
                     Text(
-                      'Yeni ödəniş',
+                      l10n.newPayment,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

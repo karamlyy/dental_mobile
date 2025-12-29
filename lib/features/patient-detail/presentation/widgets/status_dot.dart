@@ -1,3 +1,4 @@
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class StatusDot extends StatelessWidget {
@@ -6,6 +7,7 @@ class StatusDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     Color color;
 
     switch (status) {

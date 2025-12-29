@@ -1,5 +1,6 @@
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_appointments_cubit.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,18 +17,16 @@ class AppointmentsTab extends StatelessWidget {
     return '${date.day}.${date.month}.${date.year}';
   }
 
-  String _statusLabel(String status) {
+  String _statusLabel(String status, AppLocalizations l10n) {
     switch (status) {
       case 'SCHEDULED':
-        return 'Planlaşdırılıb';
+        return l10n.scheduled;
       case 'CONFIRMED':
-        return 'Təsdiqlənib';
+        return l10n.confirmed;
       case 'COMPLETED':
-        return 'Tamamlanıb';
+        return l10n.completed;
       case 'CANCELLED':
-        return 'Ləğv edilib';
-      case 'NO_SHOW':
-        return 'Gəlmədi';
+        return l10n.canceled;
       default:
         return status;
     }
@@ -50,6 +49,8 @@ class AppointmentsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocProvider(
       create: (_) => sl<PatientAppointmentsCubit>()..fetchAppointments(patientId),
       child: Scaffold(
@@ -72,8 +73,8 @@ class AppointmentsTab extends StatelessWidget {
                         color: Colors.grey.shade400,
                       ),
                       const SizedBox(height: 12),
-                      const Text(
-                        'Bu pasiyentin hələ görüşü yoxdur',
+                       Text(
+                        l10n.noAppointmentsFound,
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
@@ -135,7 +136,7 @@ class AppointmentsTab extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          _statusLabel(appt['status']),
+                          _statusLabel(appt['status'], l10n),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -186,11 +187,11 @@ class AppointmentsTab extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Icon(Icons.add, color: Colors.white),
                     SizedBox(width: 8),
                     Text(
-                      'Yeni görüş',
+                      l10n.newAppointment,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

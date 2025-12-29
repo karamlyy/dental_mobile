@@ -1,4 +1,5 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/patient_appointments_cubit.dart';
@@ -24,6 +25,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
   bool _isLoading = false;
+
 
   Future<void> _pickDate() async {
     final now = DateTime.now();
@@ -74,6 +76,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocListener<PatientAppointmentsCubit, PatientAppointmentsState>(
       bloc: widget.cubit,
@@ -119,14 +122,14 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
   
               /// 🔹 Title
               Text(
-                'Yeni appointment',
+                l10n.newAppointment,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
-                'Pasiyent üçün görüş vaxtı təyin edin',
+                l10n.arrangeNewAppointmentForPatient,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: Colors.grey.shade600,
                 ),
@@ -144,10 +147,10 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                 child: ListTile(
                   onTap: _pickDate,
                   leading: const Icon(Icons.calendar_month_outlined),
-                  title: const Text('Tarix'),
+                  title: Text(l10n.date),
                   subtitle: Text(
                     _selectedDate == null
-                        ? 'Tarix seçin'
+                        ? l10n.selectDate
                         : '${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}',
                   ),
                   trailing: const Icon(Icons.chevron_right),
@@ -169,7 +172,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                       child: ListTile(
                         onTap: () => _pickTime(true),
                         leading: const Icon(Icons.schedule_outlined),
-                        title: const Text('Başlama'),
+                        title: Text(l10n.startTime),
                         subtitle: Text(
                           _startTime == null
                               ? '--:--'
@@ -189,7 +192,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                       child: ListTile(
                         onTap: () => _pickTime(false),
                         leading: const Icon(Icons.schedule_outlined),
-                        title: const Text('Bitmə'),
+                        title: Text(l10n.endTime),
                         subtitle: Text(
                           _endTime == null ? '--:--' : _formatTime(_endTime!),
                         ),
@@ -205,7 +208,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
   
               /// 🔹 Action button
               PrimaryButton(
-                text: 'Görüş yarat',
+                text: l10n.createAppointment,
                 onPressed: _isLoading ? null : _save,
                 icon: _isLoading ? null : Icons.add,
               ),

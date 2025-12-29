@@ -183,6 +183,300 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Rus dili'**
   String get russian;
+
+  /// No description provided for @nextAppointments.
+  ///
+  /// In az, this message translates to:
+  /// **'Növbəti görüşlər'**
+  String get nextAppointments;
+
+  /// No description provided for @nextAppointment.
+  ///
+  /// In az, this message translates to:
+  /// **'Növbəti görüş'**
+  String get nextAppointment;
+
+  /// No description provided for @scheduled.
+  ///
+  /// In az, this message translates to:
+  /// **'Planlaşdırılıb'**
+  String get scheduled;
+
+  /// No description provided for @completed.
+  ///
+  /// In az, this message translates to:
+  /// **'Tamamlandı'**
+  String get completed;
+
+  /// No description provided for @canceled.
+  ///
+  /// In az, this message translates to:
+  /// **'Ləğv edilib'**
+  String get canceled;
+
+  /// No description provided for @confirmed.
+  ///
+  /// In az, this message translates to:
+  /// **'Təsdiqlənib'**
+  String get confirmed;
+
+  /// No description provided for @todayAppointments.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu günün görüşləri'**
+  String get todayAppointments;
+
+  /// No description provided for @noAppointments.
+  ///
+  /// In az, this message translates to:
+  /// **'Görüş yoxdur'**
+  String get noAppointments;
+
+  /// No description provided for @appointments.
+  ///
+  /// In az, this message translates to:
+  /// **'Görüşlər'**
+  String get appointments;
+
+  /// No description provided for @patients.
+  ///
+  /// In az, this message translates to:
+  /// **'Pasiyentlər'**
+  String get patients;
+
+  /// No description provided for @patientProfile.
+  ///
+  /// In az, this message translates to:
+  /// **'Pasiyent profili'**
+  String get patientProfile;
+
+  /// No description provided for @newAppointment.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni görüş'**
+  String get newAppointment;
+
+  /// No description provided for @date.
+  ///
+  /// In az, this message translates to:
+  /// **'Tarix'**
+  String get date;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In az, this message translates to:
+  /// **'Tarixi seçin'**
+  String get selectDate;
+
+  /// No description provided for @startTime.
+  ///
+  /// In az, this message translates to:
+  /// **'Başlama vaxtı'**
+  String get startTime;
+
+  /// No description provided for @endTime.
+  ///
+  /// In az, this message translates to:
+  /// **'Bitmə vaxtı'**
+  String get endTime;
+
+  /// No description provided for @selectTime.
+  ///
+  /// In az, this message translates to:
+  /// **'Vaxtı seçin'**
+  String get selectTime;
+
+  /// No description provided for @newPatient.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni pasiyent'**
+  String get newPatient;
+
+  /// No description provided for @addNewPatient.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni pasiyent əlavə et'**
+  String get addNewPatient;
+
+  /// No description provided for @searchPatients.
+  ///
+  /// In az, this message translates to:
+  /// **'Pasiyentləri axtar'**
+  String get searchPatients;
+
+  /// No description provided for @enterPatientInfo.
+  ///
+  /// In az, this message translates to:
+  /// **'Pasiyent məlumatlarını daxil edin'**
+  String get enterPatientInfo;
+
+  /// No description provided for @nameAndSurname.
+  ///
+  /// In az, this message translates to:
+  /// **'Ad və soyad'**
+  String get nameAndSurname;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In az, this message translates to:
+  /// **'Telefon nömrəsi'**
+  String get phoneNumber;
+
+  /// No description provided for @emailAddress.
+  ///
+  /// In az, this message translates to:
+  /// **'E-poçt ünvanı'**
+  String get emailAddress;
+
+  /// No description provided for @addPatient.
+  ///
+  /// In az, this message translates to:
+  /// **'Pasiyent əlavə et'**
+  String get addPatient;
+
+  /// No description provided for @appointment.
+  ///
+  /// In az, this message translates to:
+  /// **'Görüş detalları'**
+  String get appointment;
+
+  /// No description provided for @payments.
+  ///
+  /// In az, this message translates to:
+  /// **'Ödənişlər'**
+  String get payments;
+
+  /// No description provided for @newPayment.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni ödəniş'**
+  String get newPayment;
+
+  /// No description provided for @addNewPaymentForPatient.
+  ///
+  /// In az, this message translates to:
+  /// **'Pasiyent üçün yeni ödəniş əlavə et'**
+  String get addNewPaymentForPatient;
+
+  /// No description provided for @amount.
+  ///
+  /// In az, this message translates to:
+  /// **'Məbləğ (AZN)'**
+  String get amount;
+
+  /// No description provided for @paymentNoteOptional.
+  ///
+  /// In az, this message translates to:
+  /// **'Ödəniş qeydi (istəyə bağlı)'**
+  String get paymentNoteOptional;
+
+  /// No description provided for @addPayment.
+  ///
+  /// In az, this message translates to:
+  /// **'Ödəniş əlavə et'**
+  String get addPayment;
+
+  /// No description provided for @noPatientsFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Pasiyent tapılmadı'**
+  String get noPatientsFound;
+
+  /// No description provided for @noAppointmentsFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Görüş tapılmadı'**
+  String get noAppointmentsFound;
+
+  /// No description provided for @noPaymentsFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Ödəniş tapılmadı'**
+  String get noPaymentsFound;
+
+  /// No description provided for @noNotes.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeyd yoxdur'**
+  String get noNotes;
+
+  /// No description provided for @arrangeNewAppointmentForPatient.
+  ///
+  /// In az, this message translates to:
+  /// **'Pasiyent üçün yeni görüş təyin et'**
+  String get arrangeNewAppointmentForPatient;
+
+  /// No description provided for @createAppointment.
+  ///
+  /// In az, this message translates to:
+  /// **'Görüş yarat'**
+  String get createAppointment;
+
+  /// No description provided for @welcome.
+  ///
+  /// In az, this message translates to:
+  /// **'Xoş gəlmisiniz'**
+  String get welcome;
+
+  /// No description provided for @enterCredentials.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesabınıza daxil olmaq üçün məlumatlarınızı daxil edin'**
+  String get enterCredentials;
+
+  /// No description provided for @login.
+  ///
+  /// In az, this message translates to:
+  /// **'Daxil ol'**
+  String get login;
+
+  /// No description provided for @register.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyat'**
+  String get register;
+
+  /// No description provided for @email.
+  ///
+  /// In az, this message translates to:
+  /// **'E-poçt'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In az, this message translates to:
+  /// **'Şifrə'**
+  String get password;
+
+  /// No description provided for @haveAccount.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesabınız var?'**
+  String get haveAccount;
+
+  /// No description provided for @noAccount.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesabınız yoxdur?'**
+  String get noAccount;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesab yarat'**
+  String get createAccount;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In az, this message translates to:
+  /// **'Şifrəni unutmusunuz?'**
+  String get forgotPassword;
+
+  /// No description provided for @enterCredentialsToRegister.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyatdan keçmək üçün məlumatlarınızı daxil edin'**
+  String get enterCredentialsToRegister;
 }
 
 class _AppLocalizationsDelegate

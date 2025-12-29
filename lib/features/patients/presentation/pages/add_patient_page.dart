@@ -2,6 +2,7 @@ import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/patients/presentation/cubit/add_patient_cubit.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
@@ -12,11 +13,13 @@ class AddPatientPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocProvider(
       create: (_) => sl<AddPatientCubit>(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Yeni pasiyent'),
+          title: Text(l10n.newPatient),
           centerTitle: true,
           elevation: 0,
         ),
@@ -47,7 +50,7 @@ class AddPatientPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(
-                    children: const [
+                    children: [
                       CircleAvatar(
                         radius: 32,
                         backgroundColor: Color(0xff4FACFE),
@@ -56,13 +59,13 @@ class AddPatientPage extends StatelessWidget {
                       ),
                       SizedBox(height: 12),
                       Text(
-                        'Yeni pasiyent əlavə et',
+                        l10n.addNewPatient,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Pasiyentin əsas məlumatlarını daxil edin',
+                        l10n.enterPatientInfo,
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -84,7 +87,7 @@ class AddPatientPage extends StatelessWidget {
                           return TextFormField(
                             initialValue: state.fullName,
                             decoration: InputDecoration(
-                              labelText: 'Ad və Soyad',
+                              labelText: l10n.nameAndSurname,
                               filled: true,
                               prefixIcon: Icon(Icons.person),
                               border: OutlineInputBorder(
@@ -110,7 +113,7 @@ class AddPatientPage extends StatelessWidget {
                             keyboardType: TextInputType.phone,
 
                             decoration: InputDecoration(
-                              labelText: 'Telefon nömrəsi',
+                              labelText: l10n.phoneNumber,
                               filled: true,
                               prefixIcon: Icon(Icons.phone),
                               border: OutlineInputBorder(
@@ -135,13 +138,13 @@ class AddPatientPage extends StatelessWidget {
                   buildWhen: (p, c) => p.status != c.status,
                   builder: (context, state) {
                     return PrimaryButton(
-                      text: 'Pasiyenti əlavə et',
+                      text: l10n.addPatient,
                       onPressed: state.status == AddPatientStatus.loading
                           ? null
                           : () => context.read<AddPatientCubit>().submit(),
                       icon: state.status == AddPatientStatus.loading
                           ? null
-                          : Icons.person_add, // istəsən icon əlavə edə bilərsən
+                          : Icons.person_add,
                     );
                   },
                 ),

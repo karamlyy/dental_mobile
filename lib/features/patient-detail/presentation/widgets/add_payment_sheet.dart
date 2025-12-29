@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:dental_mobile/common/widgets/primary_button.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../cubit/patient_payments_cubit.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
@@ -52,6 +55,7 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocListener<PatientPaymentsCubit, PatientPaymentsState>(
       bloc: widget.cubit,
@@ -97,14 +101,14 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
   
               /// 🔹 Title
               Text(
-                'Yeni ödəniş',
+                l10n.newPayment,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
-                'Pasiyent üçün yeni ödəniş əlavə edin',
+                l10n.addNewPaymentForPatient,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: Colors.grey.shade600,
                 ),
@@ -125,9 +129,9 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
                     controller: _amountController,
                     keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                    decoration: const InputDecoration(
+                    decoration:  InputDecoration(
                       border: InputBorder.none,
-                      labelText: 'Məbləğ (AZN)',
+                      labelText: l10n.amount,
                       prefixIcon: Icon(Icons.payments_outlined),
                     ),
                     autofocus: true,
@@ -149,9 +153,9 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
                   child: TextField(
                     controller: _noteController,
                     maxLines: 3,
-                    decoration: const InputDecoration(
+                    decoration:  InputDecoration(
                       border: InputBorder.none,
-                      labelText: 'Qeyd (istəyə bağlı)',
+                      labelText: l10n.paymentNoteOptional,
                       prefixIcon: Icon(Icons.notes_outlined),
                     ),
                   ),
@@ -160,7 +164,7 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
   
               const SizedBox(height: 24),
               PrimaryButton(
-                text: 'Ödənişi əlavə et',
+                text: l10n.addPayment,
                 onPressed: _isLoading ? null : _save,
                 icon: _isLoading ? null : Icons.add,
               ),

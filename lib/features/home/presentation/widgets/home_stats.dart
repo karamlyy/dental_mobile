@@ -1,5 +1,7 @@
 import 'package:dental_mobile/config/theme/text_theme_extension.dart';
+import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +11,8 @@ import 'stat_card.dart';
 
 class HomeStats extends StatelessWidget {
   const HomeStats({super.key});
+
+
 
   Future<void> callPatient(String phone) async {
     final uri = Uri(scheme: 'tel', path: phone);
@@ -21,6 +25,9 @@ class HomeStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocBuilder<StatsCubit, StatsState>(
       builder: (context, state) {
         if (state is StatsLoading) {
@@ -34,13 +41,13 @@ class HomeStats extends StatelessWidget {
               Row(
                 children: [
                   StatCard(
-                    title: 'Bu gün görüş sayı',
+                    title: l10n.todayAppointments,
                     value: state.todayAppointments.toString(),
                     color: Colors.blue,
                   ),
                   const SizedBox(width: 12),
                   StatCard(
-                    title: 'Pasiyentlər',
+                    title: l10n.patients,
                     value: state.totalPatients.toString(),
                     color: Colors.green,
                     onTap: () => context.push('/patients'),
@@ -50,7 +57,7 @@ class HomeStats extends StatelessWidget {
               const SizedBox(height: 16),
 
               if (state.nextAppointment != null) ...[
-                Text('Növbəti görüş', style: Theme.of(context).textTheme.titleMedium),
+                Text(l10n.nextAppointment, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
                 Card(
                   elevation: 0,

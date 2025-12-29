@@ -1,4 +1,5 @@
 import 'package:dental_mobile/features/patients/presentation/cubit/patients_cubit.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,13 +9,15 @@ class PatientsPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Column(
         children: [
           TextField(
             decoration: InputDecoration(
-              hintText: 'Axtar...',
+              hintText: l10n.searchPatients,
               prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -34,9 +37,9 @@ class PatientsPageContent extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is PatientsLoaded) {
                   if (state.patients.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: Text(
-                        'Pasiyent tapılmadı',
+                        l10n.noPatientsFound,
                         style: TextStyle(fontSize: 16),
                       ),
                     );
