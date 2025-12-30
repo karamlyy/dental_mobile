@@ -139,12 +139,9 @@ class AddPatientPage extends StatelessWidget {
                   builder: (context, state) {
                     return PrimaryButton(
                       text: l10n.addPatient,
-                      onPressed: state.status == AddPatientStatus.loading
-                          ? null
-                          : () => context.read<AddPatientCubit>().submit(),
-                      icon: state.status == AddPatientStatus.loading
-                          ? null
-                          : Icons.person_add,
+                      isLoading: state.status == AddPatientStatus.loading,
+                      onPressed: () => context.read<AddPatientCubit>().submit(),
+                      icon: Icons.person_add,
                     );
                   },
                 ),

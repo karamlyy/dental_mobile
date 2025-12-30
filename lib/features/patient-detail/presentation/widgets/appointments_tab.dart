@@ -13,7 +13,7 @@ class AppointmentsTab extends StatelessWidget {
   const AppointmentsTab({super.key, required this.patientId});
 
   String _formatDate(String iso) {
-    final date = DateTime.parse(iso);
+    final date = DateTime.parse(iso).toLocal();
     return '${date.day}.${date.month}.${date.year}';
   }
 
@@ -173,7 +173,7 @@ class AppointmentsTab extends StatelessWidget {
                 );
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: Color(0xFF4CAF50),
                   borderRadius: BorderRadius.circular(18),

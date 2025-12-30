@@ -13,8 +13,10 @@ import 'package:dental_mobile/features/home/presentation/pages/home_page.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/pages/patient_detail_page.dart';
 import 'package:dental_mobile/features/patients/presentation/pages/add_patient_page.dart';
 import 'package:dental_mobile/features/patients/presentation/pages/patients_page.dart';
+import 'package:dental_mobile/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/assistants/presentation/pages/assistants_page.dart';
+import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:dental_mobile/routes/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +32,20 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final router = GoRouter(
       initialLocation: isLoggedIn ? '/' : '/login',
+      redirect: (context, state) async {
+        final storage = sl<SecureStorage>();
+        final hasSeenOnboarding = await storage.read('hasSeenOnboarding');
+
+        if (hasSeenOnboarding != 'true' && state.matchedLocation != '/onboarding') {
+          return '/onboarding';
+        }
+        return null;
+      },
       routes: [
+        GoRoute(
+          path: '/onboarding',
+          builder: (context, state) => const OnboardingPage(),
+        ),
         GoRoute(
           path: '/login',
           builder: (context, state) => LoginPage(),

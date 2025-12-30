@@ -66,7 +66,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
     await widget.cubit.createAppointment(
       widget.patientId,
       {
-        'date': _selectedDate!.toIso8601String(),
+        'date': _selectedDate!.toIso8601String().split('T')[0],
         'startTime': _formatTime(_startTime!),
         'endTime': _formatTime(_endTime!),
       },
@@ -209,8 +209,9 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
               /// 🔹 Action button
               PrimaryButton(
                 text: l10n.createAppointment,
-                onPressed: _isLoading ? null : _save,
-                icon: _isLoading ? null : Icons.add,
+                isLoading: _isLoading,
+                onPressed: _save,
+                icon: Icons.add,
               ),
   
               const SizedBox(height: 16),

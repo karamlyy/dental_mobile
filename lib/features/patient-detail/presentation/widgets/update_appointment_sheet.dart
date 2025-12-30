@@ -179,8 +179,9 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
               /// 🔹 Action button
               PrimaryButton(
                 text: 'Təsdiqlə',
-                onPressed: _isLoading ? null : _save,
-                icon: _isLoading ? null : Icons.check,
+                isLoading: _isLoading,
+                onPressed: _save,
+                icon: Icons.check,
               ),
   
               const SizedBox(height: 16),

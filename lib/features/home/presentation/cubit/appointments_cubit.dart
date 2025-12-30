@@ -22,9 +22,10 @@ class AppointmentsCubit extends Cubit<AppointmentsState> {
       final now = DateTime.now();
       final threeDaysLater = now.add(const Duration(days: 3));
       final upcoming = appointments.where((a) {
-        final date = DateTime.parse(a['date']);
-        return date.isAfter(now.subtract(const Duration(days:1))) &&
-            date.isBefore(threeDaysLater.add(const Duration(days:1)));
+        final date = DateTime.parse(a['date']).toLocal();
+        return date.isAfter(now.subtract(const Duration(days: 1))) &&
+            date.isBefore(threeDaysLater.add(const Duration(days: 1))) &&
+            a['status'] == 'CONFIRMED';
       }).toList();
 
       if (isClosed) return;

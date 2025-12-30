@@ -52,10 +52,10 @@ class LoginPage extends StatelessWidget {
                         padding: const EdgeInsets.all(18),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: theme.colorScheme.primary,
+                          color: Color(0xff212327),
                         ),
                         child: SvgPicture.asset(
-                          'assets/icons/onboarding_hero.svg',
+                          'assets/icons/icon_hero.svg',
                           width: 42,
                           height: 42,
                         ),
@@ -65,11 +65,14 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: 20),
 
                     Center(
+
                       child: Text(
                         l10n.welcome,
+
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
+
                         ),
                       ),
                     ),
@@ -78,6 +81,7 @@ class LoginPage extends StatelessWidget {
 
                     Center(
                       child: Text(
+                        textAlign: TextAlign.center,
                         l10n.enterCredentials,
                         style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
@@ -116,15 +120,13 @@ class LoginPage extends StatelessWidget {
 
                     PrimaryButton(
                       text: l10n.login,
-
-                      onPressed: state is AuthLoading
-                          ? null
-                          : () {
-                              context.read<AuthCubit>().login(
-                                _emailController.text,
-                                _passwordController.text,
-                              );
-                            },
+                      isLoading: state is AuthLoading,
+                      onPressed: () {
+                        context.read<AuthCubit>().login(
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                      },
                     ),
 
                     const SizedBox(height: 24),

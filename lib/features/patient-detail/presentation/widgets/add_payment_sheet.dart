@@ -165,8 +165,9 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
               const SizedBox(height: 24),
               PrimaryButton(
                 text: l10n.addPayment,
-                onPressed: _isLoading ? null : _save,
-                icon: _isLoading ? null : Icons.add,
+                isLoading: _isLoading,
+                onPressed: _save,
+                icon: Icons.add,
               ),
   
               const SizedBox(height: 16),

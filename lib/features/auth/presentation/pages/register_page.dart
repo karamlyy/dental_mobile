@@ -50,10 +50,10 @@ class RegisterPage extends StatelessWidget {
                         padding: const EdgeInsets.all(18),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: theme.colorScheme.primary,
+                          color: Color(0xff212327),
                         ),
                         child: SvgPicture.asset(
-                          'assets/icons/onboarding_hero.svg',
+                          'assets/icons/icon_hero.svg',
                           width: 42,
                           height: 42,
 
@@ -132,15 +132,13 @@ class RegisterPage extends StatelessWidget {
 
                     PrimaryButton(
                       text: l10n.createAccount,
-
-                      onPressed: state is AuthLoading
-                          ? null
-                          : () {
+                      isLoading: state is AuthLoading,
+                      onPressed: () {
                         context.read<AuthCubit>().register(
-                          _emailController.text,
-                          _passwordController.text,
-                          _fullNameController.text
-                        );
+                              _emailController.text,
+                              _passwordController.text,
+                              _fullNameController.text,
+                            );
                       },
                     ),
 

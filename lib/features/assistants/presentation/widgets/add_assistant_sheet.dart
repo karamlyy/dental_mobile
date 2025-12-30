@@ -157,9 +157,9 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                     final isLoading = state is AssistantCreating;
                     return PrimaryButton(
                       text: 'Yarat',
-                      onPressed: isLoading ? null : _submit,
-
-                      icon: isLoading ? null : Icons.add,
+                      isLoading: isLoading,
+                      onPressed: _submit,
+                      icon: Icons.add,
                     );
                   },
                 ),

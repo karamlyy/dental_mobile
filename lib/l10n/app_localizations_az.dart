@@ -169,8 +169,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get welcome => 'Xoş gəlmisiniz';
 
   @override
-  String get enterCredentials =>
-      'Hesabınıza daxil olmaq üçün məlumatlarınızı daxil edin';
+  String get enterCredentials => 'Daxil olmaq üçün məlumatlarınızı daxil edin';
 
   @override
   String get login => 'Daxil ol';

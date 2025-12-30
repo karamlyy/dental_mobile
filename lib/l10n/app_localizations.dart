@@ -421,7 +421,7 @@ abstract class AppLocalizations {
   /// No description provided for @enterCredentials.
   ///
   /// In az, this message translates to:
-  /// **'Hesabınıza daxil olmaq üçün məlumatlarınızı daxil edin'**
+  /// **'Daxil olmaq üçün məlumatlarınızı daxil edin'**
   String get enterCredentials;
 
   /// No description provided for @login.

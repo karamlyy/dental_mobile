@@ -113,7 +113,7 @@ class PaymentsTab extends StatelessWidget {
                 );
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: Color(0xFF4CAF50),
                   borderRadius: BorderRadius.circular(18),

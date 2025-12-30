@@ -111,7 +111,12 @@ class HomeStats extends StatelessWidget {
                               ),
                               const SizedBox(height: 6),
                               Text(
-                                state.nextAppointment?['date']?.substring(0, 10) ?? '',
+                                state.nextAppointment?['date'] != null
+                                    ? DateTime.parse(state.nextAppointment!['date'])
+                                        .toLocal()
+                                        .toIso8601String()
+                                        .substring(0, 10)
+                                    : '',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Theme.of(context).extension<AppTextColors>()?.secondary,
