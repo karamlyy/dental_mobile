@@ -62,5 +62,7 @@
   "noAccount": "У вас нет аккаунта?",
   "createAccount": "Создать аккаунт",
   "forgotPassword": "Забыли пароль?",
-  "enterCredentialsToRegister": "Введите данные для регистрации"
+  "enterCredentialsToRegister": "Введите данные для регистрации",
+  "endTimeBeforeStartTime": "Время окончания не может быть раньше времени начала",
+  "seeAll": "Посмотреть все"
 }

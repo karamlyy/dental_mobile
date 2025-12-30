@@ -61,6 +61,16 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
       return;
     }
 
+    final startMinutes = _startTime!.hour * 60 + _startTime!.minute;
+    final endMinutes = _endTime!.hour * 60 + _endTime!.minute;
+
+    if (endMinutes <= startMinutes) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.endTimeBeforeStartTime)),
+      );
+      return;
+    }
+
     setState(() => _isLoading = true);
 
     await widget.cubit.createAppointment(

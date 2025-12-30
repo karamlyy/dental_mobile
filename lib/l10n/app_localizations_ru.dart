@@ -197,4 +197,8 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get enterCredentialsToRegister => 'Введите данные для регистрации';
+
+  @override
+  String get endTimeBeforeStartTime =>
+      'Время окончания не может быть раньше времени начала';
 }

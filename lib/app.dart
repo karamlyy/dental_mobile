@@ -10,6 +10,7 @@ import 'package:dental_mobile/features/auth/presentation/pages/register_page.dar
 import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/pages/home_page.dart';
+import 'package:dental_mobile/features/appointments/presentation/pages/appointments_page.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/pages/patient_detail_page.dart';
 import 'package:dental_mobile/features/patients/presentation/pages/add_patient_page.dart';
 import 'package:dental_mobile/features/patients/presentation/pages/patients_page.dart';
@@ -71,6 +72,10 @@ class App extends StatelessWidget {
         GoRoute(
           path: '/assistants',
           builder: (context, state) => const AssistantsPage(),
+        ),
+        GoRoute(
+          path: '/appointments',
+          builder: (context, state) => const AppointmentsPage(),
         ),
       ],
     );

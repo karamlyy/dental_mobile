@@ -18,6 +18,7 @@ import '../features/auth/data/auth_api.dart';
 import '../features/auth/presentation/cubit/auth_cubit.dart';
 import '../features/home/data/appointments_api.dart';
 import '../features/home/presentation/cubit/appointments_cubit.dart';
+import '../features/appointments/presentation/cubit/appointments_page_cubit.dart';
 import '../features/patient-detail/data/patient_detail_api.dart';
 
 final sl = GetIt.instance;
@@ -40,6 +41,10 @@ Future<void> init() async {
   );
   sl.registerFactory(
     () => AppointmentsCubit(sl<AppointmentsApi>(), sl<SecureStorage>()),
+  );
+  
+  sl.registerFactory(
+    () => AppointmentsPageCubit(sl<AppointmentsApi>(), sl<SecureStorage>()),
   );
 
   sl.registerLazySingleton<PatientsApi>(() => PatientsApi(sl<DioClient>()));

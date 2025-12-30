@@ -477,6 +477,12 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Qeydiyyatdan keçmək üçün məlumatlarınızı daxil edin'**
   String get enterCredentialsToRegister;
+
+  /// No description provided for @endTimeBeforeStartTime.
+  ///
+  /// In az, this message translates to:
+  /// **'Bitmə vaxtı başlanğıc vaxtdan əvvəl ola bilməz'**
+  String get endTimeBeforeStartTime;
 }
 
 class _AppLocalizationsDelegate

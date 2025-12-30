@@ -62,7 +62,8 @@
   "noAccount": "Hesabınız yoxdur?",
   "createAccount": "Hesab yarat",
   "forgotPassword": "Şifrəni unutmusunuz?",
-  "enterCredentialsToRegister": "Qeydiyyatdan keçmək üçün məlumatlarınızı daxil edin"
-
-
+  "enterCredentialsToRegister": "Qeydiyyatdan keçmək üçün məlumatlarınızı daxil edin",
+  "endTimeBeforeStartTime": "Bitmə vaxtı başlanğıc vaxtdan əvvəl ola bilməz",
+  "seeAll": "Hamısına bax"
 }
+```

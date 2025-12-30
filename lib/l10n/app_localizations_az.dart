@@ -198,4 +198,8 @@ class AppLocalizationsAz extends AppLocalizations {
   @override
   String get enterCredentialsToRegister =>
       'Qeydiyyatdan keçmək üçün məlumatlarınızı daxil edin';
+
+  @override
+  String get endTimeBeforeStartTime =>
+      'Bitmə vaxtı başlanğıc vaxtdan əvvəl ola bilməz';
 }

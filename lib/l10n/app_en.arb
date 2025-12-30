@@ -62,5 +62,7 @@
   "noAccount": "Don't have an account?",
   "createAccount": "Create account",
   "forgotPassword": "Forgot your password?",
-  "enterCredentialsToRegister": "Enter your details to register"
+  "enterCredentialsToRegister": "Enter your details to register",
+  "endTimeBeforeStartTime": "End time cannot be before start time",
+  "seeAll": "See all"
 }

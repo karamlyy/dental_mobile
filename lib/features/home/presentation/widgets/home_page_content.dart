@@ -3,6 +3,7 @@ import 'package:dental_mobile/features/home/presentation/widgets/home_stats.dart
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePageContent extends StatelessWidget {
 
@@ -49,7 +50,18 @@ class HomePageContent extends StatelessWidget {
         children: [
           const HomeStats(),
           const SizedBox(height: 20),
-          Text(l10n.nextAppointments, style: Theme.of(context).textTheme.titleMedium),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(l10n.nextAppointments, style: Theme.of(context).textTheme.titleMedium),
+              TextButton(
+                onPressed: () {
+                  context.push('/appointments');
+                },
+                child: Text('Hamısına bax'),
+              ),
+            ],
+          ),
           const SizedBox(height: 10),
           Expanded(
             child: BlocBuilder<AppointmentsCubit, AppointmentsState>(

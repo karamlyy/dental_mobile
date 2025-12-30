@@ -197,4 +197,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterCredentialsToRegister => 'Enter your details to register';
+
+  @override
+  String get endTimeBeforeStartTime => 'End time cannot be before start time';
 }
