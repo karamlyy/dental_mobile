@@ -19,6 +19,4 @@ class AssistantsError extends AssistantsState {
   AssistantsError(this.message, {this.error, this.statusCode});
 }
 
-class AssistantCreating extends AssistantsState {}
 
-class AssistantCreated extends AssistantsState {}

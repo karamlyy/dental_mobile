@@ -1,4 +1,6 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
+import 'package:dental_mobile/config/di.dart';
+import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_appointment_creation_cubit.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,8 +26,6 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
   DateTime? _selectedDate;
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
-  bool _isLoading = false;
-
 
   Future<void> _pickDate() async {
     final now = DateTime.now();
@@ -53,7 +53,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
   String _formatTime(TimeOfDay time) =>
       '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
 
-  Future<void> _save() async {
+  void _save(BuildContext context) {
     if (_selectedDate == null || _startTime == null || _endTime == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Tarix və vaxt seçin')),
@@ -71,9 +71,7 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
       return;
     }
 
-    setState(() => _isLoading = true);
-
-    await widget.cubit.createAppointment(
+    context.read<PatientAppointmentCreationCubit>().createAppointment(
       widget.patientId,
       {
         'date': _selectedDate!.toIso8601String().split('T')[0],
@@ -88,146 +86,150 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocListener<PatientAppointmentsCubit, PatientAppointmentsState>(
-      bloc: widget.cubit,
-      listener: (context, state) {
-        if (state is PatientAppointmentsError) {
-          setState(() => _isLoading = false);
-          ErrorBottomSheet.show(
-            context,
-            AppError(
-              message: state.message,
-              error: state.error,
-              statusCode: state.statusCode,
-            ),
-          );
-        } else if (state is PatientAppointmentsLoaded) {
-          Navigator.pop(context);
-        }
-      },
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.viewInsetsOf(context).bottom,
-            left: 16,
-            right: 16,
-            top: 8,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              /// 🔹 Drag handle
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade400,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+    return BlocProvider(
+      create: (context) => sl<PatientAppointmentCreationCubit>(),
+      child: BlocConsumer<PatientAppointmentCreationCubit, PatientAppointmentCreationState>(
+        listener: (context, state) {
+          if (state is PatientAppointmentCreationError) {
+            ErrorBottomSheet.show(
+              context,
+              AppError(
+                message: state.message,
+                error: state.error,
+                statusCode: state.statusCode,
               ),
-  
-              /// 🔹 Title
-              Text(
-                l10n.newAppointment,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            );
+          } else if (state is PatientAppointmentCreationSuccess) {
+            widget.cubit.fetchAppointments(widget.patientId); // Refresh the list
+            Navigator.pop(context);
+          }
+        },
+        builder: (context, state) {
+          final isLoading = state is PatientAppointmentCreationLoading;
+          
+          return SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.viewInsetsOf(context).bottom,
+                left: 16,
+                right: 16,
+                top: 8,
               ),
-              const SizedBox(height: 4),
-              Text(
-                l10n.arrangeNewAppointmentForPatient,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey.shade600,
-                ),
-              ),
-  
-              const SizedBox(height: 24),
-  
-              /// 📅 Date card
-              Card(
-                elevation: 0,
-                color: theme.colorScheme.surfaceContainerHighest,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: ListTile(
-                  onTap: _pickDate,
-                  leading: const Icon(Icons.calendar_month_outlined),
-                  title: Text(l10n.date),
-                  subtitle: Text(
-                    _selectedDate == null
-                        ? l10n.selectDate
-                        : '${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}',
-                  ),
-                  trailing: const Icon(Icons.chevron_right),
-                ),
-              ),
-  
-              const SizedBox(height: 16),
-  
-              /// ⏰ Time cards
-              Row(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
-                    child: Card(
-                      elevation: 0,
-                      color: theme.colorScheme.surfaceContainerHighest,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: ListTile(
-                        onTap: () => _pickTime(true),
-                        leading: const Icon(Icons.schedule_outlined),
-                        title: Text(l10n.startTime),
-                        subtitle: Text(
-                          _startTime == null
-                              ? '--:--'
-                              : _formatTime(_startTime!),
-                        ),
+                  /// 🔹 Drag handle
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade400,
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Card(
-                      elevation: 0,
-                      color: theme.colorScheme.surfaceContainerHighest,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: ListTile(
-                        onTap: () => _pickTime(false),
-                        leading: const Icon(Icons.schedule_outlined),
-                        title: Text(l10n.endTime),
-                        subtitle: Text(
-                          _endTime == null ? '--:--' : _formatTime(_endTime!),
-                        ),
-                      ),
+      
+                  /// 🔹 Title
+                  Text(
+                    l10n.newAppointment,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.arrangeNewAppointmentForPatient,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+      
+                  const SizedBox(height: 24),
+      
+                  /// 📅 Date card
+                  Card(
+                    elevation: 0,
+                    color: theme.colorScheme.surfaceContainerHighest,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: ListTile(
+                      onTap: _pickDate,
+                      leading: const Icon(Icons.calendar_month_outlined),
+                      title: Text(l10n.date),
+                      subtitle: Text(
+                        _selectedDate == null
+                            ? l10n.selectDate
+                            : '${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}',
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                    ),
+                  ),
+      
+                  const SizedBox(height: 16),
+      
+                  /// ⏰ Time cards
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Card(
+                          elevation: 0,
+                          color: theme.colorScheme.surfaceContainerHighest,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: ListTile(
+                            onTap: () => _pickTime(true),
+                            leading: const Icon(Icons.schedule_outlined),
+                            title: Text(l10n.startTime),
+                            subtitle: Text(
+                              _startTime == null
+                                  ? '--:--'
+                                  : _formatTime(_startTime!),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Card(
+                          elevation: 0,
+                          color: theme.colorScheme.surfaceContainerHighest,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: ListTile(
+                            onTap: () => _pickTime(false),
+                            leading: const Icon(Icons.schedule_outlined),
+                            title: Text(l10n.endTime),
+                            subtitle: Text(
+                              _endTime == null ? '--:--' : _formatTime(_endTime!),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+      
+                  const SizedBox(height: 24),
+      
+                  /// 🔹 Action button
+                  PrimaryButton(
+                    text: l10n.createAppointment,
+                    isLoading: isLoading,
+                    onPressed: () => _save(context),
+                    icon: Icons.add,
+                  ),
+      
+                  const SizedBox(height: 16),
                 ],
               ),
-  
-              const SizedBox(height: 24),
-  
-              const SizedBox(height: 24),
-  
-              /// 🔹 Action button
-              PrimaryButton(
-                text: l10n.createAppointment,
-                isLoading: _isLoading,
-                onPressed: _save,
-                icon: Icons.add,
-              ),
-  
-              const SizedBox(height: 16),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

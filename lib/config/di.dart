@@ -2,11 +2,13 @@ import 'package:dental_mobile/config/theme/theme_cubit.dart';
 import 'package:dental_mobile/core/localization/locale_cubit.dart';
 import 'package:dental_mobile/features/assistants/data/assistants_api.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
+import 'package:dental_mobile/features/assistants/presentation/cubit/assistant_creation_cubit.dart';
 import 'package:dental_mobile/features/home/data/stats_api.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_appointments_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_detail_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_payments_cubit.dart';
+import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_appointment_creation_cubit.dart';
 import 'package:dental_mobile/features/patients/data/patients_api.dart';
 import 'package:dental_mobile/features/patients/presentation/cubit/patients_cubit.dart';
 import 'package:dental_mobile/features/patients/presentation/cubit/add_patient_cubit.dart';
@@ -66,6 +68,9 @@ Future<void> init() async {
   sl.registerFactory(
     () => PatientPaymentsCubit(sl<PatientDetailApi>(), sl<SecureStorage>()),
   );
+  sl.registerFactory(
+    () => PatientAppointmentCreationCubit(sl<PatientDetailApi>(), sl<SecureStorage>()),
+  );
 
   sl.registerLazySingleton<StatsApi>(() => StatsApi(sl<DioClient>()));
   sl.registerFactory(() => StatsCubit(sl<StatsApi>(), sl<SecureStorage>()));
@@ -73,5 +78,8 @@ Future<void> init() async {
   sl.registerLazySingleton<AssistantsApi>(() => AssistantsApi(sl<DioClient>()));
   sl.registerFactory(
     () => AssistantsCubit(sl<AssistantsApi>(), sl<SecureStorage>()),
+  );
+  sl.registerFactory(
+    () => AssistantCreationCubit(sl<AssistantsApi>(), sl<SecureStorage>()),
   );
 }

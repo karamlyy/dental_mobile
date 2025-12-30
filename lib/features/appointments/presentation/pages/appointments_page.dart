@@ -55,24 +55,22 @@ class AppointmentsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.appointments), 
-      ),
+      appBar: AppBar(title: Text(l10n.appointments)),
       body: BlocBuilder<AppointmentsPageCubit, AppointmentsPageState>(
         builder: (context, state) {
           if (state is AppointmentsPageLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is AppointmentsPageLoaded) {
             if (state.appointments.isEmpty) {
-              return Center(child: Text(l10n.noAppointments ?? 'No appointments found'));
+              return Center(child: Text(l10n.noAppointments));
             }
-            
+
             return ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: state.appointments.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, __) => const SizedBox(height: 0),
               itemBuilder: (context, index) {
                 final a = state.appointments[index];
                 final patient = a['patient'];
@@ -81,68 +79,56 @@ class AppointmentsView extends StatelessWidget {
 
                 return Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   elevation: 0,
-                  color: Theme.of(context).cardColor,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(16),
-                     onTap: () {
-                        if(patient != null && patient['id'] != null) {
-                           context.push('/patient/${patient['id']}');
-                        }
-                     },
+                    onTap: () {
+                      if (patient != null && patient['id'] != null) {
+                        context.push('/patient/${patient['id']}');
+                      }
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                           Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                             children: [
-                               Text(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
                                 headerDate,
                                 style: TextStyle(
-                                  fontSize: 12, 
+                                  fontSize: 12,
                                   color: Colors.grey[600],
-                                  fontWeight: FontWeight.w500
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
+                                  vertical: 4,
+                                  horizontal: 8,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: _statusColor(a['status']).withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(8),
+                                  color: _statusColor(
+                                    a['status'],
+                                  ).withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
                                   _statusLabel(a['status'], l10n),
                                   style: TextStyle(
-                                    fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     color: _statusColor(a['status']),
                                   ),
                                 ),
-                              )
-                             ],
-                           ),
-                           const SizedBox(height: 12),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
                           Row(
                             children: [
-                              CircleAvatar(
-                                radius: 24,
-                                backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-                                child: Text(
-                                  patient['fullName'] != null && patient['fullName'].isNotEmpty 
-                                    ? patient['fullName'][0].toUpperCase() 
-                                    : '?',
-                                  style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,25 +136,36 @@ class AppointmentsView extends StatelessWidget {
                                     Text(
                                       patient['fullName'] ?? 'Unknown',
                                       style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     const SizedBox(height: 4),
                                     Row(
                                       children: [
-                                        Icon(Icons.access_time, size: 14, color: Colors.grey),
+                                        Icon(
+                                          Icons.access_time,
+                                          size: 14,
+                                          color: Colors.grey,
+                                        ),
                                         const SizedBox(width: 4),
                                         Text(
                                           '${a['startTime']} - ${a['endTime']}',
                                           style: const TextStyle(
-                                              fontSize: 14, color: Colors.grey),
+                                            fontSize: 14,
+                                            color: Colors.grey,
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
-                              const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey)
+                              const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: Colors.grey,
+                              ),
                             ],
                           ),
                         ],

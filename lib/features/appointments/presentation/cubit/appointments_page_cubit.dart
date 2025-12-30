@@ -16,11 +16,7 @@ class AppointmentsPageCubit extends Cubit<AppointmentsPageState> {
       if (token == null) throw Exception('No access token');
 
       final appointments = await api.getAppointments(token);
-      
-      // Sort by date descending (newest first) or ascending? 
-      // Usually for appointments, upcoming first (ascending date).
-      // The API returns List, we should probably sort it.
-      // Date format is likely ISO8601 string.
+
       appointments.sort((a, b) {
         final dateA = DateTime.parse(a['date']);
         final dateB = DateTime.parse(b['date']);

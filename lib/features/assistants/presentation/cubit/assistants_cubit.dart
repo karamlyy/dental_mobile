@@ -31,33 +31,5 @@ class AssistantsCubit extends Cubit<AssistantsState> {
     }
   }
 
-  Future<void> addAssistant({
-    required String email,
-    required String password,
-    required String fullName,
-  }) async {
-    emit(AssistantCreating());
-    try {
-      final token = await storage.read('accessToken');
-      if (token == null) throw Exception('No access token');
 
-      await api.createAssistant(token, {
-        'email': email,
-        'password': password,
-        'fullName': fullName,
-      });
-
-      if (isClosed) return;
-      emit(AssistantCreated());
-      await fetchAssistants();
-    } catch (e) {
-      if (isClosed) return;
-      final error = ErrorHandler.handle(e);
-      emit(AssistantsError(
-        error.message,
-        error: error.error,
-        statusCode: error.statusCode,
-      ));
-    }
-  }
 }

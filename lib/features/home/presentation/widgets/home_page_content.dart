@@ -4,6 +4,7 @@ import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class HomePageContent extends StatelessWidget {
 
@@ -55,10 +56,15 @@ class HomePageContent extends StatelessWidget {
             children: [
               Text(l10n.nextAppointments, style: Theme.of(context).textTheme.titleMedium),
               TextButton(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
                 onPressed: () {
                   context.push('/appointments');
                 },
-                child: Text('Hamısına bax'),
+                child: const Text('Hamısına bax'),
               ),
             ],
           ),
@@ -80,65 +86,104 @@ class HomePageContent extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final a = state.appointments[index];
                       final patient = a['patient'];
+                      final date = DateTime.parse(a['date']);
+                      final headerDate = DateFormat('dd MMMM yyyy').format(date);
 
                       return Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),
                         elevation: 0,
-
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Status indicator
-                              Container(
-                                width: 12,
-                                height: 12,
-                                margin: const EdgeInsets.only(top: 4, right: 12),
-                                decoration: BoxDecoration(
-                                  color: _statusColor(a['status']),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(16),
+                          onTap: () {
+                            if (patient != null && patient['id'] != null) {
+                              context.push('/patient/${patient['id']}');
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      patient['fullName'],
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                      headerDate,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey[600],
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      '${a['date'].substring(0, 10)} | ${a['startTime']} - ${a['endTime']}',
-                                      style: const TextStyle(
-                                          fontSize: 14, color: Colors.grey),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 4,
+                                        horizontal: 8,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: _statusColor(
+                                          a['status'],
+                                        ).withValues(alpha: 0.1),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Text(
+                                        _statusLabel(a['status'], l10n),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: _statusColor(a['status']),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
+                                const SizedBox(height: 12),
+                                Row(
+                                  children: [
 
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color:
-                                  _statusColor(a['status']).withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(12),
+
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            patient['fullName'] ?? 'Unknown',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.access_time,
+                                                size: 14,
+                                                color: Colors.grey,
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Text(
+                                                '${a['startTime']} - ${a['endTime']}',
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ],
                                 ),
-                                child: Text(
-                                  _statusLabel(a['status'], l10n),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: _statusColor(a['status']),
-                                  ),
-                                ),
-                              )
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       );
