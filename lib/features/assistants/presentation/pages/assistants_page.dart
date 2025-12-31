@@ -1,3 +1,4 @@
+import 'package:dental_mobile/core/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/assistants_cubit.dart';
@@ -58,7 +59,7 @@ class AssistantsPage extends StatelessWidget {
       body: BlocBuilder<AssistantsCubit, AssistantsState>(
         builder: (context, state) {
           if (state is AssistantsLoading && state is! AssistantsLoaded) {
-            return const Center(child: CircularProgressIndicator());
+            return const LoadingIndicator();
           }
 
           if (state is AssistantsError) {

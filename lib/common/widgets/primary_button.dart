@@ -1,3 +1,4 @@
+import 'package:dental_mobile/core/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -36,14 +37,7 @@ class PrimaryButton extends StatelessWidget {
           elevation: 2,
         ),
         child: isLoading
-            ? SizedBox(
-                height: 24,
-                width: 24,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(textColor),
-                ),
-              )
+            ? const LoadingIndicator(width: 40, height: 40)
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,

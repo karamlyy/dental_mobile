@@ -70,4 +70,14 @@ class PatientDetailApi {
       options: Options(headers: {'Authorization': 'Bearer $token'}),
     );
   }
+
+  Future<List<Map<String, dynamic>>> getSchedule(
+      String token, String date) async {
+    final res = await dioClient.dio.get(
+      '/appointments/schedule',
+      queryParameters: {'date': date},
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+    );
+    return List<Map<String, dynamic>>.from(res.data);
+  }
 }

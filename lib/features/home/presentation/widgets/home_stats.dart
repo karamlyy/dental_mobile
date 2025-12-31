@@ -1,3 +1,4 @@
+import 'package:dental_mobile/core/widgets/loading_indicator.dart';
 import 'package:dental_mobile/config/theme/text_theme_extension.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
@@ -31,7 +32,7 @@ class HomeStats extends StatelessWidget {
     return BlocBuilder<StatsCubit, StatsState>(
       builder: (context, state) {
         if (state is StatsLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingIndicator();
         }
 
         if (state is StatsLoaded) {

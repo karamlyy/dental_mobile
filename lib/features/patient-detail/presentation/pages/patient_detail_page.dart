@@ -1,3 +1,4 @@
+import 'package:dental_mobile/core/widgets/loading_indicator.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class PatientDetailPage extends StatelessWidget {
         body: BlocBuilder<PatientDetailCubit, PatientDetailState>(
           builder: (context, state) {
             if (state is PatientDetailLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const LoadingIndicator();
             }
 
             if (state is PatientDetailLoaded) {

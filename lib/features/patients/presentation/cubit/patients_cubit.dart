@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/patients_api.dart';
@@ -10,6 +11,8 @@ class PatientsCubit extends Cubit<PatientsState> {
   final PatientsApi api;
   final SecureStorage storage;
   Timer? _debounce;
+  final GlobalKey<AnimatedListState> listKey = GlobalKey();
+  final List<dynamic> animatedListItems = [];
 
   PatientsCubit(this.api, this.storage) : super(PatientsInitial());
 

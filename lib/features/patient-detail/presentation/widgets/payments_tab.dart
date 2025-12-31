@@ -1,3 +1,4 @@
+import 'package:dental_mobile/core/widgets/loading_indicator.dart';
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_payments_cubit.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
@@ -20,7 +21,7 @@ class PaymentsTab extends StatelessWidget {
         body: BlocBuilder<PatientPaymentsCubit, PatientPaymentsState>(
           builder: (context, state) {
             if (state is PatientPaymentsLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const LoadingIndicator();
             }
 
             if (state is PatientPaymentsLoaded) {

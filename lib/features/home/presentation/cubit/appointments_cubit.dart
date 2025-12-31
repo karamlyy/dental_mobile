@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/appointments_api.dart';
 import '../../../../core/storage/secure_storage.dart';
@@ -7,6 +8,8 @@ part 'appointments_state.dart';
 class AppointmentsCubit extends Cubit<AppointmentsState> {
   final AppointmentsApi api;
   final SecureStorage storage;
+  final GlobalKey<AnimatedListState> listKey = GlobalKey();
+  final List<dynamic> animatedListItems = [];
 
   AppointmentsCubit(this.api, this.storage) : super(AppointmentsInitial());
 

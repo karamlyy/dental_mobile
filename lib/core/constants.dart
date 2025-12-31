@@ -2,6 +2,7 @@ import 'dart:io';
 
 class AppConstants {
   static String get baseUrl {
+
     if (Platform.isAndroid) {
       // Android Emulator üçün
       return 'http://10.0.2.2:3000';

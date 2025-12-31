@@ -483,6 +483,12 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Bitmə vaxtı başlanğıc vaxtdan əvvəl ola bilməz'**
   String get endTimeBeforeStartTime;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In az, this message translates to:
+  /// **'Hamısına bax'**
+  String get seeAll;
 }
 
 class _AppLocalizationsDelegate

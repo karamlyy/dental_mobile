@@ -202,4 +202,7 @@ class AppLocalizationsAz extends AppLocalizations {
   @override
   String get endTimeBeforeStartTime =>
       'Bitmə vaxtı başlanğıc vaxtdan əvvəl ola bilməz';
+
+  @override
+  String get seeAll => 'Hamısına bax';
 }

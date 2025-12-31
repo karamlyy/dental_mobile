@@ -201,4 +201,7 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get endTimeBeforeStartTime =>
       'Время окончания не может быть раньше времени начала';
+
+  @override
+  String get seeAll => 'Посмотреть все';
 }

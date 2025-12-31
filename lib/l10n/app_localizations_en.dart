@@ -200,4 +200,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get endTimeBeforeStartTime => 'End time cannot be before start time';
+
+  @override
+  String get seeAll => 'See all';
 }
