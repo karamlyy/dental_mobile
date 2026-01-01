@@ -15,6 +15,7 @@ import 'package:dental_mobile/features/patients/presentation/cubit/patients_cubi
 import 'package:dental_mobile/features/patients/presentation/cubit/add_patient_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import '../core/network/auth_interceptor.dart';
 import '../core/network/dio_client.dart';
 import '../core/storage/secure_storage.dart';
 import '../features/auth/data/auth_api.dart';
@@ -27,8 +28,12 @@ import '../features/patient-detail/data/patient_detail_api.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  sl.registerLazySingleton<DioClient>(() => DioClient(Dio()));
   sl.registerLazySingleton<SecureStorage>(() => SecureStorage());
+  sl.registerLazySingleton<DioClient>(() {
+    final dio = Dio();
+    dio.interceptors.add(AuthInterceptor(sl<SecureStorage>()));
+    return DioClient(dio);
+  });
 
   // Theme
   sl.registerLazySingleton<ThemeCubit>(() => ThemeCubit(sl<SecureStorage>()));

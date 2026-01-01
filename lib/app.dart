@@ -1,5 +1,6 @@
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/config/theme/app_theme.dart';
+import 'package:dental_mobile/core/utils/globals.dart';
 import 'package:dental_mobile/config/theme/theme_cubit.dart';
 import 'package:dental_mobile/config/theme/theme_state.dart';
 import 'package:dental_mobile/core/localization/locale_cubit.dart';
@@ -32,6 +33,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter(
+      navigatorKey: rootNavigatorKey,
       initialLocation: isLoggedIn ? '/' : '/login',
       redirect: (context, state) async {
         final storage = sl<SecureStorage>();
