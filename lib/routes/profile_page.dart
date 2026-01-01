@@ -152,6 +152,32 @@ class ProfilePage extends StatelessWidget {
                       ),
                     )
                   ),
+                  const SizedBox(height: 16),
+                   _SectionCard(
+                    title: 'Xidmətlər',
+                    child: InkWell(
+                      onTap: () => context.push('/services'),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest
+                              .withValues(alpha: 0.4),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text('Xidmətlər')
+                            ),
+                            const Icon(Icons.arrow_forward_ios, size: 14),
+                          ],
+                        ),
+                      ),
+                    )
+                  ),
                 ],
 
                 const SizedBox(height: 16),

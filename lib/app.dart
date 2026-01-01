@@ -18,6 +18,8 @@ import 'package:dental_mobile/features/patients/presentation/pages/patients_page
 import 'package:dental_mobile/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/assistants/presentation/pages/assistants_page.dart';
+import 'package:dental_mobile/features/services/presentation/pages/services_page.dart';
+import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:dental_mobile/routes/profile_page.dart';
@@ -79,6 +81,10 @@ class App extends StatelessWidget {
           path: '/appointments',
           builder: (context, state) => const AppointmentsPage(),
         ),
+        GoRoute(
+          path: '/services',
+          builder: (context, state) => const ServicesPage(),
+        ),
       ],
     );
 
@@ -101,6 +107,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<AssistantsCubit>(
           create: (_) => sl<AssistantsCubit>()..fetchAssistants(),
+        ),
+        BlocProvider<ServicesCubit>(
+          create: (_) => sl<ServicesCubit>()..fetchServices(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
