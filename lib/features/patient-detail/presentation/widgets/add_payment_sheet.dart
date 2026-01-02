@@ -11,11 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AddPaymentSheet extends StatefulWidget {
   final int patientId;
   final PatientPaymentsCubit cubit;
+  final VoidCallback? onSuccess;
 
   const AddPaymentSheet({
     super.key,
     required this.patientId,
     required this.cubit,
+    this.onSuccess,
   });
 
   @override
@@ -72,6 +74,7 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
           );
         } else if (state is PatientPaymentsLoaded) {
           Navigator.pop(context);
+          widget.onSuccess?.call();
         }
       },
       child: SafeArea(

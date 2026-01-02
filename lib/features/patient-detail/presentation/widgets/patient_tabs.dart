@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'appointments_tab.dart';
 import 'payments_tab.dart';
+import 'services_tab.dart';
 
 class PatientTabs extends StatelessWidget {
   final int patientId;
@@ -12,7 +13,7 @@ class PatientTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Column(
         children: [
            TabBar(
@@ -22,6 +23,7 @@ class PatientTabs extends StatelessWidget {
             indicatorSize: TabBarIndicatorSize.label,
             tabs: [
               Tab(text: l10n.appointments),
+              Tab(text: l10n.services),
               Tab(text: l10n.payments),
             ],
           ),
@@ -29,6 +31,7 @@ class PatientTabs extends StatelessWidget {
             child: TabBarView(
               children: [
                 AppointmentsTab(patientId: patientId),
+                ServicesTab(patientId: patientId),
                 PaymentsTab(patientId: patientId),
               ],
             ),

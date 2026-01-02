@@ -1,45 +1,53 @@
 import 'package:dental_mobile/core/widgets/loading_indicator.dart';
 import 'package:dental_mobile/config/di.dart';
-import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_detail_cubit.dart';
-import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_payments_cubit.dart';
+import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_services_cubit.dart';
+import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_services_state.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'add_payment_sheet.dart';
 
-class PaymentsTab extends StatelessWidget {
+import 'add_service_sheet.dart';
+import '../cubit/patient_service_creation_cubit.dart';
+import '../cubit/patient_detail_cubit.dart';
+
+class ServicesTab extends StatelessWidget {
   final int patientId;
-  const PaymentsTab({super.key, required this.patientId});
+  const ServicesTab({super.key, required this.patientId});
+
+  String _formatDate(String iso) {
+    final date = DateTime.parse(iso).toLocal();
+    return '${date.day}.${date.month}.${date.year}';
+  }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return BlocProvider(
-      create: (_) => sl<PatientPaymentsCubit>()..fetchPayments(patientId),
+      create: (_) => sl<PatientServicesCubit>()..fetchServices(patientId),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: BlocBuilder<PatientPaymentsCubit, PatientPaymentsState>(
+        body: BlocBuilder<PatientServicesCubit, PatientServicesState>(
           builder: (context, state) {
-            if (state is PatientPaymentsLoading) {
+            if (state is PatientServicesLoading) {
               return const LoadingIndicator();
             }
 
-            if (state is PatientPaymentsLoaded) {
-              if (state.payments.isEmpty) {
+            if (state is PatientServicesLoaded) {
+              if (state.services.isEmpty) {
                 return Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        Icons.money_rounded,
+                        Icons.medical_services_outlined,
                         size: 64,
                         color: Colors.grey.shade400,
                       ),
                       const SizedBox(height: 12),
                        Text(
-                        l10n.noPaymentsFound,
-                        style: TextStyle(fontSize: 16),
+                        'Xidmət tapılmadı',
+                         style: TextStyle(fontSize: 16),
                       ),
                     ],
                   ),
@@ -48,44 +56,44 @@ class PaymentsTab extends StatelessWidget {
 
               return ListView.separated(
                 padding: const EdgeInsets.all(16),
-                itemCount: state.payments.length,
+                itemCount: state.services.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 0),
                 itemBuilder: (context, index) {
-                  final payment = state.payments[index];
+                  final service = state.services[index];
+
                   return Card(
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
+
                     ),
-                    elevation: 0,
                     child: ListTile(
 
-                      leading: const Icon(
-                        Icons.payments,
-                        color: Colors.green,
-                        size: 32,
+                      leading: Icon(
+                        Icons.medical_services_rounded,
+                        color: Colors.blue.shade700,
                       ),
-
                       title: Text(
-                        '${payment['amount']} ₼',
+                        service['name'],
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
-                          (payment['note'] == null ||
-                              payment['note'].toString().trim().isEmpty)
-                              ? 'Qeyd yoxdur'
-                              : payment['note'],
+                          _formatDate(service['createdAt']),
+                          style: TextStyle(color: Colors.grey.shade600),
                         ),
                       ),
-
                       trailing: Text(
-                        payment['createdAt'].substring(0, 10),
-                        style: const TextStyle(color: Colors.grey),
+                        '${service['price']} ₼',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.primary,
+                        ),
                       ),
                     ),
                   );
@@ -93,29 +101,29 @@ class PaymentsTab extends StatelessWidget {
               );
             }
 
-            if (state is PatientPaymentsError) {
+            if (state is PatientServicesError) {
               return Center(child: Text(state.message));
             }
 
             return const SizedBox();
           },
         ),
-
         floatingActionButton: Builder(
           builder: (context) {
             return InkWell(
               borderRadius: BorderRadius.circular(18),
               onTap: () {
-                final cubit = context.read<PatientPaymentsCubit>();
+                final cubit = context.read<PatientServicesCubit>();
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
-                  builder: (_) => AddPaymentSheet(
+                  builder: (_) => AddServiceSheet(
                     patientId: patientId,
-                    cubit: cubit,
-                    onSuccess: () {
-                      context.read<PatientDetailCubit>().refreshPatient(patientId);
-                    },
+                    cubit: sl<PatientServiceCreationCubit>(),
+                  onSuccess: () {
+                    cubit.fetchServices(patientId);
+                    context.read<PatientDetailCubit>().refreshPatient(patientId);
+                  },
                   ),
                 );
               },
@@ -125,10 +133,10 @@ class PaymentsTab extends StatelessWidget {
                   color: Color(0xFF4CAF50),
                   borderRadius: BorderRadius.circular(18),
                   boxShadow: [
-                    BoxShadow(
+                     BoxShadow(
                       color: Colors.green.withValues(alpha: 0.35),
                       blurRadius: 12,
-                      offset: const Offset(0, 6),
+                       offset: const Offset(0, 6),
                     ),
                   ],
                 ),
@@ -138,7 +146,7 @@ class PaymentsTab extends StatelessWidget {
                     Icon(Icons.add, color: Colors.white),
                     SizedBox(width: 8),
                     Text(
-                      l10n.newPayment,
+                      'Yeni xidmət',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

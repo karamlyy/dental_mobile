@@ -24,4 +24,20 @@ class PatientDetailCubit extends Cubit<PatientDetailState> {
       emit(PatientDetailError(e.toString()));
     }
   }
+
+  Future<void> refreshPatient(int id) async {
+    try {
+      final token = await storage.read('accessToken');
+      if (token == null) throw Exception('No access token');
+
+      final patient = await api.getPatientById(token, id);
+      if (isClosed) return;
+      emit(PatientDetailLoaded(patient));
+    } catch (e) {
+      // For refresh, we might want to just ignore error or show a snackbar? 
+      // Emitting error would replace the whole screen with error message.
+      // Let's just log it or ignore for now to keep UI stable.
+      // Or better, do nothing so the old data stays.
+    }
+  }
 }

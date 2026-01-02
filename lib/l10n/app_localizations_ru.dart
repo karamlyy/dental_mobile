@@ -204,4 +204,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get seeAll => 'Посмотреть все';
+
+  @override
+  String get services => 'Услуги';
 }

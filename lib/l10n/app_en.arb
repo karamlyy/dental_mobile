@@ -64,5 +64,6 @@
   "forgotPassword": "Forgot your password?",
   "enterCredentialsToRegister": "Enter your details to register",
   "endTimeBeforeStartTime": "End time cannot be before start time",
-  "seeAll": "See all"
+  "seeAll": "See all",
+  "services": "Services"
 }

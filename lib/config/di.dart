@@ -3,6 +3,7 @@ import 'package:dental_mobile/core/localization/locale_cubit.dart';
 import 'package:dental_mobile/features/assistants/data/assistants_api.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistant_creation_cubit.dart';
+import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_services_cubit.dart';
 import 'package:dental_mobile/features/services/data/services_api.dart';
 import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
 import 'package:dental_mobile/features/services/presentation/cubit/service_creation_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_detail_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_payments_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_appointment_creation_cubit.dart';
+import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_service_creation_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/appointment_schedule_cubit.dart';
 import 'package:dental_mobile/features/patients/data/patients_api.dart';
 import 'package:dental_mobile/features/patients/presentation/cubit/patients_cubit.dart';
@@ -78,7 +80,13 @@ Future<void> init() async {
     () => PatientPaymentsCubit(sl<PatientDetailApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
+    () => PatientServicesCubit(sl<ServicesApi>(), sl<SecureStorage>()),
+  );
+  sl.registerFactory(
     () => PatientAppointmentCreationCubit(sl<PatientDetailApi>(), sl<SecureStorage>()),
+  );
+  sl.registerFactory(
+    () => PatientServiceCreationCubit(sl<PatientDetailApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
     () => AppointmentScheduleCubit(sl<PatientDetailApi>(), sl<SecureStorage>()),

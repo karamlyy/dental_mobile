@@ -64,5 +64,6 @@
   "forgotPassword": "Забыли пароль?",
   "enterCredentialsToRegister": "Введите данные для регистрации",
   "endTimeBeforeStartTime": "Время окончания не может быть раньше времени начала",
-  "seeAll": "Посмотреть все"
+  "seeAll": "Посмотреть все",
+  "services": "Услуги"
 }

@@ -47,11 +47,8 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
       child: BlocConsumer<AssistantCreationCubit, AssistantCreationState>(
         listener: (context, state) {
           if (state is AssistantCreationSuccess) {
-            context.read<AssistantsCubit>().fetchAssistants(); // Refresh list
+            context.read<AssistantsCubit>().fetchAssistants();
             Navigator.pop(context);
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Assistant yaradıldı')),
-            );
           } else if (state is AssistantCreationError) {
             ErrorBottomSheet.show(
               context,

@@ -489,6 +489,12 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Hamısına bax'**
   String get seeAll;
+
+  /// No description provided for @services.
+  ///
+  /// In az, this message translates to:
+  /// **'Xidmətlər'**
+  String get services;
 }
 
 class _AppLocalizationsDelegate

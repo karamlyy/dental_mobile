@@ -80,4 +80,12 @@ class PatientDetailApi {
     );
     return List<Map<String, dynamic>>.from(res.data);
   }
+  Future<void> createService(
+      int patientId, String token, Map<String, dynamic> body) async {
+    await dioClient.dio.post(
+      '/patients/$patientId/services',
+      data: body,
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+    );
+  }
 }

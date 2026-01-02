@@ -205,4 +205,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get seeAll => 'Hamısına bax';
+
+  @override
+  String get services => 'Xidmətlər';
 }

@@ -64,6 +64,7 @@
   "forgotPassword": "Şifrəni unutmusunuz?",
   "enterCredentialsToRegister": "Qeydiyyatdan keçmək üçün məlumatlarınızı daxil edin",
   "endTimeBeforeStartTime": "Bitmə vaxtı başlanğıc vaxtdan əvvəl ola bilməz",
-  "seeAll": "Hamısına bax"
+  "seeAll": "Hamısına bax",
+  "services": "Xidmətlər"
 }
 

@@ -6,6 +6,7 @@ import '../../../../config/di.dart';
 import '../cubit/patient_detail_cubit.dart';
 import '../widgets/patient_header.dart';
 import '../widgets/patient_tabs.dart';
+import '../widgets/patient_financial_card.dart';
 
 class PatientDetailPage extends StatelessWidget {
   final int patientId;
@@ -36,6 +37,7 @@ class PatientDetailPage extends StatelessWidget {
               return Column(
                 children: [
                   PatientHeader(patient: patient),
+                  PatientFinancialCard(patient: patient),
                   Expanded(child: PatientTabs(patientId: patientId)),
                 ],
               );
