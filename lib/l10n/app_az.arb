@@ -68,6 +68,11 @@
   "services": "Xidmətlər",
   "gender": "Cins",
   "male": "Kişi",
-  "female": "Qadın"
+  "female": "Qadın",
+  "notes": "Qeydlər",
+  "newNote": "Yeni qeyd",
+  "addNote": "Qeyd əlavə et",
+  "note": "Qeyd",
+  "enterNote": "Qeyd daxil edin"
 }
 

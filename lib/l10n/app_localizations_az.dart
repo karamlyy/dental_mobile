@@ -217,4 +217,19 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get female => 'Qadın';
+
+  @override
+  String get notes => 'Qeydlər';
+
+  @override
+  String get newNote => 'Yeni qeyd';
+
+  @override
+  String get addNote => 'Qeyd əlavə et';
+
+  @override
+  String get note => 'Qeyd';
+
+  @override
+  String get enterNote => 'Qeyd daxil edin';
 }

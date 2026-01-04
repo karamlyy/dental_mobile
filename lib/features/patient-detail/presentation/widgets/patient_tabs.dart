@@ -2,6 +2,7 @@ import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'appointments_tab.dart';
+import 'notes_tab.dart';
 import 'payments_tab.dart';
 import 'services_tab.dart';
 
@@ -13,7 +14,7 @@ class PatientTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Column(
         children: [
            TabBar(
@@ -25,6 +26,7 @@ class PatientTabs extends StatelessWidget {
               Tab(text: l10n.appointments),
               Tab(text: l10n.services),
               Tab(text: l10n.payments),
+              Tab(text: l10n.notes),
             ],
           ),
           Expanded(
@@ -33,6 +35,7 @@ class PatientTabs extends StatelessWidget {
                 AppointmentsTab(patientId: patientId),
                 ServicesTab(patientId: patientId),
                 PaymentsTab(patientId: patientId),
+                NotesTab(patientId: patientId),
               ],
             ),
           ),

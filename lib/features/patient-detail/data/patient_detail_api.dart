@@ -88,4 +88,24 @@ class PatientDetailApi {
       options: Options(headers: {'Authorization': 'Bearer $token'}),
     );
   }
+
+  Future<List<Map<String, dynamic>>> getPatientNotes(
+      String accessToken,
+      int patientId,
+      ) async {
+    final res = await dioClient.dio.get(
+      '/patients/$patientId/notes',
+      options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+    );
+    return List<Map<String, dynamic>>.from(res.data);
+  }
+
+  Future<void> createNote(
+      int patientId, String token, Map<String, dynamic> body) async {
+    await dioClient.dio.post(
+      '/patients/$patientId/notes',
+      data: body,
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+    );
+  }
 }

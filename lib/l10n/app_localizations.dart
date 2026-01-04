@@ -513,6 +513,36 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Qadın'**
   String get female;
+
+  /// No description provided for @notes.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydlər'**
+  String get notes;
+
+  /// No description provided for @newNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni qeyd'**
+  String get newNote;
+
+  /// No description provided for @addNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeyd əlavə et'**
+  String get addNote;
+
+  /// No description provided for @note.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeyd'**
+  String get note;
+
+  /// No description provided for @enterNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeyd daxil edin'**
+  String get enterNote;
 }
 
 class _AppLocalizationsDelegate

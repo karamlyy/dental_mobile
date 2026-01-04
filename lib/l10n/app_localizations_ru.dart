@@ -216,4 +216,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get female => 'Женский';
+
+  @override
+  String get notes => 'Заметки';
+
+  @override
+  String get newNote => 'Новая заметка';
+
+  @override
+  String get addNote => 'Добавить заметку';
+
+  @override
+  String get note => 'Заметка';
+
+  @override
+  String get enterNote => 'Введите заметку';
 }

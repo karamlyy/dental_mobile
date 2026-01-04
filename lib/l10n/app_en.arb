@@ -68,5 +68,10 @@
   "services": "Services",
   "gender": "Gender",
   "male": "Male",
-  "female": "Female"
+  "female": "Female",
+  "notes": "Notes",
+  "newNote": "New note",
+  "addNote": "Add note",
+  "note": "Note",
+  "enterNote": "Enter note"
 }

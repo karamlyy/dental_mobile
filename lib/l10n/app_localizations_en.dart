@@ -215,4 +215,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get female => 'Female';
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get newNote => 'New note';
+
+  @override
+  String get addNote => 'Add note';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get enterNote => 'Enter note';
 }
