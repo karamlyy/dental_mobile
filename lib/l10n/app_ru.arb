@@ -65,5 +65,8 @@
   "enterCredentialsToRegister": "Введите данные для регистрации",
   "endTimeBeforeStartTime": "Время окончания не может быть раньше времени начала",
   "seeAll": "Посмотреть все",
-  "services": "Услуги"
+  "services": "Услуги",
+  "gender": "Пол",
+  "male": "Мужской",
+  "female": "Женский"
 }

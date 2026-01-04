@@ -208,4 +208,13 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get services => 'Xidmətlər';
+
+  @override
+  String get gender => 'Cins';
+
+  @override
+  String get male => 'Kişi';
+
+  @override
+  String get female => 'Qadın';
 }

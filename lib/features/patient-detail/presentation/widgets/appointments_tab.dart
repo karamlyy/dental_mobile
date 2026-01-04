@@ -4,6 +4,7 @@ import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'status_dot.dart';
 import 'add_appointment_sheet.dart';
@@ -68,11 +69,12 @@ class AppointmentsTab extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.event_busy,
-                        size: 64,
-                        color: Colors.grey.shade400,
+                      SvgPicture.asset(
+                        'assets/icons/noData.svg',
+                        width: 200,
+                        height: 200,
                       ),
+
                       const SizedBox(height: 12),
                        Text(
                         l10n.noAppointmentsFound,

@@ -19,6 +19,10 @@ class AddPatientCubit extends Cubit<AddPatientState> {
     emit(state.copyWith(phone: value));
   }
 
+  void genderChanged(String value) {
+    emit(state.copyWith(gender: value));
+  }
+
   Future<void> submit() async {
     if (state.fullName.isEmpty || state.phone.isEmpty) {
       emit(state.copyWith(
@@ -37,6 +41,7 @@ class AddPatientCubit extends Cubit<AddPatientState> {
       await api.createPatient(token, {
         'fullName': state.fullName,
         'phone': state.phone,
+        'gender': state.gender,
       });
 
       if (isClosed) return;

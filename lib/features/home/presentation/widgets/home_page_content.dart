@@ -4,6 +4,7 @@ import 'package:dental_mobile/features/home/presentation/widgets/home_stats.dart
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -83,9 +84,20 @@ class HomePageContent extends StatelessWidget {
                   return const LoadingIndicator();
                 } else if (state is AppointmentsLoaded) {
                   if (state.appointments.isEmpty && cubit.animatedListItems.isEmpty) {
-                    return const Center(
-                        child: Text('Növbəti 3 gün üçün appointment yoxdur',
-                            style: TextStyle(fontSize: 16)));
+                    return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/noData.svg',
+                              width: 200,
+                              height: 200,
+                            ),
+                            const SizedBox(height: 16),
+                            Text('Növbəti 3 gün üçün appointment yoxdur',
+                                style: TextStyle(fontSize: 16)),
+                          ],
+                        ));
                   }
                   return AnimatedList(
                     key: cubit.listKey,

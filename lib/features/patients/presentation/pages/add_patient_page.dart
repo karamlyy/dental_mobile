@@ -129,6 +129,41 @@ class AddPatientPage extends StatelessWidget {
                           );
                         },
                       ),
+                      const SizedBox(height: 16),
+
+                      BlocBuilder<AddPatientCubit, AddPatientState>(
+                        buildWhen: (p, c) => p.gender != c.gender,
+                        builder: (context, state) {
+                          return DropdownButtonFormField<String>(
+                            value: state.gender,
+                            decoration: InputDecoration(
+                              labelText: 'cins',
+                              filled: true,
+                              prefixIcon: const Icon(Icons.people),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                            ),
+                            items: [
+                              DropdownMenuItem(
+                                value: 'MALE',
+                                child: Text('kişi'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'FEMALE',
+                                child: Text('qadın'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              if (value != null) {
+                                context.read<AddPatientCubit>().genderChanged(value);
+                              }
+                            },
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),

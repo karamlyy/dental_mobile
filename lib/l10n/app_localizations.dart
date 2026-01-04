@@ -495,6 +495,24 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Xidmətlər'**
   String get services;
+
+  /// No description provided for @gender.
+  ///
+  /// In az, this message translates to:
+  /// **'Cins'**
+  String get gender;
+
+  /// No description provided for @male.
+  ///
+  /// In az, this message translates to:
+  /// **'Kişi'**
+  String get male;
+
+  /// No description provided for @female.
+  ///
+  /// In az, this message translates to:
+  /// **'Qadın'**
+  String get female;
 }
 
 class _AppLocalizationsDelegate

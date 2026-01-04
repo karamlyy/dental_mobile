@@ -207,4 +207,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get services => 'Услуги';
+
+  @override
+  String get gender => 'Пол';
+
+  @override
+  String get male => 'Мужской';
+
+  @override
+  String get female => 'Женский';
 }

@@ -5,6 +5,7 @@ import 'package:dental_mobile/features/appointments/presentation/cubit/appointme
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -56,7 +57,6 @@ class AppointmentsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    // Access cubit for key and list
     final cubit = context.read<AppointmentsPageCubit>();
 
     return Scaffold(
@@ -72,7 +72,20 @@ class AppointmentsView extends StatelessWidget {
             return const LoadingIndicator();
           } else if (state is AppointmentsPageLoaded) {
             if (state.appointments.isEmpty && cubit.animatedListItems.isEmpty) {
-              return Center(child: Text(l10n.noAppointments));
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/noData.svg',
+                      width: 200,
+                      height: 200,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(l10n.noAppointments),
+                  ],
+                ),
+              );
             }
 
             return AnimatedList(
@@ -80,7 +93,8 @@ class AppointmentsView extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               initialItemCount: cubit.animatedListItems.length,
               itemBuilder: (context, index, animation) {
-                if (index >= cubit.animatedListItems.length) return const SizedBox();
+                if (index >= cubit.animatedListItems.length)
+                  return const SizedBox();
                 final a = cubit.animatedListItems[index];
                 return _buildItem(a, animation, l10n, context);
               },
@@ -94,31 +108,49 @@ class AppointmentsView extends StatelessWidget {
     );
   }
 
-  void _refreshList(List<dynamic> newAppointments, AppointmentsPageCubit cubit, BuildContext context) {
+  void _refreshList(
+    List<dynamic> newAppointments,
+    AppointmentsPageCubit cubit,
+    BuildContext context,
+  ) {
     // Determine items to remove
     for (var i = cubit.animatedListItems.length - 1; i >= 0; i--) {
-       final removedItem = cubit.animatedListItems.removeAt(i);
-       cubit.listKey.currentState?.removeItem(
-         i, 
-         (context, animation) => _buildItem(removedItem, animation, AppLocalizations.of(context)!, context),
-       );
+      final removedItem = cubit.animatedListItems.removeAt(i);
+      cubit.listKey.currentState?.removeItem(
+        i,
+        (context, animation) => _buildItem(
+          removedItem,
+          animation,
+          AppLocalizations.of(context)!,
+          context,
+        ),
+      );
     }
-    
+
     // Add new items
     Future.forEach(newAppointments.asMap().entries, (entry) async {
       await Future.delayed(const Duration(milliseconds: 50));
       // Verify usage of cubit list if multiple calls happen?
       // For now assume simple clear-fill logic.
       cubit.animatedListItems.add(entry.value);
-      cubit.listKey.currentState?.insertItem(cubit.animatedListItems.length - 1);
+      cubit.listKey.currentState?.insertItem(
+        cubit.animatedListItems.length - 1,
+      );
     });
   }
 
-  Widget _buildItem(dynamic a, Animation<double> animation, AppLocalizations l10n, BuildContext context) {
+  Widget _buildItem(
+    dynamic a,
+    Animation<double> animation,
+    AppLocalizations l10n,
+    BuildContext context,
+  ) {
     final patient = a['patient'];
     final date = DateTime.parse(a['date']);
     final headerDate = DateFormat('dd MMMM yyyy').format(date);
-    final patientName = patient != null ? (patient['fullName'] ?? 'Unknown') : 'Unknown';
+    final patientName = patient != null
+        ? (patient['fullName'] ?? 'Unknown')
+        : 'Unknown';
     final patientId = patient != null ? patient['id'] : null;
 
     return SizeTransition(

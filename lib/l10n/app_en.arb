@@ -65,5 +65,8 @@
   "enterCredentialsToRegister": "Enter your details to register",
   "endTimeBeforeStartTime": "End time cannot be before start time",
   "seeAll": "See all",
-  "services": "Services"
+  "services": "Services",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female"
 }

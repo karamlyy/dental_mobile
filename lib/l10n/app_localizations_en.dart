@@ -206,4 +206,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get services => 'Services';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
 }

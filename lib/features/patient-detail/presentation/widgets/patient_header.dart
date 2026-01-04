@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PatientHeader extends StatelessWidget {
@@ -17,22 +18,26 @@ class PatientHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         children: [
-          CircleAvatar(
-            child: Text(
-              patient['fullName'][0],
-              style: const TextStyle(
-                fontSize: 22,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+          Container(
+            width: 64,
+            height: 64,
+
+            decoration: BoxDecoration(
+              color: patient['gender'] == 'MALE'
+                  ? Colors.blue.withValues(alpha: 0.1)
+                  : Colors.pink.withValues(alpha: 0.1),
+              shape: BoxShape.circle,
+            ),
+            child: SvgPicture.asset(
+              patient['gender'] == 'MALE'
+                  ? 'assets/icons/male.svg'
+                  : 'assets/icons/female.svg',
             ),
           ),
           const SizedBox(width: 16),

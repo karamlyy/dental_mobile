@@ -5,6 +5,7 @@ enum AddPatientStatus { initial, loading, success, error }
 class AddPatientState {
   final String fullName;
   final String phone;
+  final String gender;
   final AddPatientStatus status;
   final String? errorMessage;
   final String? error;
@@ -13,6 +14,7 @@ class AddPatientState {
   const AddPatientState({
     this.fullName = '',
     this.phone = '',
+    this.gender = 'MALE',
     this.status = AddPatientStatus.initial,
     this.errorMessage,
     this.error,
@@ -22,6 +24,7 @@ class AddPatientState {
   AddPatientState copyWith({
     String? fullName,
     String? phone,
+    String? gender,
     AddPatientStatus? status,
     String? errorMessage,
     String? error,
@@ -30,6 +33,7 @@ class AddPatientState {
     return AddPatientState(
       fullName: fullName ?? this.fullName,
       phone: phone ?? this.phone,
+      gender: gender ?? this.gender,
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       error: error ?? this.error,
