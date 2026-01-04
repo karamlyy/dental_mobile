@@ -20,6 +20,12 @@ import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient
 import 'package:dental_mobile/features/patients/data/patients_api.dart';
 import 'package:dental_mobile/features/patients/presentation/cubit/patients_cubit.dart';
 import 'package:dental_mobile/features/patients/presentation/cubit/add_patient_cubit.dart';
+import 'package:dental_mobile/features/collaborations/data/collaborations_api.dart';
+import 'package:dental_mobile/features/collaborations/presentation/cubit/collaborations_cubit.dart';
+import 'package:dental_mobile/features/collaborations/presentation/cubit/collaboration_creation_cubit.dart';
+import 'package:dental_mobile/features/expenses/data/expenses_api.dart';
+import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
+import 'package:dental_mobile/features/expenses/presentation/cubit/expense_creation_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import '../core/network/auth_interceptor.dart';
@@ -117,5 +123,21 @@ Future<void> init() async {
   );
   sl.registerFactory(
     () => ServiceCreationCubit(sl<ServicesApi>(), sl<SecureStorage>()),
+  );
+
+  sl.registerLazySingleton<CollaborationsApi>(() => CollaborationsApi(sl<DioClient>()));
+  sl.registerFactory(
+    () => CollaborationsCubit(sl<CollaborationsApi>(), sl<SecureStorage>()),
+  );
+  sl.registerFactory(
+    () => CollaborationCreationCubit(sl<CollaborationsApi>(), sl<SecureStorage>()),
+  );
+
+  sl.registerLazySingleton<ExpensesApi>(() => ExpensesApi(sl<DioClient>()));
+  sl.registerFactory(
+    () => ExpensesCubit(sl<ExpensesApi>(), sl<SecureStorage>()),
+  );
+  sl.registerFactory(
+    () => ExpenseCreationCubit(sl<ExpensesApi>(), sl<SecureStorage>()),
   );
 }

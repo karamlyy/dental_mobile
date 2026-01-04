@@ -231,4 +231,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get enterNote => 'Введите заметку';
+
+  @override
+  String get collaborations => 'Сотрудничество';
+
+  @override
+  String get myExpenses => 'Мои расходы';
 }

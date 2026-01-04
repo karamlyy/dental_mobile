@@ -232,4 +232,10 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get enterNote => 'Qeyd daxil edin';
+
+  @override
+  String get collaborations => 'Əməkdaşlıqlar';
+
+  @override
+  String get myExpenses => 'Xərclərim';
 }

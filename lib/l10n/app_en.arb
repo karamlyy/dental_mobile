@@ -73,5 +73,7 @@
   "newNote": "New note",
   "addNote": "Add note",
   "note": "Note",
-  "enterNote": "Enter note"
+  "enterNote": "Enter note",
+  "collaborations": "Collaborations",
+  "myExpenses": "My Expenses"
 }

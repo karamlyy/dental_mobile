@@ -230,4 +230,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterNote => 'Enter note';
+
+  @override
+  String get collaborations => 'Collaborations';
+
+  @override
+  String get myExpenses => 'My Expenses';
 }

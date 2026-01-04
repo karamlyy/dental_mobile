@@ -543,6 +543,18 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Qeyd daxil edin'**
   String get enterNote;
+
+  /// No description provided for @collaborations.
+  ///
+  /// In az, this message translates to:
+  /// **'Əməkdaşlıqlar'**
+  String get collaborations;
+
+  /// No description provided for @myExpenses.
+  ///
+  /// In az, this message translates to:
+  /// **'Xərclərim'**
+  String get myExpenses;
 }
 
 class _AppLocalizationsDelegate

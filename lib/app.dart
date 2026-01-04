@@ -8,6 +8,8 @@ import 'package:dental_mobile/core/localization/locale_state.dart';
 import 'package:dental_mobile/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:dental_mobile/features/auth/presentation/pages/login_page.dart';
 import 'package:dental_mobile/features/auth/presentation/pages/register_page.dart';
+import 'package:dental_mobile/features/collaborations/presentation/pages/collaborations_page.dart';
+import 'package:dental_mobile/features/expenses/presentation/pages/expenses_page.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/pages/home_page.dart';
@@ -19,7 +21,10 @@ import 'package:dental_mobile/features/onboarding/presentation/pages/onboarding_
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/assistants/presentation/pages/assistants_page.dart';
 import 'package:dental_mobile/features/services/presentation/pages/services_page.dart';
+import 'package:dental_mobile/features/services/presentation/pages/services_page.dart';
 import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
+import 'package:dental_mobile/features/collaborations/presentation/cubit/collaborations_cubit.dart';
+import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:dental_mobile/routes/profile_page.dart';
@@ -85,6 +90,14 @@ class App extends StatelessWidget {
           path: '/services',
           builder: (context, state) => const ServicesPage(),
         ),
+        GoRoute(
+          path: '/collaborations',
+          builder: (context, state) => const CollaborationsPage(),
+        ),
+        GoRoute(
+          path: '/expenses',
+          builder: (context, state) => const ExpensesPage(),
+        ),
       ],
     );
 
@@ -110,6 +123,12 @@ class App extends StatelessWidget {
         ),
         BlocProvider<ServicesCubit>(
           create: (_) => sl<ServicesCubit>()..fetchServices(),
+        ),
+        BlocProvider<CollaborationsCubit>(
+          create: (_) => sl<CollaborationsCubit>()..fetchCollaborations(),
+        ),
+        BlocProvider<ExpensesCubit>(
+          create: (_) => sl<ExpensesCubit>()..fetchExpenses(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

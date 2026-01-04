@@ -32,176 +32,231 @@ class ProfilePage extends StatelessWidget {
           final fullName = userData['fullName'] ?? 'İstifadəçi';
           final role = userData['role'] ?? 'Həkim';
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                _SectionCard(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.person,
-                          size: 36,
-                          color: Theme.of(context).colorScheme.primary,
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  _SectionCard(
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.person,
+                            size: 36,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              fullName,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                fullName,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              role == 'DOCTOR' ? 'Həkim' : 'Assistant',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                          ],
+                              const SizedBox(height: 4),
+                              Text(
+                                role == 'DOCTOR' ? 'Həkim' : 'Assistant',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
-                /// ⚙️ SETTINGS
-                _SectionCard(
-                  title: l10n.settings,
-                  child: BlocBuilder<ThemeCubit, ThemeState>(
-                    builder: (context, state) {
-                      final isDark = state.themeMode == ThemeMode.dark;
+                  /// ⚙️ SETTINGS
+                  _SectionCard(
+                    title: l10n.settings,
+                    child: BlocBuilder<ThemeCubit, ThemeState>(
+                      builder: (context, state) {
+                        final isDark = state.themeMode == ThemeMode.dark;
 
-                      return Column(
-                        children: [
-                          /// 🌗 Dark / Light switch
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 0,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .surfaceContainerHighest
-                                  .withValues(alpha: 0.4),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                  isDark ? l10n.darkMode : l10n.lightMode,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
+                        return Column(
+                          children: [
+                            /// 🌗 Dark / Light switch
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 0,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerHighest
+                                    .withValues(alpha: 0.4),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                    isDark ? l10n.darkMode : l10n.lightMode,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Switch.adaptive(
-                                  value: isDark,
-                                  onChanged: (value) {
-                                    context.read<ThemeCubit>().setTheme(
-                                      value ? ThemeMode.dark : ThemeMode.light,
-                                    );
-                                  },
-                                ),
-                              ],
+                                  Switch.adaptive(
+                                    value: isDark,
+                                    onChanged: (value) {
+                                      context.read<ThemeCubit>().setTheme(
+                                        value ? ThemeMode.dark : ThemeMode.light,
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          _LanguageSelector(),
-                        ],
-                      );
-                    },
+                            const SizedBox(height: 12),
+                            _LanguageSelector(),
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                ),
 
-                /// ⚙️ ASSISTANTS
-                if (role == 'DOCTOR') ...[
-                  const SizedBox(height: 16),
-                  _SectionCard(
-                    title: l10n.assistants,
-                    child: InkWell(
-                      onTap: () => context.push('/assistants'),
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surfaceContainerHighest
-                              .withValues(alpha: 0.4),
+                  /// ⚙️ ASSISTANTS
+                  /// ⚙️ ASSISTANTS & DOCTOR FEATURES
+                  if (role == 'DOCTOR') ...[
+                    const SizedBox(height: 16),
+                    _SectionCard(
+                      title: l10n.assistants,
+                      child: InkWell(
+                        onTap: () => context.push('/assistants'),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest
+                                .withValues(alpha: 0.4),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(l10n.assistantsList)
+                              ),
+                              const Icon(Icons.arrow_forward_ios, size: 14),
+                            ],
+                          ),
                         ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(l10n.assistantsList)
-                            ),
-                            const Icon(Icons.arrow_forward_ios, size: 14),
-                          ],
+                      )
+                    ),
+                    const SizedBox(height: 16),
+                     _SectionCard(
+                      title: l10n.services,
+                      child: InkWell(
+                        onTap: () => context.push('/services'),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest
+                                .withValues(alpha: 0.4),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(l10n.services)
+                              ),
+                              const Icon(Icons.arrow_forward_ios, size: 14),
+                            ],
+                          ),
+                        ),
+                      )
+                    ),
+                    const SizedBox(height: 16),
+                    _SectionCard(
+                      title: 'Əməkdaşlıqlar',
+                      child: InkWell(
+                        onTap: () => context.push('/collaborations'),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest
+                                .withValues(alpha: 0.4),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text('Əməkdaşlıqlar')
+                              ),
+                              const Icon(Icons.arrow_forward_ios, size: 14),
+                            ],
+                          ),
+                        ),
+                      )
+                    ),
+                    const SizedBox(height: 16),
+                    _SectionCard(
+                      title: 'Xərclərim',
+                      child: InkWell(
+                        onTap: () => context.push('/expenses'),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest
+                                .withValues(alpha: 0.4),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text('Xərclərim')
+                              ),
+                              const Icon(Icons.arrow_forward_ios, size: 14),
+                            ],
+                          ),
+                        ),
+                      )
+                    ),
+                  ],
+
+                  const SizedBox(height: 16),
+
+                  /// 🚪 LOGOUT
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 0,
+                    child: ListTile(
+                      leading: const Icon(Icons.logout, color: Colors.red),
+                      title: Text(
+                        l10n.logout,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    )
-                  ),
-                  const SizedBox(height: 16),
-                   _SectionCard(
-                    title: 'Xidmətlər',
-                    child: InkWell(
-                      onTap: () => context.push('/services'),
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surfaceContainerHighest
-                              .withValues(alpha: 0.4),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text('Xidmətlər')
-                            ),
-                            const Icon(Icons.arrow_forward_ios, size: 14),
-                          ],
-                        ),
-                      ),
-                    )
+                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      onTap: () => _showLogoutDialog(context),
+                    ),
                   ),
                 ],
-
-                const SizedBox(height: 16),
-
-                /// 🚪 LOGOUT
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  elevation: 0,
-                  child: ListTile(
-                    leading: const Icon(Icons.logout, color: Colors.red),
-                    title: Text(
-                      l10n.logout,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap: () => _showLogoutDialog(context),
-                  ),
-                ),
-              ],
+              ),
             ),
           );
         },
