@@ -4,19 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/assistants_cubit.dart';
 import '../widgets/add_assistant_sheet.dart';
 
-class AssistantsPage extends StatefulWidget {
+class AssistantsPage extends StatelessWidget {
   const AssistantsPage({super.key});
-
-  @override
-  State<AssistantsPage> createState() => _AssistantsPageState();
-}
-
-class _AssistantsPageState extends State<AssistantsPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<AssistantsCubit>().fetchAssistants();
-  }
 
   @override
   Widget build(BuildContext context) {

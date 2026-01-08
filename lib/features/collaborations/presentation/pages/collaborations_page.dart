@@ -5,19 +5,8 @@ import 'package:dental_mobile/features/collaborations/presentation/widgets/colla
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CollaborationsPage extends StatefulWidget {
+class CollaborationsPage extends StatelessWidget {
   const CollaborationsPage({super.key});
-
-  @override
-  State<CollaborationsPage> createState() => _CollaborationsPageState();
-}
-
-class _CollaborationsPageState extends State<CollaborationsPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<CollaborationsCubit>().fetchCollaborations();
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -133,7 +133,7 @@ class ProfilePage extends StatelessWidget {
                   if (role == 'DOCTOR') ...[
                     const SizedBox(height: 16),
                     _SectionCard(
-                      title: "👨‍⚕️ Həkim Paneli",
+                      title: "Həkim Paneli",
                       child: Column(
                         children: [
                           _ProfileMenuItem(

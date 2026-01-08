@@ -113,51 +113,63 @@ class App extends StatelessWidget {
           create: (_) => sl<AuthCubit>(),
         ),
         BlocProvider<StatsCubit>(
-          create: (_) => sl<StatsCubit>(),
+          create: (_) => sl<StatsCubit>()..fetchStats(),
         ),
         BlocProvider<AppointmentsCubit>(
-          create: (_) => sl<AppointmentsCubit>(),
+          create: (_) => sl<AppointmentsCubit>()..fetchAppointments(),
         ),
         BlocProvider<AssistantsCubit>(
-          create: (_) => sl<AssistantsCubit>(),
+          create: (_) => sl<AssistantsCubit>()..fetchAssistants(),
         ),
         BlocProvider<ServicesCubit>(
-          create: (_) => sl<ServicesCubit>(),
+          create: (_) => sl<ServicesCubit>()..fetchServices(),
         ),
         BlocProvider<CollaborationsCubit>(
-          create: (_) => sl<CollaborationsCubit>(),
+          create: (_) => sl<CollaborationsCubit>()..fetchCollaborations(),
         ),
         BlocProvider<ExpensesCubit>(
-          create: (_) => sl<ExpensesCubit>(),
+          create: (_) => sl<ExpensesCubit>()..fetchExpenses(),
         ),
       ],
-      child: BlocBuilder<ThemeCubit, ThemeState>(
-        builder: (context, themeState) {
-          return BlocBuilder<LocaleCubit, LocaleState>(
-            builder: (context, localeState) {
-              return MaterialApp.router(
-                debugShowCheckedModeBanner: false,
-                routerConfig: router,
-                title: 'Dental CRM',
-                theme: AppTheme.light,
-                darkTheme: AppTheme.dark,
-                themeMode: themeState.themeMode,
-                locale: localeState.locale,
-                localizationsDelegates: [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: const [
-                  Locale('az'),
-                  Locale('en'),
-                  Locale('ru'),
-                ],
-              );
-            },
-          );
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is AuthSuccess) {
+            context.read<StatsCubit>().fetchStats();
+            context.read<AppointmentsCubit>().fetchAppointments();
+            context.read<AssistantsCubit>().fetchAssistants();
+            context.read<ServicesCubit>().fetchServices();
+            context.read<CollaborationsCubit>().fetchCollaborations();
+            context.read<ExpensesCubit>().fetchExpenses();
+          }
         },
+        child: BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, themeState) {
+            return BlocBuilder<LocaleCubit, LocaleState>(
+              builder: (context, localeState) {
+                return MaterialApp.router(
+                  debugShowCheckedModeBanner: false,
+                  routerConfig: router,
+                  title: 'Dental CRM',
+                  theme: AppTheme.light,
+                  darkTheme: AppTheme.dark,
+                  themeMode: themeState.themeMode,
+                  locale: localeState.locale,
+                  localizationsDelegates: [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: const [
+                    Locale('az'),
+                    Locale('en'),
+                    Locale('ru'),
+                  ],
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
