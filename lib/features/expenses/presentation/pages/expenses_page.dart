@@ -5,8 +5,19 @@ import 'package:dental_mobile/features/expenses/presentation/widgets/expense_det
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ExpensesPage extends StatelessWidget {
+class ExpensesPage extends StatefulWidget {
   const ExpensesPage({super.key});
+
+  @override
+  State<ExpensesPage> createState() => _ExpensesPageState();
+}
+
+class _ExpensesPageState extends State<ExpensesPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ExpensesCubit>().fetchExpenses();
+  }
 
   @override
   Widget build(BuildContext context) {

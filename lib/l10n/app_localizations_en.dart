@@ -236,4 +236,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myExpenses => 'My Expenses';
+
+  @override
+  String get clinicName => 'Clinic Name';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get specialization => 'Specialization';
 }

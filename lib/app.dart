@@ -113,22 +113,22 @@ class App extends StatelessWidget {
           create: (_) => sl<AuthCubit>(),
         ),
         BlocProvider<StatsCubit>(
-          create: (_) => sl<StatsCubit>()..fetchStats(),
+          create: (_) => sl<StatsCubit>(),
         ),
         BlocProvider<AppointmentsCubit>(
-          create: (_) => sl<AppointmentsCubit>()..fetchAppointments(),
+          create: (_) => sl<AppointmentsCubit>(),
         ),
         BlocProvider<AssistantsCubit>(
-          create: (_) => sl<AssistantsCubit>()..fetchAssistants(),
+          create: (_) => sl<AssistantsCubit>(),
         ),
         BlocProvider<ServicesCubit>(
-          create: (_) => sl<ServicesCubit>()..fetchServices(),
+          create: (_) => sl<ServicesCubit>(),
         ),
         BlocProvider<CollaborationsCubit>(
-          create: (_) => sl<CollaborationsCubit>()..fetchCollaborations(),
+          create: (_) => sl<CollaborationsCubit>(),
         ),
         BlocProvider<ExpensesCubit>(
-          create: (_) => sl<ExpensesCubit>()..fetchExpenses(),
+          create: (_) => sl<ExpensesCubit>(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

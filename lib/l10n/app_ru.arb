@@ -75,5 +75,8 @@
   "note": "Заметка",
   "enterNote": "Введите заметку",
   "collaborations": "Сотрудничество",
-  "myExpenses": "Мои расходы"
+  "myExpenses": "Мои расходы",
+  "clinicName": "Название клиники",
+  "address": "Адрес",
+  "specialization": "Специализация"
 }

@@ -555,6 +555,24 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Xərclərim'**
   String get myExpenses;
+
+  /// No description provided for @clinicName.
+  ///
+  /// In az, this message translates to:
+  /// **'Klinika adı'**
+  String get clinicName;
+
+  /// No description provided for @address.
+  ///
+  /// In az, this message translates to:
+  /// **'Ünvan'**
+  String get address;
+
+  /// No description provided for @specialization.
+  ///
+  /// In az, this message translates to:
+  /// **'İxtisas'**
+  String get specialization;
 }
 
 class _AppLocalizationsDelegate

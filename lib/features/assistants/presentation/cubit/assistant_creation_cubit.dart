@@ -15,6 +15,8 @@ class AssistantCreationCubit extends Cubit<AssistantCreationState> {
     required String email,
     required String password,
     required String fullName,
+    required String phoneNumber,
+    required String gender,
   }) async {
     emit(AssistantCreationLoading());
     try {
@@ -25,6 +27,8 @@ class AssistantCreationCubit extends Cubit<AssistantCreationState> {
         'email': email,
         'password': password,
         'fullName': fullName,
+        'phoneNumber': phoneNumber,
+        'gender': gender,
       });
 
       if (isClosed) return;

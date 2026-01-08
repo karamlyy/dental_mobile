@@ -30,4 +30,7 @@ class ExpensesCubit extends Cubit<ExpensesState> {
       ));
     }
   }
+  void clear() {
+    emit(ExpensesInitial());
+  }
 }

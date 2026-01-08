@@ -32,4 +32,7 @@ class AssistantsCubit extends Cubit<AssistantsState> {
   }
 
 
+  void clear() {
+    emit(AssistantsInitial());
+  }
 }

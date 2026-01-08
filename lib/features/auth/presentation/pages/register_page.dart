@@ -12,12 +12,16 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
   final _fullNameController = TextEditingController();
+  final _clinicNameController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _specializationController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+
     final l10n = AppLocalizations.of(context)!;
 
 
@@ -102,6 +106,62 @@ class RegisterPage extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     TextField(
+                      controller: _clinicNameController,
+                      decoration: InputDecoration(
+                        labelText: l10n.clinicName,
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    TextField(
+                      controller: _addressController,
+                      decoration: InputDecoration(
+                        labelText: l10n.address,
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    TextField(
+                      controller: _phoneNumberController,
+                      decoration: InputDecoration(
+                        labelText: l10n.phoneNumber,
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    TextField(
+                      controller: _specializationController,
+                      decoration: InputDecoration(
+                        labelText: l10n.specialization,
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
                         labelText: l10n.email,
@@ -138,6 +198,10 @@ class RegisterPage extends StatelessWidget {
                               _emailController.text,
                               _passwordController.text,
                               _fullNameController.text,
+                              _clinicNameController.text,
+                              _addressController.text,
+                              _phoneNumberController.text,
+                              _specializationController.text,
                             );
                       },
                     ),

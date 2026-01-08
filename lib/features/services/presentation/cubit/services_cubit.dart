@@ -30,4 +30,7 @@ class ServicesCubit extends Cubit<ServicesState> {
       ));
     }
   }
+  void clear() {
+    emit(ServicesInitial());
+  }
 }

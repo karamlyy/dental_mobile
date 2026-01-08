@@ -1,9 +1,13 @@
 import 'package:dental_mobile/config/theme/theme_cubit.dart';
 import 'package:dental_mobile/config/theme/theme_state.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
+import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:dental_mobile/features/collaborations/presentation/cubit/collaborations_cubit.dart';
+import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
+import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
 import 'package:dental_mobile/core/localization/locale_cubit.dart';
 import 'package:dental_mobile/core/localization/locale_state.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
@@ -34,7 +38,7 @@ class ProfilePage extends StatelessWidget {
 
           return SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 children: [
                   _SectionCard(
@@ -125,112 +129,34 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
 
-                  /// ⚙️ ASSISTANTS
-                  /// ⚙️ ASSISTANTS & DOCTOR FEATURES
+
                   if (role == 'DOCTOR') ...[
                     const SizedBox(height: 16),
                     _SectionCard(
-                      title: l10n.assistants,
-                      child: InkWell(
-                        onTap: () => context.push('/assistants'),
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest
-                                .withValues(alpha: 0.4),
+                      title: "👨‍⚕️ Həkim Paneli",
+                      child: Column(
+                        children: [
+                          _ProfileMenuItem(
+                            title: l10n.assistantsList,
+                            onTap: () => context.push('/assistants'),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(l10n.assistantsList)
-                              ),
-                              const Icon(Icons.arrow_forward_ios, size: 14),
-                            ],
+                          const SizedBox(height: 12),
+                          _ProfileMenuItem(
+                            title: l10n.services,
+                            onTap: () => context.push('/services'),
                           ),
-                        ),
-                      )
-                    ),
-                    const SizedBox(height: 16),
-                     _SectionCard(
-                      title: l10n.services,
-                      child: InkWell(
-                        onTap: () => context.push('/services'),
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest
-                                .withValues(alpha: 0.4),
+                          const SizedBox(height: 12),
+                          _ProfileMenuItem(
+                            title: 'Əməkdaşlıqlar',
+                            onTap: () => context.push('/collaborations'),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(l10n.services)
-                              ),
-                              const Icon(Icons.arrow_forward_ios, size: 14),
-                            ],
+                          const SizedBox(height: 12),
+                          _ProfileMenuItem(
+                            title: 'Xərclərim',
+                            onTap: () => context.push('/expenses'),
                           ),
-                        ),
-                      )
-                    ),
-                    const SizedBox(height: 16),
-                    _SectionCard(
-                      title: 'Əməkdaşlıqlar',
-                      child: InkWell(
-                        onTap: () => context.push('/collaborations'),
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest
-                                .withValues(alpha: 0.4),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text('Əməkdaşlıqlar')
-                              ),
-                              const Icon(Icons.arrow_forward_ios, size: 14),
-                            ],
-                          ),
-                        ),
-                      )
-                    ),
-                    const SizedBox(height: 16),
-                    _SectionCard(
-                      title: 'Xərclərim',
-                      child: InkWell(
-                        onTap: () => context.push('/expenses'),
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest
-                                .withValues(alpha: 0.4),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text('Xərclərim')
-                              ),
-                              const Icon(Icons.arrow_forward_ios, size: 14),
-                            ],
-                          ),
-                        ),
-                      )
+                        ],
+                      ),
                     ),
                   ],
 
@@ -284,6 +210,10 @@ class ProfilePage extends StatelessWidget {
                 context.read<AuthCubit>().logout();
                 context.read<StatsCubit>().clear();
                 context.read<AppointmentsCubit>().clear();
+                context.read<AssistantsCubit>().clear();
+                context.read<ServicesCubit>().clear();
+                context.read<CollaborationsCubit>().clear();
+                context.read<ExpensesCubit>().clear();
                 context.go('/login');
               },
               style: TextButton.styleFrom(foregroundColor: Colors.red),
@@ -460,3 +390,38 @@ class _SectionCard extends StatelessWidget {
     );
   }
 }
+
+class _ProfileMenuItem extends StatelessWidget {
+  final String title;
+  final VoidCallback onTap;
+
+  const _ProfileMenuItem({
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context)
+              .colorScheme
+              .surfaceContainerHighest
+              .withValues(alpha: 0.4),
+        ),
+        child: Row(
+          children: [
+            Expanded(child: Text(title)),
+            const Icon(Icons.arrow_forward_ios, size: 14),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

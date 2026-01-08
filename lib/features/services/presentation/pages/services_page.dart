@@ -4,8 +4,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/services_cubit.dart';
 import '../widgets/add_service_sheet.dart';
 
-class ServicesPage extends StatelessWidget {
+class ServicesPage extends StatefulWidget {
   const ServicesPage({super.key});
+
+  @override
+  State<ServicesPage> createState() => _ServicesPageState();
+}
+
+class _ServicesPageState extends State<ServicesPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ServicesCubit>().fetchServices();
+  }
 
   @override
   Widget build(BuildContext context) {

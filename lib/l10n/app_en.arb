@@ -75,5 +75,8 @@
   "note": "Note",
   "enterNote": "Enter note",
   "collaborations": "Collaborations",
-  "myExpenses": "My Expenses"
+  "myExpenses": "My Expenses",
+  "clinicName": "Clinic Name",
+  "address": "Address",
+  "specialization": "Specialization"
 }

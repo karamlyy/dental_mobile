@@ -18,12 +18,15 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
+  String? _selectedGender;
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -34,6 +37,8 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
             fullName: _nameController.text.trim(),
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
+            phoneNumber: _phoneController.text.trim(),
+            gender: _selectedGender!,
           );
     }
   }
@@ -122,22 +127,62 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                           value == null || value.isEmpty ? 'Mütləqdir' : null,
                     ),
                     const SizedBox(height: 12),
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: const Icon(Icons.email_outlined),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          prefixIcon: const Icon(Icons.email_outlined),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) => value == null || !value.contains('@')
+                            ? 'Düzgün email daxil edin'
+                            : null,
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _phoneController,
+                        decoration: InputDecoration(
+                          labelText: 'Telefon nömrəsi',
+                          prefixIcon: const Icon(Icons.phone_outlined),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide.none,
                           ),
-                          filled: true
+                          filled: true,
+                        ),
+                        keyboardType: TextInputType.phone,
+                        validator: (value) =>
+                            value == null || value.isEmpty ? 'Mütləqdir' : null,
                       ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) => value == null || !value.contains('@')
-                          ? 'Düzgün email daxil edin'
-                          : null,
-                    ),
+                      const SizedBox(height: 12),
+                      DropdownButtonFormField<String>(
+                        value: _selectedGender,
+                        decoration: InputDecoration(
+                          labelText: 'Cins',
+                          prefixIcon: const Icon(Icons.person_outline),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                        ),
+                        items: const [
+                          DropdownMenuItem(value: 'MALE', child: Text('Kişi')),
+                          DropdownMenuItem(value: 'FEMALE', child: Text('Qadın')),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedGender = value;
+                          });
+                        },
+                        validator: (value) =>
+                            value == null ? 'Mütləqdir' : null,
+                      ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _passwordController,

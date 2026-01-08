@@ -30,4 +30,9 @@ class CollaborationsCubit extends Cubit<CollaborationsState> {
       ));
     }
   }
+
+  
+  void clear() {
+    emit(CollaborationsInitial());
+  }
 }

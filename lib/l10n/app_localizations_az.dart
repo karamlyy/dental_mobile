@@ -238,4 +238,13 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get myExpenses => 'Xərclərim';
+
+  @override
+  String get clinicName => 'Klinika adı';
+
+  @override
+  String get address => 'Ünvan';
+
+  @override
+  String get specialization => 'İxtisas';
 }

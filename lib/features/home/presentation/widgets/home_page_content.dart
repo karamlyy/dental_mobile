@@ -48,7 +48,7 @@ class HomePageContent extends StatelessWidget {
     final cubit = context.read<AppointmentsCubit>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -75,6 +75,9 @@
   "note": "Qeyd",
   "enterNote": "Qeyd daxil edin",
   "collaborations": "Əməkdaşlıqlar",
-  "myExpenses": "Xərclərim"
+  "myExpenses": "Xərclərim",
+  "clinicName": "Klinika adı",
+  "address": "Ünvan",
+  "specialization": "İxtisas"
 }
 

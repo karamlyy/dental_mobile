@@ -11,13 +11,25 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this.api, this.storage) : super(AuthInitial());
 
-  Future<void> register(String email, String password, String fullName) async {
+  Future<void> register(
+    String email,
+    String password,
+    String fullName,
+    String clinicName,
+    String address,
+    String phoneNumber,
+    String specialization,
+  ) async {
     emit(AuthLoading());
     try {
       final res = await api.register({
         'email': email,
         'password': password,
         'fullName': fullName,
+        'clinicName': clinicName,
+        'address': address,
+        'phoneNumber': phoneNumber,
+        'specialization': specialization,
       });
       await storage.write('accessToken', res['accessToken']);
       await storage.write('refreshToken', res['refreshToken']);

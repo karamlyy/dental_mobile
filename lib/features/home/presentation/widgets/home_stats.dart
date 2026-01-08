@@ -85,7 +85,7 @@ class HomeStats extends StatelessWidget {
                               Icon(Icons.access_time, color: Theme.of(context).colorScheme.primary),
                               const SizedBox(height: 4),
                               Text(
-                                state.nextAppointment!['startTime'],
+                                state.nextAppointment?['startTime'] ?? '--:--',
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary,
                                   fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class HomeStats extends StatelessWidget {
 
                         InkWell(
                           borderRadius: BorderRadius.circular(14),
-                          onTap: () => callPatient(state.nextAppointment!['patientPhone']),
+                          onTap: () => callPatient(state.nextAppointment!['phone']),
                           child: Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(

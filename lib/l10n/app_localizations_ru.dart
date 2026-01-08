@@ -237,4 +237,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get myExpenses => 'Мои расходы';
+
+  @override
+  String get clinicName => 'Название клиники';
+
+  @override
+  String get address => 'Адрес';
+
+  @override
+  String get specialization => 'Специализация';
 }
