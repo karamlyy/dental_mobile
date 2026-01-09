@@ -23,10 +23,14 @@ class AppointmentsCubit extends Cubit<AppointmentsState> {
 
       // Filter next 3 days
       final now = DateTime.now();
-      final threeDaysLater = now.add(const Duration(days: 3));
+      final today = DateTime(now.year, now.month, now.day);
+      final threeDaysLater = today.add(const Duration(days: 3));
+
       final upcoming = appointments.where((a) {
         final date = DateTime.parse(a['date']).toLocal();
-        return date.isAfter(now) &&
+        // Check if date is today or in the future (within next 3 days)
+        // We use !isBefore(today) to include today since date is likely just YYYY-MM-DD (midnight)
+        return !date.isBefore(today) &&
             date.isBefore(threeDaysLater.add(const Duration(days: 1))) &&
             a['status'] == 'CONFIRMED';
       }).toList();

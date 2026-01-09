@@ -66,11 +66,6 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
     );
 
     await widget.cubit.fetchAppointments(widget.patientId);
-    
-    if (mounted) {
-      context.read<StatsCubit>().fetchStats();
-      context.read<AppointmentsCubit>().fetchAppointments();
-    }
   }
 
   @override
@@ -92,6 +87,8 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
           );
         } else if (state is PatientAppointmentsInitial) {
            // Successfully updated status (cubit emits Initial to signal reset/refresh)
+           context.read<StatsCubit>().fetchStats();
+           context.read<AppointmentsCubit>().fetchAppointments();
            Navigator.pop(context);
         }
       },

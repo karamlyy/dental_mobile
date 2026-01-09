@@ -94,7 +94,7 @@ class HomePageContent extends StatelessWidget {
                               height: 200,
                             ),
                             const SizedBox(height: 16),
-                            Text('Növbəti 3 gün üçün appointment yoxdur',
+                            Text('Növbəti 3 gündə təsdiqlənmiş görüş yoxdur',
                                 style: TextStyle(fontSize: 16)),
                           ],
                         ));
