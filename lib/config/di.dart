@@ -26,6 +26,8 @@ import 'package:dental_mobile/features/collaborations/presentation/cubit/collabo
 import 'package:dental_mobile/features/expenses/data/expenses_api.dart';
 import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:dental_mobile/features/expenses/presentation/cubit/expense_creation_cubit.dart';
+import 'package:dental_mobile/features/profile/data/profile_api.dart';
+import 'package:dental_mobile/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import '../core/network/auth_interceptor.dart';
@@ -139,5 +141,10 @@ Future<void> init() async {
   );
   sl.registerFactory(
     () => ExpenseCreationCubit(sl<ExpensesApi>(), sl<SecureStorage>()),
+  );
+
+  sl.registerLazySingleton<ProfileApi>(() => ProfileApi(sl<DioClient>()));
+  sl.registerFactory(
+    () => ProfileCubit(sl<ProfileApi>(), sl<SecureStorage>()),
   );
 }

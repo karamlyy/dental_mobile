@@ -25,6 +25,7 @@ import 'package:dental_mobile/features/services/presentation/pages/services_page
 import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
 import 'package:dental_mobile/features/collaborations/presentation/cubit/collaborations_cubit.dart';
 import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
+import 'package:dental_mobile/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:dental_mobile/features/profile/presentation/pages/profile_page.dart';
@@ -130,6 +131,9 @@ class App extends StatelessWidget {
         BlocProvider<ExpensesCubit>(
           create: (_) => sl<ExpensesCubit>()..fetchExpenses(),
         ),
+        BlocProvider<ProfileCubit>(
+          create: (_) => sl<ProfileCubit>()..fetchProfile(),
+        ),
       ],
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
@@ -140,6 +144,7 @@ class App extends StatelessWidget {
             context.read<ServicesCubit>().fetchServices();
             context.read<CollaborationsCubit>().fetchCollaborations();
             context.read<ExpensesCubit>().fetchExpenses();
+            context.read<ProfileCubit>().fetchProfile();
           }
         },
         child: BlocBuilder<ThemeCubit, ThemeState>(

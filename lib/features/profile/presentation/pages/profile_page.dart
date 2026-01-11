@@ -1,18 +1,16 @@
 import 'package:dental_mobile/config/theme/theme_cubit.dart';
 import 'package:dental_mobile/config/theme/theme_state.dart';
-import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:dental_mobile/features/collaborations/presentation/cubit/collaborations_cubit.dart';
 import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
+import 'package:dental_mobile/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:dental_mobile/features/profile/presentation/widgets/language_selector.dart';
 import 'package:dental_mobile/features/profile/presentation/widgets/profile_menu_item.dart';
 import 'package:dental_mobile/features/profile/presentation/widgets/section_card.dart';
 import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
-import 'package:dental_mobile/core/localization/locale_cubit.dart';
-import 'package:dental_mobile/core/localization/locale_state.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +23,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final storage = SecureStorage();
     final l10n = AppLocalizations.of(context)!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
@@ -42,169 +39,205 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
-          FutureBuilder<Map<String, String?>>(
-            future: _loadUserData(storage),
-            builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
+          BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (context, state) {
+              if (state is ProfileLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-          final userData = snapshot.data!;
-          final fullName = userData['fullName'] ?? 'İstifadəçi';
-          final role = userData['role'] ?? 'Həkim';
+              if (state is ProfileError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        state.message,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<ProfileCubit>().fetchProfile();
+                        },
+                        child: const Text('Yenidən cəhd et'),
+                      ),
+                    ],
+                  ),
+                );
+              }
 
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  SectionCard(
-                    child: Row(
+              if (state is! ProfileLoaded) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final profile = state.profile;
+
+              return RefreshIndicator(
+                onRefresh: () => context.read<ProfileCubit>().fetchProfile(),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
                       children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-
-                          child: SvgPicture.asset(
-                            'assets/icons/maleDoctor.svg',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        SectionCard(
+                          child: Row(
                             children: [
-                              Text(
-                                fullName,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                              Container(
+                                width: 50,
+                                height: 50,
+                                child: SvgPicture.asset(
+                                  profile.gender == 'MALE'
+                                      ? 'assets/icons/maleDoctor.svg'
+                                      : 'assets/icons/femaleDoctor.svg',
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                role == 'DOCTOR' ? 'Həkim' : 'Assistant',
-                                style: TextStyle(fontSize: 14),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      profile.fullName,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      profile.displayRole,
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        /// ⚙️ SETTINGS
+                        SectionCard(
+                          title: l10n.settings,
+                          child: BlocBuilder<ThemeCubit, ThemeState>(
+                            builder: (context, state) {
+                              final isDark = state.themeMode == ThemeMode.dark;
+
+                              return Column(
+                                children: [
+                                  /// 🌗 Dark / Light switch
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 0,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .surfaceContainerHighest
+                                          .withValues(alpha: 0.4),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            isDark
+                                                ? l10n.darkMode
+                                                : l10n.lightMode,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        Switch.adaptive(
+                                          value: isDark,
+                                          onChanged: (value) {
+                                            context.read<ThemeCubit>().setTheme(
+                                              value
+                                                  ? ThemeMode.dark
+                                                  : ThemeMode.light,
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  LanguageSelector(),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+
+                        if (profile.role == 'DOCTOR') ...[
+                          const SizedBox(height: 16),
+                          SectionCard(
+                            title: "Həkim Paneli",
+                            child: Column(
+                              children: [
+                                ProfileMenuItem(
+                                  title: l10n.assistantsList,
+                                  onTap: () => context.push('/assistants'),
+                                ),
+                                const SizedBox(height: 12),
+                                ProfileMenuItem(
+                                  title: l10n.services,
+                                  onTap: () => context.push('/services'),
+                                ),
+                                const SizedBox(height: 12),
+                                ProfileMenuItem(
+                                  title: 'Əməkdaşlıqlar',
+                                  onTap: () => context.push('/collaborations'),
+                                ),
+                                const SizedBox(height: 12),
+                                ProfileMenuItem(
+                                  title: 'Xərclərim',
+                                  onTap: () => context.push('/expenses'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+
+                        const SizedBox(height: 16),
+
+                        /// 🚪 LOGOUT
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 0,
+                          child: ListTile(
+                            leading: const Icon(
+                              Icons.logout,
+                              color: Colors.red,
+                            ),
+                            title: Text(
+                              l10n.logout,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            trailing: const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                            ),
+                            onTap: () => _showLogoutDialog(context),
                           ),
                         ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 16),
-
-                  /// ⚙️ SETTINGS
-                  SectionCard(
-                    title: l10n.settings,
-                    child: BlocBuilder<ThemeCubit, ThemeState>(
-                      builder: (context, state) {
-                        final isDark = state.themeMode == ThemeMode.dark;
-
-                        return Column(
-                          children: [
-                            /// 🌗 Dark / Light switch
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 0,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .surfaceContainerHighest
-                                    .withValues(alpha: 0.4),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                    isDark ? l10n.darkMode : l10n.lightMode,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                  Switch.adaptive(
-                                    value: isDark,
-                                    onChanged: (value) {
-                                      context.read<ThemeCubit>().setTheme(
-                                        value ? ThemeMode.dark : ThemeMode.light,
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            LanguageSelector(),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-
-
-                  if (role == 'DOCTOR') ...[
-                    const SizedBox(height: 16),
-                    SectionCard(
-                      title: "Həkim Paneli",
-                      child: Column(
-                        children: [
-                          ProfileMenuItem(
-                            title: l10n.assistantsList,
-                            onTap: () => context.push('/assistants'),
-                          ),
-                          const SizedBox(height: 12),
-                          ProfileMenuItem(
-                            title: l10n.services,
-                            onTap: () => context.push('/services'),
-                          ),
-                          const SizedBox(height: 12),
-                          ProfileMenuItem(
-                            title: 'Əməkdaşlıqlar',
-                            onTap: () => context.push('/collaborations'),
-                          ),
-                          const SizedBox(height: 12),
-                          ProfileMenuItem(
-                            title: 'Xərclərim',
-                            onTap: () => context.push('/expenses'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-
-                  const SizedBox(height: 16),
-
-                  /// 🚪 LOGOUT
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 0,
-                    child: ListTile(
-                      leading: const Icon(Icons.logout, color: Colors.red),
-                      title: Text(
-                        l10n.logout,
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                      onTap: () => _showLogoutDialog(context),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -234,6 +267,7 @@ class ProfilePage extends StatelessWidget {
                 context.read<ServicesCubit>().clear();
                 context.read<CollaborationsCubit>().clear();
                 context.read<ExpensesCubit>().clear();
+                context.read<ProfileCubit>().clear();
                 context.go('/login');
               },
               style: TextButton.styleFrom(foregroundColor: Colors.red),
@@ -244,11 +278,4 @@ class ProfilePage extends StatelessWidget {
       },
     );
   }
-
-  Future<Map<String, String?>> _loadUserData(SecureStorage storage) async {
-    final fullName = await storage.read('fullName');
-    final role = await storage.read('role');
-    return {'fullName': fullName, 'role': role};
-  }
 }
-
