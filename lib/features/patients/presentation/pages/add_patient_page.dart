@@ -131,8 +131,8 @@ class AddPatientPage extends StatelessWidget {
                                   keyboardType: TextInputType.phone,
                                   decoration: InputDecoration(
                                     labelText: l10n.phoneNumber,
-                                    filled: true,
                                     prefixIcon: Icon(Icons.phone),
+                                    filled: true,
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(16),
                                       borderSide: BorderSide.none,

@@ -20,12 +20,14 @@ import 'package:dental_mobile/features/patients/presentation/pages/patients_page
 import 'package:dental_mobile/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/assistants/presentation/pages/assistants_page.dart';
-import 'package:dental_mobile/features/services/presentation/pages/services_page.dart';
+import 'package:dental_mobile/features/profile/presentation/cubit/profile_form_cubit.dart';
 import 'package:dental_mobile/features/services/presentation/pages/services_page.dart';
 import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
 import 'package:dental_mobile/features/collaborations/presentation/cubit/collaborations_cubit.dart';
 import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:dental_mobile/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:dental_mobile/features/profile/presentation/cubit/profile_update_cubit.dart';
+import 'package:dental_mobile/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:dental_mobile/features/profile/presentation/pages/profile_page.dart';
@@ -79,6 +81,16 @@ class App extends StatelessWidget {
           },
         ),
         GoRoute(path: '/profile', builder: (context, state) => const ProfilePage()),
+        GoRoute(
+          path: '/edit-profile',
+          builder: (context, state) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => sl<ProfileUpdateCubit>()),
+              BlocProvider(create: (_) => sl<ProfileFormCubit>()),
+            ],
+            child: const EditProfilePage(),
+          ),
+        ),
         GoRoute(
           path: '/assistants',
           builder: (context, state) => const AssistantsPage(),

@@ -27,7 +27,17 @@ class ProfilePage extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.profile), centerTitle: true),
+      appBar: AppBar(
+        title: Text(l10n.profile),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () => context.push('/edit-profile'),
+            tooltip: 'Profili Redaktə Et',
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           Positioned.fill(
@@ -83,7 +93,7 @@ class ProfilePage extends StatelessWidget {
                         SectionCard(
                           child: Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 50,
                                 height: 50,
                                 child: SvgPicture.asset(
@@ -107,7 +117,7 @@ class ProfilePage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      profile.displayRole,
+                                      profile.clinicName ?? '',
                                       style: const TextStyle(fontSize: 14),
                                     ),
                                   ],

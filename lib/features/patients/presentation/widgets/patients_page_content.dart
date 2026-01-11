@@ -115,7 +115,7 @@ class PatientsPageContent extends StatelessWidget {
                 ),
                   child: Row(
                     children: [
-                      Container(
+                      SizedBox(
                         width: 50,
                         height: 50,
 
