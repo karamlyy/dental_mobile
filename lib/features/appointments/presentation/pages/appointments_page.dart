@@ -59,51 +59,66 @@ class AppointmentsView extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final cubit = context.read<AppointmentsPageCubit>();
 
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.appointments)),
-      body: BlocConsumer<AppointmentsPageCubit, AppointmentsPageState>(
-        listener: (context, state) {
-          if (state is AppointmentsPageLoaded) {
-            _refreshList(state.appointments, cubit, context);
-          }
-        },
-        builder: (context, state) {
-          if (state is AppointmentsPageLoading) {
-            return const LoadingIndicator();
-          } else if (state is AppointmentsPageLoaded) {
-            if (state.appointments.isEmpty && cubit.animatedListItems.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/noData.svg',
-                      width: 200,
-                      height: 200,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: isDarkMode ? 0.02 : 0.7,
+              child: SvgPicture.asset(
+                'assets/icons/appBackground.svg',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          BlocConsumer<AppointmentsPageCubit, AppointmentsPageState>(
+            listener: (context, state) {
+              if (state is AppointmentsPageLoaded) {
+                _refreshList(state.appointments, cubit, context);
+              }
+            },
+            builder: (context, state) {
+              if (state is AppointmentsPageLoading) {
+                return const LoadingIndicator();
+              } else if (state is AppointmentsPageLoaded) {
+                if (state.appointments.isEmpty && cubit.animatedListItems.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/noData.svg',
+                          width: 200,
+                          height: 200,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(l10n.noAppointments),
+                      ],
                     ),
-                    const SizedBox(height: 16),
-                    Text(l10n.noAppointments),
-                  ],
-                ),
-              );
-            }
-
-            return AnimatedList(
-              key: cubit.listKey,
-              padding: const EdgeInsets.all(16),
-              initialItemCount: cubit.animatedListItems.length,
-              itemBuilder: (context, index, animation) {
-                if (index >= cubit.animatedListItems.length)
-                  return const SizedBox();
-                final a = cubit.animatedListItems[index];
-                return _buildItem(a, animation, l10n, context);
-              },
-            );
-          } else if (state is AppointmentsPageError) {
-            return Center(child: Text(state.message));
-          }
-          return const SizedBox();
-        },
+                  );
+                }
+  
+                return AnimatedList(
+                  key: cubit.listKey,
+                  padding: const EdgeInsets.all(16),
+                  initialItemCount: cubit.animatedListItems.length,
+                  itemBuilder: (context, index, animation) {
+                    if (index >= cubit.animatedListItems.length)
+                      return const SizedBox();
+                    final a = cubit.animatedListItems[index];
+                    return _buildItem(a, animation, l10n, context);
+                  },
+                );
+              } else if (state is AppointmentsPageError) {
+                return Center(child: Text(state.message));
+              }
+              return const SizedBox();
+            },
+          ),
+        ],
       ),
     );
   }

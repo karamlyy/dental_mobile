@@ -2,6 +2,7 @@ import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
@@ -22,11 +23,22 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
 
-
     return Scaffold(
-      body: SafeArea(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: isDarkMode ? 0.02 : 0.7,
+              child: SvgPicture.asset(
+                'assets/icons/appBackground.svg',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SafeArea(
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
@@ -49,20 +61,15 @@ class RegisterPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xff212327),
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/icons/icon_hero.svg',
-                          width: 42,
-                          height: 42,
-
-                        ),
-                      ),
+                    KeyboardVisibilityBuilder(
+                      builder: (context, isKeyboardVisible) {
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          height: isKeyboardVisible ? 130 : 200,
+                          curve: Curves.easeInOut,
+                          child: Image.asset('assets/images/14.png'),
+                        );
+                      },
                     ),
 
                     const SizedBox(height: 20),
@@ -89,7 +96,7 @@ class RegisterPage extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 10),
 
                     TextField(
                       controller: _fullNameController,
@@ -223,6 +230,8 @@ class RegisterPage extends StatelessWidget {
             );
           },
         ),
+      ),
+        ],
       ),
     );
   }

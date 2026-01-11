@@ -21,19 +21,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
       title: 'Klinikanızı asanlıqla idarə edin',
       description:
       'Görüşləri, pasiyentləri və ödənişləri bir platformada rahat şəkildə izləyin.',
-      image: 'assets/icons/icon_hero.svg',
+      image: 'assets/images/11.png',
     ),
     OnboardingContent(
       title: 'Real vaxt statistikası',
       description:
       'Klinikanızın fəaliyyətini real vaxtda statistik göstəricilərlə analiz edin.',
-      image: 'assets/icons/icon_hero.svg',
+      image: 'assets/images/12.png',
     ),
     OnboardingContent(
       title: 'Təhlükəsiz və etibarlı',
       description:
       'Məlumatlarınız şifrələnmiş şəkildə qorunur və yalnız sizin üçün əlçatandır.',
-      image: 'assets/icons/icon_hero.svg',
+      image: 'assets/images/17.png',
     ),
   ];
 
@@ -92,6 +92,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             shape: BoxShape.circle,
                             color: Color(0xff212327),
                           ),
+                          child: Image.asset(
+                            _contents[index].image,
+                            width: 120,
+                            height: 120,
+                          ),
+                          /*
                           child: SvgPicture.asset(
                             _contents[index].image,
                             width: 120,
@@ -101,6 +107,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               BlendMode.srcIn,
                             ),
                           ),
+                          */
                         ),
                         const SizedBox(height: 40),
                         Text(

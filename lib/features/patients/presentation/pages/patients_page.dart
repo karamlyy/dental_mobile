@@ -7,18 +7,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 class PatientsPage extends StatelessWidget {
   const PatientsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return BlocProvider(
       create: (_) => sl<PatientsCubit>()..fetchPatients(),
       child: Scaffold(
         appBar: AppBar(title: Text(l10n.patients)),
-        body: PatientsPageContent(),
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Opacity(
+                opacity: isDarkMode ? 0.02 : 0.7,
+                child: SvgPicture.asset(
+                  'assets/icons/appBackground.svg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            PatientsPageContent(),
+          ],
+        ),
         floatingActionButton: Builder(
           builder: (context) {
             return InkWell(

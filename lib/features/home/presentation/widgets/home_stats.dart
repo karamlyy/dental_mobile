@@ -52,6 +52,7 @@ class HomeStats extends StatelessWidget {
                     value: state.totalPatients.toString(),
                     color: Colors.green,
                     onTap: () => context.push('/patients'),
+
                   ),
                 ],
               ),

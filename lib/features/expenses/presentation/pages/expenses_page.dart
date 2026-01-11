@@ -5,12 +5,15 @@ import 'package:dental_mobile/features/expenses/presentation/widgets/expense_det
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 class ExpensesPage extends StatelessWidget {
   const ExpensesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Xərclərim')),
@@ -57,8 +60,19 @@ class ExpensesPage extends StatelessWidget {
         },
       ),
 
-      body: BlocBuilder<ExpensesCubit, ExpensesState>(
-        builder: (context, state) {
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: isDarkMode ? 0.02 : 0.7,
+              child: SvgPicture.asset(
+                'assets/icons/appBackground.svg',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          BlocBuilder<ExpensesCubit, ExpensesState>(
+            builder: (context, state) {
           if (state is ExpensesLoading && state is! ExpensesLoaded) {
             return const LoadingIndicator();
           }
@@ -154,6 +168,10 @@ class ExpensesPage extends StatelessWidget {
 
           return const SizedBox.shrink();
         },
+
+
+      ),
+        ],
       ),
     );
   }

@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -22,12 +24,24 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final storage = SecureStorage();
     final l10n = AppLocalizations.of(context)!;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.profile), centerTitle: true),
-      body: FutureBuilder<Map<String, String?>>(
-        future: _loadUserData(storage),
-        builder: (context, snapshot) {
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: isDarkMode ? 0.02 : 0.7,
+              child: SvgPicture.asset(
+                'assets/icons/appBackground.svg',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          FutureBuilder<Map<String, String?>>(
+            future: _loadUserData(storage),
+            builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -186,6 +200,8 @@ class ProfilePage extends StatelessWidget {
             ),
           );
         },
+      ),
+        ],
       ),
     );
   }
