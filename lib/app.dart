@@ -27,7 +27,7 @@ import 'package:dental_mobile/features/collaborations/presentation/cubit/collabo
 import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
-import 'package:dental_mobile/routes/profile_page.dart';
+import 'package:dental_mobile/features/profile/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
