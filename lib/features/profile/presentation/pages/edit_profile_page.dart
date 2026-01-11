@@ -70,7 +70,6 @@ class EditProfilePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-
                       KeyboardVisibilityBuilder(
                         builder: (context, isKeyboardVisible) {
                           return AnimatedContainer(
@@ -78,7 +77,11 @@ class EditProfilePage extends StatelessWidget {
                             height: isKeyboardVisible ? 130 : 200,
                             curve: Curves.easeInOut,
                             child: SvgPicture.asset(
-                              'assets/icons/editProfileHero.svg',
+                              profileState is ProfileLoaded
+                                  ? (profileState.profile.gender == 'FEMALE'
+                                        ? 'assets/icons/editProfileFemale.svg'
+                                        : 'assets/icons/editProfile.svg')
+                                  : 'assets/icons/editProfile.svg',
                             ),
                           );
                         },
@@ -89,7 +92,6 @@ class EditProfilePage extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -137,8 +139,14 @@ class EditProfilePage extends StatelessWidget {
                               ),
                             ),
                             items: const [
-                              DropdownMenuItem(value: 'MALE', child: Text('Kişi')),
-                              DropdownMenuItem(value: 'FEMALE', child: Text('Qadın')),
+                              DropdownMenuItem(
+                                value: 'MALE',
+                                child: Text('Kişi'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'FEMALE',
+                                child: Text('Qadın'),
+                              ),
                             ],
                             onChanged: (value) => formCubit.updateGender(value),
                           );
@@ -208,7 +216,11 @@ class EditProfilePage extends StatelessWidget {
                       BlocBuilder<ProfileFormCubit, ProfileFormState>(
                         builder: (context, state) {
                           return InkWell(
-                            onTap: () => _selectDateOfBirth(context, formCubit, state.dateOfBirth),
+                            onTap: () => _selectDateOfBirth(
+                              context,
+                              formCubit,
+                              state.dateOfBirth,
+                            ),
                             child: InputDecorator(
                               decoration: InputDecoration(
                                 labelText: 'Doğum Tarixi',
@@ -225,10 +237,14 @@ class EditProfilePage extends StatelessWidget {
                               ),
                               child: Text(
                                 state.dateOfBirth != null
-                                    ? DateFormat('dd MMMM yyyy').format(state.dateOfBirth!)
+                                    ? DateFormat(
+                                        'dd MMMM yyyy',
+                                      ).format(state.dateOfBirth!)
                                     : 'Tarix seçin',
                                 style: TextStyle(
-                                  color: state.dateOfBirth != null ? null : Colors.grey[600],
+                                  color: state.dateOfBirth != null
+                                      ? null
+                                      : Colors.grey[600],
                                 ),
                               ),
                             ),
@@ -244,7 +260,8 @@ class EditProfilePage extends StatelessWidget {
                           return PrimaryButton(
                             text: 'Yadda saxla',
                             isLoading: isLoading,
-                            onPressed: () => _saveProfile(context, formKey, formCubit),
+                            onPressed: () =>
+                                _saveProfile(context, formKey, formCubit),
                           );
                         },
                       ),

@@ -12,6 +12,7 @@ import 'package:dental_mobile/features/profile/presentation/widgets/profile_menu
 import 'package:dental_mobile/features/profile/presentation/widgets/section_card.dart';
 import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -31,11 +32,10 @@ class ProfilePage extends StatelessWidget {
         title: Text(l10n.profile),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () => context.push('/edit-profile'),
-            tooltip: 'Profili Redaktə Et',
-          ),
+          TextButton(
+              onPressed: () => context.push('/edit-profile'),
+              child: Text('Redaktə Et'),
+          )
         ],
       ),
       body: Stack(
