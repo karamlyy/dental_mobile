@@ -1,3 +1,4 @@
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -9,6 +10,7 @@ class ExpenseDetailSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final title = expense['title'] ?? 'Xərc adı yoxdur';
     final description = expense['description'] ?? 'Təsvir yoxdur';
     final price = expense['price'];
@@ -69,7 +71,7 @@ class ExpenseDetailSheet extends StatelessWidget {
   
               _DetailRow(
                 icon: Icons.attach_money,
-                label: 'Məbləğ',
+                label: l10n.amount,
                 value: '-$price AZN',
                 valueColor: Colors.red,
                 isBold: true,
@@ -77,14 +79,14 @@ class ExpenseDetailSheet extends StatelessWidget {
               const SizedBox(height: 16),
               _DetailRow(
                 icon: Icons.description_outlined,
-                label: 'Təsvir',
+                label: l10n.description,
                 value: description,
               ),
               if (formattedDate.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 _DetailRow(
                   icon: Icons.calendar_today_outlined,
-                  label: 'Yaradılıb',
+                  label: l10n.createdAt,
                   value: formattedDate,
                 ),
               ],

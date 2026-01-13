@@ -34,7 +34,7 @@ class ProfilePage extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () => context.push('/edit-profile'),
-              child: Text('Redaktə Et'),
+              child: Text(l10n.edit),
           )
         ],
       ),
@@ -138,7 +138,7 @@ class ProfilePage extends StatelessWidget {
 
                               return Column(
                                 children: [
-                                  /// 🌗 Dark / Light switch
+
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 12,
@@ -187,7 +187,7 @@ class ProfilePage extends StatelessWidget {
                         if (profile.role == 'DOCTOR') ...[
                           const SizedBox(height: 16),
                           SectionCard(
-                            title: "Həkim Paneli",
+                            title: l10n.doctorPanel,
                             child: Column(
                               children: [
                                 ProfileMenuItem(
@@ -201,12 +201,12 @@ class ProfilePage extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 12),
                                 ProfileMenuItem(
-                                  title: 'Əməkdaşlıqlar',
+                                  title: l10n.collaborations,
                                   onTap: () => context.push('/collaborations'),
                                 ),
                                 const SizedBox(height: 12),
                                 ProfileMenuItem(
-                                  title: 'Xərclərim',
+                                  title: l10n.myExpenses,
                                   onTap: () => context.push('/expenses'),
                                 ),
                               ],

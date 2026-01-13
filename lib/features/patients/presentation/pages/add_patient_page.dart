@@ -166,11 +166,11 @@ class AddPatientPage extends StatelessWidget {
                                   items: [
                                     DropdownMenuItem(
                                       value: 'MALE',
-                                      child: Text('kişi'),
+                                      child: Text(l10n.male),
                                     ),
                                     DropdownMenuItem(
                                       value: 'FEMALE',
-                                      child: Text('qadın'),
+                                      child: Text(l10n.female),
                                     ),
                                   ],
                                   onChanged: (value) {

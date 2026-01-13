@@ -78,6 +78,46 @@
   "myExpenses": "Xərclərim",
   "clinicName": "Klinika adı",
   "address": "Ünvan",
-  "specialization": "İxtisas"
+  "specialization": "İxtisas",
+  "editProfile": "Profili redaktə et",
+  "saveChanges": "Dəyişiklikləri yadda saxla",
+  "edit": "Redaktə et",
+  "delete": "Sil",
+  "deleteConfirmTitle": "Silməyi təsdiqləyin",
+  "deleteConfirmMessage": "Bu elementi silmək istədiyinizə əminsiniz?",
+  "goodMorning": "Sabahınız xeyir",
+  "goodAfternoon": "Günortanız xeyir",
+  "goodEvening": "Axşamınız xeyir",
+
+  "birthDate": "Doğum tarixi",
+
+  "viewAll": "Hamısına bax",
+
+  "newExpense": "Yeni xərc",
+  "expenseName": "Xərc adı",
+  "description": "Təsvir",
+  "createdAt": "Yaradılıb",
+  "enterNewExpenseInfo": "Yeni xərc məlumatlarını daxil edin",
+  "create": "Yarat",
+
+  "assistantsListTitle": "Assistantlar",
+  "newAssistant": "Yeni assistant",
+  "enterNewAssistantInfo": "Yeni assistant məlumatlarını daxil edin",
+
+  "newService": "Yeni xidmət",
+  "enterNewServiceInfo": "Yeni xidmət məlumatlarını daxil edin",
+  "serviceName": "Xidmətin adı",
+
+  "technician": "Texnik",
+  "newCollaboration": "Yeni əməkdaşlıq",
+  "enterNewCollaborationInfo": "Yeni əməkdaşlıq məlumatlarını daxil edin",
+  "technicianName": "Texnik adı",
+  "doctorPanel": "Həkim paneli",
+  "enterProfileInfoToEdit": "Yeniləmək istədiyiniz məlumatları daxil edin",
+  "price": "Qiymət",
+  "required": "Mütləqdir"
+
+
+
 }
 

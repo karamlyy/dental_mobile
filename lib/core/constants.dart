@@ -1,7 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppConstants {
   static String get baseUrl {
+
+    //final String baseUrl = dotenv.env['BASE_URL'] ?? 'https://stomcab.api';
+    //return baseUrl;
 
     if (Platform.isAndroid) {
       // Android Emulator üçün

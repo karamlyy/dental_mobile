@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:dental_mobile/core/widgets/loading_indicator.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/assistants_cubit.dart';
@@ -13,9 +16,10 @@ class AssistantsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
+    final ln10 = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Assistantlar')),
+      appBar: AppBar(title: Text(ln10.assistants)),
       floatingActionButton: Builder(
         builder: (context) {
           return InkWell(
@@ -42,11 +46,11 @@ class AssistantsPage extends StatelessWidget {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   Icon(Icons.add, color: Colors.white),
                   SizedBox(width: 8),
                   Text(
-                    'Yeni assistant',
+                    ln10.newAssistant,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,

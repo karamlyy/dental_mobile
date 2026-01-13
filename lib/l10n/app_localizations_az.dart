@@ -247,4 +247,100 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get specialization => 'İxtisas';
+
+  @override
+  String get editProfile => 'Profili redaktə et';
+
+  @override
+  String get saveChanges => 'Dəyişiklikləri yadda saxla';
+
+  @override
+  String get edit => 'Redaktə et';
+
+  @override
+  String get delete => 'Sil';
+
+  @override
+  String get deleteConfirmTitle => 'Silməyi təsdiqləyin';
+
+  @override
+  String get deleteConfirmMessage =>
+      'Bu elementi silmək istədiyinizə əminsiniz?';
+
+  @override
+  String get goodMorning => 'Sabahınız xeyir';
+
+  @override
+  String get goodAfternoon => 'Günortanız xeyir';
+
+  @override
+  String get goodEvening => 'Axşamınız xeyir';
+
+  @override
+  String get birthDate => 'Doğum tarixi';
+
+  @override
+  String get viewAll => 'Hamısına bax';
+
+  @override
+  String get newExpense => 'Yeni xərc';
+
+  @override
+  String get expenseName => 'Xərc adı';
+
+  @override
+  String get description => 'Təsvir';
+
+  @override
+  String get createdAt => 'Yaradılıb';
+
+  @override
+  String get enterNewExpenseInfo => 'Yeni xərc məlumatlarını daxil edin';
+
+  @override
+  String get create => 'Yarat';
+
+  @override
+  String get assistantsListTitle => 'Assistantlar';
+
+  @override
+  String get newAssistant => 'Yeni assistant';
+
+  @override
+  String get enterNewAssistantInfo => 'Yeni assistant məlumatlarını daxil edin';
+
+  @override
+  String get newService => 'Yeni xidmət';
+
+  @override
+  String get enterNewServiceInfo => 'Yeni xidmət məlumatlarını daxil edin';
+
+  @override
+  String get serviceName => 'Xidmətin adı';
+
+  @override
+  String get technician => 'Texnik';
+
+  @override
+  String get newCollaboration => 'Yeni əməkdaşlıq';
+
+  @override
+  String get enterNewCollaborationInfo =>
+      'Yeni əməkdaşlıq məlumatlarını daxil edin';
+
+  @override
+  String get technicianName => 'Texnik adı';
+
+  @override
+  String get doctorPanel => 'Həkim paneli';
+
+  @override
+  String get enterProfileInfoToEdit =>
+      'Yeniləmək istədiyiniz məlumatları daxil edin';
+
+  @override
+  String get price => 'Qiymət';
+
+  @override
+  String get required => 'Mütləqdir';
 }

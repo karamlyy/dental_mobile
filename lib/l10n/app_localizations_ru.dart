@@ -246,4 +246,100 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get specialization => 'Специализация';
+
+  @override
+  String get editProfile => 'Редактировать профиль';
+
+  @override
+  String get saveChanges => 'Сохранить изменения';
+
+  @override
+  String get edit => 'Редактировать';
+
+  @override
+  String get delete => 'Удалить';
+
+  @override
+  String get deleteConfirmTitle => 'Подтвердите удаление';
+
+  @override
+  String get deleteConfirmMessage =>
+      'Вы уверены, что хотите удалить этот элемент?';
+
+  @override
+  String get goodMorning => 'Доброе утро';
+
+  @override
+  String get goodAfternoon => 'Добрый день';
+
+  @override
+  String get goodEvening => 'Добрый вечер';
+
+  @override
+  String get birthDate => 'Дата рождения';
+
+  @override
+  String get viewAll => 'Посмотреть все';
+
+  @override
+  String get newExpense => 'Новый расход';
+
+  @override
+  String get expenseName => 'Название расхода';
+
+  @override
+  String get description => 'Описание';
+
+  @override
+  String get createdAt => 'Создано';
+
+  @override
+  String get enterNewExpenseInfo => 'Введите данные нового расхода';
+
+  @override
+  String get create => 'Создать';
+
+  @override
+  String get assistantsListTitle => 'Ассистенты';
+
+  @override
+  String get newAssistant => 'Новый ассистент';
+
+  @override
+  String get enterNewAssistantInfo => 'Введите данные нового ассистента';
+
+  @override
+  String get newService => 'Новая услуга';
+
+  @override
+  String get enterNewServiceInfo => 'Введите данные новой услуги';
+
+  @override
+  String get serviceName => 'Название услуги';
+
+  @override
+  String get technician => 'Техник';
+
+  @override
+  String get newCollaboration => 'Новое сотрудничество';
+
+  @override
+  String get enterNewCollaborationInfo =>
+      'Введите данные нового сотрудничества';
+
+  @override
+  String get technicianName => 'Имя техника';
+
+  @override
+  String get doctorPanel => 'Панель врача';
+
+  @override
+  String get enterProfileInfoToEdit =>
+      'Введите данные, которые вы хотите обновить';
+
+  @override
+  String get price => 'Цена';
+
+  @override
+  String get required => 'Обязательно';
 }

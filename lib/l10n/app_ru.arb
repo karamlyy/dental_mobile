@@ -78,5 +78,43 @@
   "myExpenses": "Мои расходы",
   "clinicName": "Название клиники",
   "address": "Адрес",
-  "specialization": "Специализация"
+  "specialization": "Специализация",
+  "editProfile": "Редактировать профиль",
+  "saveChanges": "Сохранить изменения",
+  "edit": "Редактировать",
+  "delete": "Удалить",
+  "deleteConfirmTitle": "Подтвердите удаление",
+  "deleteConfirmMessage": "Вы уверены, что хотите удалить этот элемент?",
+  "goodMorning": "Доброе утро",
+  "goodAfternoon": "Добрый день",
+  "goodEvening": "Добрый вечер",
+
+  "birthDate": "Дата рождения",
+
+  "viewAll": "Посмотреть все",
+
+  "newExpense": "Новый расход",
+  "expenseName": "Название расхода",
+  "description": "Описание",
+  "createdAt": "Создано",
+  "enterNewExpenseInfo": "Введите данные нового расхода",
+  "create": "Создать",
+
+  "assistantsListTitle": "Ассистенты",
+  "newAssistant": "Новый ассистент",
+  "enterNewAssistantInfo": "Введите данные нового ассистента",
+
+  "newService": "Новая услуга",
+  "enterNewServiceInfo": "Введите данные новой услуги",
+  "serviceName": "Название услуги",
+
+  "technician": "Техник",
+  "newCollaboration": "Новое сотрудничество",
+  "enterNewCollaborationInfo": "Введите данные нового сотрудничества",
+  "technicianName": "Имя техника",
+  "doctorPanel": "Панель врача",
+  "enterProfileInfoToEdit": "Введите данные, которые вы хотите обновить",
+  "price": "Цена",
+  "required": "Обязательно"
+
 }

@@ -78,5 +78,44 @@
   "myExpenses": "My Expenses",
   "clinicName": "Clinic Name",
   "address": "Address",
-  "specialization": "Specialization"
+  "specialization": "Specialization",
+  "editProfile": "Edit Profile",
+  "saveChanges": "Save Changes",
+  "edit": "Edit",
+  "delete": "Delete",
+  "deleteConfirmTitle": "Confirm Deletion",
+  "deleteConfirmMessage": "Are you sure you want to delete this item?",
+  "goodMorning": "Good morning",
+  "goodAfternoon": "Good afternoon",
+  "goodEvening": "Good evening",
+
+  "birthDate": "Date of birth",
+
+  "viewAll": "View all",
+
+  "newExpense": "New expense",
+  "expenseName": "Expense name",
+  "description": "Description",
+  "createdAt": "Created at",
+  "enterNewExpenseInfo": "Enter new expense details",
+  "create": "Create",
+
+  "assistantsListTitle": "Assistants",
+  "newAssistant": "New assistant",
+  "enterNewAssistantInfo": "Enter new assistant details",
+
+  "newService": "New service",
+  "enterNewServiceInfo": "Enter new service details",
+  "serviceName": "Service name",
+
+  "technician": "Technician",
+  "newCollaboration": "New collaboration",
+  "enterNewCollaborationInfo": "Enter new collaboration details",
+  "technicianName": "Technician name",
+  "doctorPanel": "Doctor Panel",
+  "enterProfileInfoToEdit": "Enter the details you want to update",
+  "price": "Price",
+  "required": "Required"
+
+
 }

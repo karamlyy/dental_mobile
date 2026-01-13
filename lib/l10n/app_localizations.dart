@@ -573,6 +573,192 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'İxtisas'**
   String get specialization;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In az, this message translates to:
+  /// **'Profili redaktə et'**
+  String get editProfile;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəyişiklikləri yadda saxla'**
+  String get saveChanges;
+
+  /// No description provided for @edit.
+  ///
+  /// In az, this message translates to:
+  /// **'Redaktə et'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In az, this message translates to:
+  /// **'Sil'**
+  String get delete;
+
+  /// No description provided for @deleteConfirmTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Silməyi təsdiqləyin'**
+  String get deleteConfirmTitle;
+
+  /// No description provided for @deleteConfirmMessage.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu elementi silmək istədiyinizə əminsiniz?'**
+  String get deleteConfirmMessage;
+
+  /// No description provided for @goodMorning.
+  ///
+  /// In az, this message translates to:
+  /// **'Sabahınız xeyir'**
+  String get goodMorning;
+
+  /// No description provided for @goodAfternoon.
+  ///
+  /// In az, this message translates to:
+  /// **'Günortanız xeyir'**
+  String get goodAfternoon;
+
+  /// No description provided for @goodEvening.
+  ///
+  /// In az, this message translates to:
+  /// **'Axşamınız xeyir'**
+  String get goodEvening;
+
+  /// No description provided for @birthDate.
+  ///
+  /// In az, this message translates to:
+  /// **'Doğum tarixi'**
+  String get birthDate;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In az, this message translates to:
+  /// **'Hamısına bax'**
+  String get viewAll;
+
+  /// No description provided for @newExpense.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni xərc'**
+  String get newExpense;
+
+  /// No description provided for @expenseName.
+  ///
+  /// In az, this message translates to:
+  /// **'Xərc adı'**
+  String get expenseName;
+
+  /// No description provided for @description.
+  ///
+  /// In az, this message translates to:
+  /// **'Təsvir'**
+  String get description;
+
+  /// No description provided for @createdAt.
+  ///
+  /// In az, this message translates to:
+  /// **'Yaradılıb'**
+  String get createdAt;
+
+  /// No description provided for @enterNewExpenseInfo.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni xərc məlumatlarını daxil edin'**
+  String get enterNewExpenseInfo;
+
+  /// No description provided for @create.
+  ///
+  /// In az, this message translates to:
+  /// **'Yarat'**
+  String get create;
+
+  /// No description provided for @assistantsListTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Assistantlar'**
+  String get assistantsListTitle;
+
+  /// No description provided for @newAssistant.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni assistant'**
+  String get newAssistant;
+
+  /// No description provided for @enterNewAssistantInfo.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni assistant məlumatlarını daxil edin'**
+  String get enterNewAssistantInfo;
+
+  /// No description provided for @newService.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni xidmət'**
+  String get newService;
+
+  /// No description provided for @enterNewServiceInfo.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni xidmət məlumatlarını daxil edin'**
+  String get enterNewServiceInfo;
+
+  /// No description provided for @serviceName.
+  ///
+  /// In az, this message translates to:
+  /// **'Xidmətin adı'**
+  String get serviceName;
+
+  /// No description provided for @technician.
+  ///
+  /// In az, this message translates to:
+  /// **'Texnik'**
+  String get technician;
+
+  /// No description provided for @newCollaboration.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni əməkdaşlıq'**
+  String get newCollaboration;
+
+  /// No description provided for @enterNewCollaborationInfo.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni əməkdaşlıq məlumatlarını daxil edin'**
+  String get enterNewCollaborationInfo;
+
+  /// No description provided for @technicianName.
+  ///
+  /// In az, this message translates to:
+  /// **'Texnik adı'**
+  String get technicianName;
+
+  /// No description provided for @doctorPanel.
+  ///
+  /// In az, this message translates to:
+  /// **'Həkim paneli'**
+  String get doctorPanel;
+
+  /// No description provided for @enterProfileInfoToEdit.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeniləmək istədiyiniz məlumatları daxil edin'**
+  String get enterProfileInfoToEdit;
+
+  /// No description provided for @price.
+  ///
+  /// In az, this message translates to:
+  /// **'Qiymət'**
+  String get price;
+
+  /// No description provided for @required.
+  ///
+  /// In az, this message translates to:
+  /// **'Mütləqdir'**
+  String get required;
 }
 
 class _AppLocalizationsDelegate

@@ -202,13 +202,13 @@ class RegisterPage extends StatelessWidget {
                       isLoading: state is AuthLoading,
                       onPressed: () {
                         context.read<AuthCubit>().register(
-                              _emailController.text,
-                              _passwordController.text,
-                              _fullNameController.text,
-                              _clinicNameController.text,
-                              _addressController.text,
-                              _phoneNumberController.text,
-                              _specializationController.text,
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
+                              _fullNameController.text.trim(),
+                              _clinicNameController.text.trim(),
+                              _addressController.text.trim(),
+                              _phoneNumberController.text.trim(),
+                              _specializationController.text.trim(),
                             );
                       },
                     ),

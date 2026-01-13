@@ -2,6 +2,7 @@ import 'package:dental_mobile/core/widgets/loading_indicator.dart';
 import 'package:dental_mobile/features/collaborations/presentation/cubit/collaborations_cubit.dart';
 import 'package:dental_mobile/features/collaborations/presentation/widgets/add_collaboration_sheet.dart';
 import 'package:dental_mobile/features/collaborations/presentation/widgets/collaboration_detail_sheet.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,9 +15,10 @@ class CollaborationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Əməkdaşlıqlar')),
+      appBar: AppBar(title: Text(l10n.collaborations)),
       floatingActionButton: Builder(
         builder: (context) {
           return InkWell(
@@ -43,12 +45,12 @@ class CollaborationsPage extends StatelessWidget {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Icons.add, color: Colors.white),
-                  SizedBox(width: 8),
+                children: [
+                  const Icon(Icons.add, color: Colors.white),
+                  const SizedBox(width: 8),
                   Text(
-                    'Yeni əməkdaşlıq',
-                    style: TextStyle(
+                    l10n.newCollaboration,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),

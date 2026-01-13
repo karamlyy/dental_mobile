@@ -28,7 +28,7 @@ class EditProfilePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profili Redaktə Et'),
+        title: Text(l10n.editProfile),
         centerTitle: true,
       ),
       body: Stack(
@@ -88,7 +88,7 @@ class EditProfilePage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        "Redaktə Profil",
+                        l10n.editProfile,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -97,7 +97,7 @@ class EditProfilePage extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        "Yeniləmək istədiyiniz məlumatları daxil edin",
+                        l10n.enterProfileInfoToEdit,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 20),
@@ -105,7 +105,7 @@ class EditProfilePage extends StatelessWidget {
                       TextFormField(
                         controller: formCubit.clinicNameController,
                         decoration: InputDecoration(
-                          labelText: 'Klinika Adı',
+                          labelText: l10n.clinicName,
                           prefixIcon: const Icon(Icons.business),
                           filled: true,
                           border: OutlineInputBorder(
@@ -126,7 +126,7 @@ class EditProfilePage extends StatelessWidget {
                           return DropdownButtonFormField<String>(
                             initialValue: state.gender,
                             decoration: InputDecoration(
-                              labelText: 'Cins',
+                              labelText: l10n.gender,
                               prefixIcon: const Icon(Icons.person),
                               filled: true,
                               border: OutlineInputBorder(
@@ -138,14 +138,14 @@ class EditProfilePage extends StatelessWidget {
                                 horizontal: 12,
                               ),
                             ),
-                            items: const [
+                            items: [
                               DropdownMenuItem(
                                 value: 'MALE',
-                                child: Text('Kişi'),
+                                child: Text(l10n.male),
                               ),
                               DropdownMenuItem(
                                 value: 'FEMALE',
-                                child: Text('Qadın'),
+                                child: Text(l10n.female),
                               ),
                             ],
                             onChanged: (value) => formCubit.updateGender(value),
@@ -158,7 +158,7 @@ class EditProfilePage extends StatelessWidget {
                       TextFormField(
                         controller: formCubit.phoneNumberController,
                         decoration: InputDecoration(
-                          labelText: 'Telefon Nömrəsi',
+                          labelText: l10n.phoneNumber,
                           prefixIcon: const Icon(Icons.phone),
                           filled: true,
                           border: OutlineInputBorder(
@@ -178,7 +178,7 @@ class EditProfilePage extends StatelessWidget {
                       TextFormField(
                         controller: formCubit.addressController,
                         decoration: InputDecoration(
-                          labelText: 'Ünvan',
+                          labelText: l10n.address,
                           prefixIcon: const Icon(Icons.location_on),
                           filled: true,
                           border: OutlineInputBorder(
@@ -197,7 +197,7 @@ class EditProfilePage extends StatelessWidget {
                       TextFormField(
                         controller: formCubit.specializationController,
                         decoration: InputDecoration(
-                          labelText: 'İxtisas',
+                          labelText: l10n.specialization,
                           prefixIcon: const Icon(Icons.school),
                           filled: true,
                           border: OutlineInputBorder(
@@ -223,7 +223,7 @@ class EditProfilePage extends StatelessWidget {
                             ),
                             child: InputDecorator(
                               decoration: InputDecoration(
-                                labelText: 'Doğum Tarixi',
+                                labelText: l10n.birthDate,
                                 prefixIcon: const Icon(Icons.calendar_today),
                                 filled: true,
                                 border: OutlineInputBorder(
@@ -240,7 +240,7 @@ class EditProfilePage extends StatelessWidget {
                                     ? DateFormat(
                                         'dd MMMM yyyy',
                                       ).format(state.dateOfBirth!)
-                                    : 'Tarix seçin',
+                                    : l10n.selectDate,
                                 style: TextStyle(
                                   color: state.dateOfBirth != null
                                       ? null
@@ -258,7 +258,7 @@ class EditProfilePage extends StatelessWidget {
                         builder: (context, state) {
                           final isLoading = state is ProfileUpdateLoading;
                           return PrimaryButton(
-                            text: 'Yadda saxla',
+                            text: l10n.saveChanges,
                             isLoading: isLoading,
                             onPressed: () =>
                                 _saveProfile(context, formKey, formCubit),

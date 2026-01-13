@@ -66,7 +66,7 @@ class HomePageContent extends StatelessWidget {
                 onPressed: () {
                   context.push('/appointments');
                 },
-                child: const Text('Hamısına bax'),
+                child: Text(l10n.seeAll),
               ),
             ],
           ),

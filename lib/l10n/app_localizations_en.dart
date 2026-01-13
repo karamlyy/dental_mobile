@@ -245,4 +245,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get specialization => 'Specialization';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get deleteConfirmTitle => 'Confirm Deletion';
+
+  @override
+  String get deleteConfirmMessage =>
+      'Are you sure you want to delete this item?';
+
+  @override
+  String get goodMorning => 'Good morning';
+
+  @override
+  String get goodAfternoon => 'Good afternoon';
+
+  @override
+  String get goodEvening => 'Good evening';
+
+  @override
+  String get birthDate => 'Date of birth';
+
+  @override
+  String get viewAll => 'View all';
+
+  @override
+  String get newExpense => 'New expense';
+
+  @override
+  String get expenseName => 'Expense name';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get createdAt => 'Created at';
+
+  @override
+  String get enterNewExpenseInfo => 'Enter new expense details';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get assistantsListTitle => 'Assistants';
+
+  @override
+  String get newAssistant => 'New assistant';
+
+  @override
+  String get enterNewAssistantInfo => 'Enter new assistant details';
+
+  @override
+  String get newService => 'New service';
+
+  @override
+  String get enterNewServiceInfo => 'Enter new service details';
+
+  @override
+  String get serviceName => 'Service name';
+
+  @override
+  String get technician => 'Technician';
+
+  @override
+  String get newCollaboration => 'New collaboration';
+
+  @override
+  String get enterNewCollaborationInfo => 'Enter new collaboration details';
+
+  @override
+  String get technicianName => 'Technician name';
+
+  @override
+  String get doctorPanel => 'Doctor Panel';
+
+  @override
+  String get enterProfileInfoToEdit => 'Enter the details you want to update';
+
+  @override
+  String get price => 'Price';
+
+  @override
+  String get required => 'Required';
 }

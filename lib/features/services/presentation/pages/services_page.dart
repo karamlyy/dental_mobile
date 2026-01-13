@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:dental_mobile/core/widgets/loading_indicator.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/services_cubit.dart';
@@ -13,9 +16,10 @@ class ServicesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Xidmətlər')),
+      appBar: AppBar(title: Text(l10n.services)),
       floatingActionButton: Builder(
         builder: (context) {
           return InkWell(
@@ -42,11 +46,11 @@ class ServicesPage extends StatelessWidget {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   Icon(Icons.add, color: Colors.white),
                   SizedBox(width: 8),
                   Text(
-                    'Yeni xidmət',
+                    l10n.newService,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,

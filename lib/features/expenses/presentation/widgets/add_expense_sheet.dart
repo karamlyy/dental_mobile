@@ -2,6 +2,7 @@ import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/features/expenses/presentation/cubit/expense_creation_cubit.dart';
 import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
@@ -45,6 +46,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocProvider(
       create: (context) => sl<ExpenseCreationCubit>(),
@@ -98,14 +100,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
         
                       /// 🔹 Title
                       Text(
-                        'Yeni Xərc',
+                        l10n.newExpense,
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Yeni xərc datasını daxil edin',
+                        l10n.enterNewExpenseInfo,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: Colors.grey.shade600,
                         ),
@@ -116,7 +118,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                       TextFormField(
                         controller: _titleController,
                         decoration: InputDecoration(
-                          labelText: 'Xərc adı',
+                          labelText: l10n.expenseName,
                           prefixIcon: const Icon(Icons.title),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -125,14 +127,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                             filled: true
                         ),
                         validator: (value) =>
-                            value == null || value.isEmpty ? 'Mütləqdir' : null,
+                            value == null || value.isEmpty ? l10n.required  : null,
                       ),
                       const SizedBox(height: 12),
                   
                       TextFormField(
                         controller: _priceController,
                         decoration: InputDecoration(
-                          labelText: 'Məbləğ (AZN)',
+                          labelText: l10n.amount,
                           prefixIcon: const Icon(Icons.attach_money),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -142,14 +144,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                         ),
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         validator: (value) =>
-                            value == null || value.isEmpty ? 'Mütləqdir' : null,
+                            value == null || value.isEmpty ? l10n.required  : null,
                       ),
                       const SizedBox(height: 12),
                   
                       TextFormField(
                         controller: _descriptionController,
                         decoration: InputDecoration(
-                          labelText: 'Təsvir',
+                          labelText: l10n.description,
                           prefixIcon: const Icon(Icons.description_outlined),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -163,7 +165,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                       const SizedBox(height: 32),
         
                       PrimaryButton(
-                        text: 'Yarat',
+                        text: l10n.create,
                         isLoading: isLoading,
                         onPressed: () => _submit(context),
                         icon: Icons.add,

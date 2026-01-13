@@ -2,6 +2,7 @@ import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/features/services/presentation/cubit/service_creation_cubit.dart';
 import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
@@ -42,6 +43,7 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocProvider(
       create: (context) => sl<ServiceCreationCubit>(),
@@ -94,14 +96,14 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
       
                     /// 🔹 Title
                     Text(
-                      'Yeni Xidmət',
+                      l10n.newService,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Yeni xidmət datasını daxil edin',
+                      l10n.enterNewServiceInfo,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.grey.shade600,
                       ),
@@ -112,7 +114,7 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                     TextFormField(
                       controller: _nameController,
                       decoration: InputDecoration(
-                        labelText: 'Xidmətin adı',
+                        labelText: l10n.serviceName,
                         prefixIcon: const Icon(Icons.medical_services_outlined),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -121,13 +123,13 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                           filled: true
                       ),
                       validator: (value) =>
-                          value == null || value.isEmpty ? 'Mütləqdir' : null,
+                          value == null || value.isEmpty ? l10n.required  : null,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _priceController,
                       decoration: InputDecoration(
-                        labelText: 'Qiymət (AZN)',
+                        labelText: l10n.price,
                         prefixIcon: const Icon(Icons.attach_money),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -141,7 +143,7 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                     const SizedBox(height: 32),
       
                     PrimaryButton(
-                      text: 'Yarat',
+                      text: l10n.create,
                       isLoading: isLoading,
                       onPressed: () => _submit(context),
                       icon: Icons.add,

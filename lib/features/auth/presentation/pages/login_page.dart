@@ -129,8 +129,8 @@ class LoginPage extends StatelessWidget {
                           isLoading: state is AuthLoading,
                           onPressed: () {
                             context.read<AuthCubit>().login(
-                              _emailController.text,
-                              _passwordController.text,
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
                             );
                           },
                         ),

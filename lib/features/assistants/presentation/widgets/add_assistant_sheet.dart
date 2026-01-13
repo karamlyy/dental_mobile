@@ -1,6 +1,7 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistant_creation_cubit.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
@@ -46,6 +47,7 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocProvider(
       create: (context) => sl<AssistantCreationCubit>(),
@@ -97,14 +99,14 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
       
                     /// 🔹 Title
                     Text(
-                      'Yeni Assistant',
+                      l10n.newAssistant,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Yeni assistant məlumatlarını daxil edin',
+                      l10n.enterNewAssistantInfo,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.grey.shade600,
                       ),
@@ -115,7 +117,7 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                     TextFormField(
                       controller: _nameController,
                       decoration: InputDecoration(
-                        labelText: 'Ad Soyad',
+                        labelText: l10n.nameAndSurname,
                         prefixIcon: const Icon(Icons.person_outline),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -124,13 +126,13 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                           filled: true
                       ),
                       validator: (value) =>
-                          value == null || value.isEmpty ? 'Mütləqdir' : null,
+                          value == null || value.isEmpty ? l10n.required : null,
                     ),
                     const SizedBox(height: 12),
                       TextFormField(
                         controller: _emailController,
                         decoration: InputDecoration(
-                          labelText: 'Email',
+                          labelText: l10n.email,
                           prefixIcon: const Icon(Icons.email_outlined),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -147,7 +149,7 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                       TextFormField(
                         controller: _phoneController,
                         decoration: InputDecoration(
-                          labelText: 'Telefon nömrəsi',
+                          labelText: l10n.phoneNumber,
                           prefixIcon: const Icon(Icons.phone_outlined),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -157,13 +159,13 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                         ),
                         keyboardType: TextInputType.phone,
                         validator: (value) =>
-                            value == null || value.isEmpty ? 'Mütləqdir' : null,
+                            value == null || value.isEmpty ? l10n.required  : null,
                       ),
                       const SizedBox(height: 12),
                       DropdownButtonFormField<String>(
                         value: _selectedGender,
                         decoration: InputDecoration(
-                          labelText: 'Cins',
+                          labelText: l10n.gender,
                           prefixIcon: const Icon(Icons.person_outline),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -171,9 +173,9 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                           ),
                           filled: true,
                         ),
-                        items: const [
-                          DropdownMenuItem(value: 'MALE', child: Text('Kişi')),
-                          DropdownMenuItem(value: 'FEMALE', child: Text('Qadın')),
+                        items: [
+                          DropdownMenuItem(value: 'MALE', child: Text(l10n.male)),
+                          DropdownMenuItem(value: 'FEMALE', child: Text(l10n.female)),
                         ],
                         onChanged: (value) {
                           setState(() {
@@ -181,13 +183,13 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                           });
                         },
                         validator: (value) =>
-                            value == null ? 'Mütləqdir' : null,
+                            value == null ? l10n.required  : null,
                       ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _passwordController,
                       decoration: InputDecoration(
-                        labelText: 'Şifrə',
+                        labelText: l10n.password,
                         prefixIcon: const Icon(Icons.lock_outline),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -203,7 +205,7 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                     const SizedBox(height: 32),
       
                     PrimaryButton(
-                      text: 'Yarat',
+                      text: l10n.create,
                       isLoading: isLoading,
                       onPressed: () => _submit(context),
                       icon: Icons.add,

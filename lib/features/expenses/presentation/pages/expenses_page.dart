@@ -2,6 +2,7 @@ import 'package:dental_mobile/core/widgets/loading_indicator.dart';
 import 'package:dental_mobile/features/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:dental_mobile/features/expenses/presentation/widgets/add_expense_sheet.dart';
 import 'package:dental_mobile/features/expenses/presentation/widgets/expense_detail_sheet.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,10 +14,11 @@ class ExpensesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final isDarkMode = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Xərclərim')),
+      appBar: AppBar(title: Text(l10n.myExpenses)),
       floatingActionButton: Builder(
         builder: (context) {
           return InkWell(
@@ -43,11 +45,11 @@ class ExpensesPage extends StatelessWidget {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children:  [
                   Icon(Icons.add, color: Colors.white),
                   SizedBox(width: 8),
                   Text(
-                    'Yeni xərc',
+                    l10n.newExpense,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
