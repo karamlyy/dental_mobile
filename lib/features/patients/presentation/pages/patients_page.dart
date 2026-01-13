@@ -20,7 +20,7 @@ class PatientsPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => sl<PatientsCubit>()..fetchPatients(),
       child: Scaffold(
-        appBar: AppBar(title: Text(l10n.patients)),
+        appBar: AppBar(title: Text(l10n.patients), forceMaterialTransparency: true,),
         body: Stack(
           children: [
             Positioned.fill(

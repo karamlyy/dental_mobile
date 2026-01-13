@@ -31,6 +31,7 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(l10n.profile),
         centerTitle: true,
+        forceMaterialTransparency: true,
         actions: [
           TextButton(
               onPressed: () => context.push('/edit-profile'),

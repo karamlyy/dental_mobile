@@ -25,6 +25,7 @@ class AddPatientPage extends StatelessWidget {
           title: Text(l10n.newPatient),
           centerTitle: true,
           elevation: 0,
+          forceMaterialTransparency: true,
         ),
         body: Stack(
           children: [
