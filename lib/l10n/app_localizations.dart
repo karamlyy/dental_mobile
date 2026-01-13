@@ -361,7 +361,7 @@ abstract class AppLocalizations {
   /// No description provided for @amount.
   ///
   /// In az, this message translates to:
-  /// **'Məbləğ (AZN)'**
+  /// **'Məbləğ (₼)'**
   String get amount;
 
   /// No description provided for @paymentNoteOptional.
@@ -759,6 +759,102 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Mütləqdir'**
   String get required;
+
+  /// No description provided for @save.
+  ///
+  /// In az, this message translates to:
+  /// **'Yadda saxla'**
+  String get save;
+
+  /// No description provided for @todayAppointmentsZero.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu gün görüşünüz yoxdur'**
+  String get todayAppointmentsZero;
+
+  /// No description provided for @today.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu gün'**
+  String get today;
+
+  /// No description provided for @overall.
+  ///
+  /// In az, this message translates to:
+  /// **'Ümumi'**
+  String get overall;
+
+  /// No description provided for @noServicesFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Xidmət tapılmadı'**
+  String get noServicesFound;
+
+  /// No description provided for @noAssistantsFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Assistant tapılmadı'**
+  String get noAssistantsFound;
+
+  /// No description provided for @noCollaborationsFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Əməkdaşlıq tapılmadı'**
+  String get noCollaborationsFound;
+
+  /// No description provided for @noExpensesFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Xərc tapılmadı'**
+  String get noExpensesFound;
+
+  /// No description provided for @noPatientNotesFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Pasiyent qeydi tapılmadı'**
+  String get noPatientNotesFound;
+
+  /// No description provided for @noDataFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Məlumat tapılmadı'**
+  String get noDataFound;
+
+  /// No description provided for @general.
+  ///
+  /// In az, this message translates to:
+  /// **'Ümumi'**
+  String get general;
+
+  /// No description provided for @debt.
+  ///
+  /// In az, this message translates to:
+  /// **'Borc'**
+  String get debt;
+
+  /// No description provided for @paid.
+  ///
+  /// In az, this message translates to:
+  /// **'Ödənilib'**
+  String get paid;
+
+  /// No description provided for @notifications.
+  ///
+  /// In az, this message translates to:
+  /// **'Bildirişlər'**
+  String get notifications;
+
+  /// No description provided for @privacy.
+  ///
+  /// In az, this message translates to:
+  /// **'Məxfilik'**
+  String get privacy;
+
+  /// No description provided for @security.
+  ///
+  /// In az, this message translates to:
+  /// **'Təhlükəsizlik'**
+  String get security;
 }
 
 class _AppLocalizationsDelegate

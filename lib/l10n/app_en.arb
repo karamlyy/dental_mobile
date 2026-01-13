@@ -43,7 +43,7 @@
   "payments": "Payments",
   "newPayment": "New payment",
   "addNewPaymentForPatient": "Add new payment for patient",
-  "amount": "Amount (AZN)",
+  "amount": "Amount (₼)",
   "paymentNoteOptional": "Payment note (optional)",
   "addPayment": "Add payment",
   "noPatientsFound": "No patients found",
@@ -115,7 +115,24 @@
   "doctorPanel": "Doctor Panel",
   "enterProfileInfoToEdit": "Enter the details you want to update",
   "price": "Price",
-  "required": "Required"
+  "required": "Required",
+  "save": "Save",
+  "todayAppointmentsZero": "You have no appointments today",
+  "today": "Today",
+  "overall": "Overall",
+  "noServicesFound": "No services found",
+  "noAssistantsFound": "No assistants found",
+  "noCollaborationsFound": "No collaborations found",
+  "noExpensesFound": "No expenses found",
+  "noPatientNotesFound": "No patient notes found",
+  "noPatientsFound": "No patients found",
+  "noDataFound": "No data found",
+  "general": "General",
+  "debt": "Debt",
+  "paid": "Paid",
+  "notifications": "Notifications",
+  "privacy": "Privacy",
+  "security": "Security"
 
 
 }

@@ -43,7 +43,7 @@
   "payments": "Платежи",
   "newPayment": "Новый платёж",
   "addNewPaymentForPatient": "Добавить новый платёж для пациента",
-  "amount": "Сумма (AZN)",
+  "amount": "Сумма (₼)",
   "paymentNoteOptional": "Примечание к платежу (необязательно)",
   "addPayment": "Добавить платёж",
   "noPatientsFound": "Пациенты не найдены",
@@ -115,6 +115,24 @@
   "doctorPanel": "Панель врача",
   "enterProfileInfoToEdit": "Введите данные, которые вы хотите обновить",
   "price": "Цена",
-  "required": "Обязательно"
+  "required": "Обязательно",
+  "save": "Сохранить",
+  "todayAppointmentsZero": "На сегодня у вас нет записей",
+  "today": "Сегодня",
+  "overall": "Общее",
+  "noServicesFound": "Услуги не найдены",
+  "noAssistantsFound": "Ассистенты не найдены",
+  "noCollaborationsFound": "Сотрудничество не найдено",
+  "noExpensesFound": "Расходы не найдены",
+  "noPatientNotesFound": "Заметки пациента не найдены",
+  "noPatientsFound": "Пациенты не найдены",
+  "noDataFound": "Данные не найдены",
+  "general": "Общее",
+  "debt": "Долг",
+  "paid": "Оплачено",
+  "notifications": "Уведомления",
+  "privacy": "Конфиденциальность",
+  "security": "Безопасность"
+
 
 }

@@ -43,7 +43,7 @@
   "payments": "Ödənişlər",
   "newPayment": "Yeni ödəniş",
   "addNewPaymentForPatient": "Pasiyent üçün yeni ödəniş əlavə et",
-  "amount": "Məbləğ (AZN)",
+  "amount": "Məbləğ (₼)",
   "paymentNoteOptional": "Ödəniş qeydi (istəyə bağlı)",
   "addPayment": "Ödəniş əlavə et",
   "noPatientsFound": "Pasiyent tapılmadı",
@@ -115,8 +115,24 @@
   "doctorPanel": "Həkim paneli",
   "enterProfileInfoToEdit": "Yeniləmək istədiyiniz məlumatları daxil edin",
   "price": "Qiymət",
-  "required": "Mütləqdir"
-
+  "required": "Mütləqdir",
+  "save": "Yadda saxla",
+  "todayAppointmentsZero": "Bu gün görüşünüz yoxdur",
+  "today": "Bu gün",
+  "overall": "Ümumi",
+  "noServicesFound": "Xidmət tapılmadı",
+  "noAssistantsFound": "Assistant tapılmadı",
+  "noCollaborationsFound": "Əməkdaşlıq tapılmadı",
+  "noExpensesFound": "Xərc tapılmadı",
+  "noPatientNotesFound": "Pasiyent qeydi tapılmadı",
+  "noPatientsFound": "Pasiyent tapılmadı",
+  "noDataFound": "Məlumat tapılmadı",
+  "general": "Ümumi",
+  "debt": "Borc",
+  "paid": "Ödənilib",
+  "notifications": "Bildirişlər",
+  "privacy": "Məxfilik",
+  "security": "Təhlükəsizlik"
 
 
 }

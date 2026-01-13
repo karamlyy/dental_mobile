@@ -1,6 +1,8 @@
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/widgets/primary_button.dart';
+import '../../../services/presentation/cubit/services_cubit.dart';
 import '../cubit/patient_service_creation_cubit.dart';
 import '../cubit/patient_service_creation_state.dart';
 
@@ -54,6 +56,7 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocProvider.value(
       value: widget.cubit,
@@ -99,14 +102,14 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
 
                   /// 🔹 Title
                   Text(
-                    'Xidmət əlavə et',
+                    l10n.newService,
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Pasiyentə yeni xidmət əlavə et',
+                    l10n.enterNewServiceInfo,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: Colors.grey.shade600,
                     ),
@@ -115,25 +118,73 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                   const SizedBox(height: 16),
 
                   /// 🔹 Service Name Card
-                  Card(
-                    elevation: 0,
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: TextField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          labelText: 'Xidmətin adı',
-                          hintText: 'Məs: İmplant',
-                          prefixIcon: Icon(Icons.medical_services_outlined),
+                  BlocBuilder<ServicesCubit, ServicesState>(
+                    builder: (context, servicesState) {
+                      if (servicesState is ServicesLoaded &&
+                          servicesState.services.isNotEmpty) {
+                        return Card(
+                          elevation: 0,
+                          color: theme.colorScheme.surfaceContainerHighest,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            child: DropdownButtonFormField<Map<String, dynamic>>(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                labelText: l10n.serviceName,
+                                prefixIcon:
+                                    Icon(Icons.medical_services_outlined),
+                              ),
+                              items: servicesState.services.map((service) {
+                                return DropdownMenuItem(
+                                  value: service,
+                                  child: Text(
+                                    service['name'] ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value != null) {
+                                  _nameController.text = value['name'] ?? '';
+                                  _priceController.text =
+                                      value['price']?.toString() ?? '';
+                                }
+                              },
+                              hint: const Text('Xidmət seçin'),
+                            ),
+                          ),
+                        );
+                      }
+
+                      // Fallback to manual entry if no services or loading
+                      return Card(
+                        elevation: 0,
+                        color: theme.colorScheme.surfaceContainerHighest,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        autofocus: true,
-                      ),
-                    ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          child: TextFormField(
+                            controller: _nameController,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: l10n.serviceName,
+                              hintText: 'Məs: İmplant',
+                              prefixIcon: Icon(Icons.medical_services_outlined),
+
+                            ),
+                            validator: (value) => value == null || value.isEmpty ? l10n.required  : null,
+                            autofocus: true,
+                          ),
+                        ),
+                      );
+                    },
                   ),
 
                   const SizedBox(height: 16),
@@ -146,17 +197,18 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: TextField(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      child: TextFormField(
                         controller: _priceController,
                         keyboardType:
                             const TextInputType.numberWithOptions(decimal: true),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           border: InputBorder.none,
-                          labelText: 'Qiymət (AZN)',
+                          labelText: l10n.price,
                           hintText: 'Məs: 500',
                           prefixIcon: Icon(Icons.attach_money),
                         ),
+
                       ),
                     ),
                   ),
@@ -164,7 +216,7 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                   const SizedBox(height: 16),
 
                   PrimaryButton(
-                    text: 'Yadda saxla',
+                    text: l10n.save,
                     isLoading: isLoading,
                     onPressed: _submit,
                     icon: Icons.check,

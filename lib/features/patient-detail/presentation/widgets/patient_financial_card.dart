@@ -1,3 +1,4 @@
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/di.dart';
@@ -17,6 +18,7 @@ class PatientFinancialCard extends StatelessWidget {
     final debt = _parseValue(patient['debt']);
 
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -30,21 +32,21 @@ class PatientFinancialCard extends StatelessWidget {
         children: [
           _buildInfoItem(
             context,
-            label: 'Ümumi',
+            label: l10n.general,
             value: totalAmount,
             color: Colors.blue,
           ),
           _buildVerticalDivider(),
           _buildInfoItem(
             context,
-            label: 'Ödənilən',
+            label: l10n.paid,
             value: paidAmount,
             color: Colors.green,
           ),
           _buildVerticalDivider(),
           _buildInfoItem(
             context,
-            label: 'Borc',
+            label: l10n.debt,
             value: debt,
             color: debt > 0 ? Colors.red : Colors.grey,
             isBold: true,

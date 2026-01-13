@@ -138,7 +138,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addNewPaymentForPatient => 'Add new payment for patient';
 
   @override
-  String get amount => 'Amount (AZN)';
+  String get amount => 'Amount (₼)';
 
   @override
   String get paymentNoteOptional => 'Payment note (optional)';
@@ -339,4 +339,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get required => 'Required';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get todayAppointmentsZero => 'You have no appointments today';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get overall => 'Overall';
+
+  @override
+  String get noServicesFound => 'No services found';
+
+  @override
+  String get noAssistantsFound => 'No assistants found';
+
+  @override
+  String get noCollaborationsFound => 'No collaborations found';
+
+  @override
+  String get noExpensesFound => 'No expenses found';
+
+  @override
+  String get noPatientNotesFound => 'No patient notes found';
+
+  @override
+  String get noDataFound => 'No data found';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get debt => 'Debt';
+
+  @override
+  String get paid => 'Paid';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get privacy => 'Privacy';
+
+  @override
+  String get security => 'Security';
 }

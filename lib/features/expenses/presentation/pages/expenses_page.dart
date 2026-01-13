@@ -154,7 +154,7 @@ class ExpensesPage extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       trailing: Text(
-                        '-$price AZN',
+                        '-$price ₼',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,

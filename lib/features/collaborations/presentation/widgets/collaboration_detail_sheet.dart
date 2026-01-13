@@ -78,7 +78,7 @@ class CollaborationDetailSheet extends StatelessWidget {
               _DetailRow(
                 icon: Icons.attach_money,
                 label: 'Qiymət',
-                value: '$price AZN',
+                value: '$price ₼',
                 valueColor: theme.colorScheme.primary,
                 isBold: true,
               ),

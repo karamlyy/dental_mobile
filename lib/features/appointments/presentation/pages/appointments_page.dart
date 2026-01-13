@@ -62,7 +62,7 @@ class AppointmentsView extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appointments)),
+      appBar: AppBar(title: Text(l10n.appointments),forceMaterialTransparency: true,),
       body: Stack(
         children: [
           Positioned.fill(

@@ -22,6 +22,7 @@ class ServicesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocProvider(
       create: (_) => sl<PatientServicesCubit>()..fetchServices(patientId),
@@ -146,7 +147,7 @@ class ServicesTab extends StatelessWidget {
                     Icon(Icons.add, color: Colors.white),
                     SizedBox(width: 8),
                     Text(
-                      'Yeni xidmət',
+                      l10n.newService,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

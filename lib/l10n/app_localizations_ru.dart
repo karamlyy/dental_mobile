@@ -138,7 +138,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get addNewPaymentForPatient => 'Добавить новый платёж для пациента';
 
   @override
-  String get amount => 'Сумма (AZN)';
+  String get amount => 'Сумма (₼)';
 
   @override
   String get paymentNoteOptional => 'Примечание к платежу (необязательно)';
@@ -342,4 +342,52 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get required => 'Обязательно';
+
+  @override
+  String get save => 'Сохранить';
+
+  @override
+  String get todayAppointmentsZero => 'На сегодня у вас нет записей';
+
+  @override
+  String get today => 'Сегодня';
+
+  @override
+  String get overall => 'Общее';
+
+  @override
+  String get noServicesFound => 'Услуги не найдены';
+
+  @override
+  String get noAssistantsFound => 'Ассистенты не найдены';
+
+  @override
+  String get noCollaborationsFound => 'Сотрудничество не найдено';
+
+  @override
+  String get noExpensesFound => 'Расходы не найдены';
+
+  @override
+  String get noPatientNotesFound => 'Заметки пациента не найдены';
+
+  @override
+  String get noDataFound => 'Данные не найдены';
+
+  @override
+  String get general => 'Общее';
+
+  @override
+  String get debt => 'Долг';
+
+  @override
+  String get paid => 'Оплачено';
+
+  @override
+  String get notifications => 'Уведомления';
+
+  @override
+  String get privacy => 'Конфиденциальность';
+
+  @override
+  String get security => 'Безопасность';
 }

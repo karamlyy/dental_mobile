@@ -72,7 +72,7 @@ class ExpenseDetailSheet extends StatelessWidget {
               _DetailRow(
                 icon: Icons.attach_money,
                 label: l10n.amount,
-                value: '-$price AZN',
+                value: '-$price ₼',
                 valueColor: Colors.red,
                 isBold: true,
               ),

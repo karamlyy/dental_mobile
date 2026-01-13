@@ -138,7 +138,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get addNewPaymentForPatient => 'Pasiyent üçün yeni ödəniş əlavə et';
 
   @override
-  String get amount => 'Məbləğ (AZN)';
+  String get amount => 'Məbləğ (₼)';
 
   @override
   String get paymentNoteOptional => 'Ödəniş qeydi (istəyə bağlı)';
@@ -343,4 +343,52 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get required => 'Mütləqdir';
+
+  @override
+  String get save => 'Yadda saxla';
+
+  @override
+  String get todayAppointmentsZero => 'Bu gün görüşünüz yoxdur';
+
+  @override
+  String get today => 'Bu gün';
+
+  @override
+  String get overall => 'Ümumi';
+
+  @override
+  String get noServicesFound => 'Xidmət tapılmadı';
+
+  @override
+  String get noAssistantsFound => 'Assistant tapılmadı';
+
+  @override
+  String get noCollaborationsFound => 'Əməkdaşlıq tapılmadı';
+
+  @override
+  String get noExpensesFound => 'Xərc tapılmadı';
+
+  @override
+  String get noPatientNotesFound => 'Pasiyent qeydi tapılmadı';
+
+  @override
+  String get noDataFound => 'Məlumat tapılmadı';
+
+  @override
+  String get general => 'Ümumi';
+
+  @override
+  String get debt => 'Borc';
+
+  @override
+  String get paid => 'Ödənilib';
+
+  @override
+  String get notifications => 'Bildirişlər';
+
+  @override
+  String get privacy => 'Məxfilik';
+
+  @override
+  String get security => 'Təhlükəsizlik';
 }

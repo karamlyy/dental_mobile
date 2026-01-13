@@ -19,7 +19,7 @@ class ServicesPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.services)),
+      appBar: AppBar(title: Text(l10n.services), forceMaterialTransparency: true,),
       floatingActionButton: Builder(
         builder: (context) {
           return InkWell(
@@ -130,7 +130,7 @@ class ServicesPage extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         subtitle: price != null
-                            ? Text('$price AZN')
+                            ? Text('$price ₼')
                             : const Text('Qiymət təyin edilməyib'),
                         trailing: const Icon(Icons.chevron_right),
                       ),

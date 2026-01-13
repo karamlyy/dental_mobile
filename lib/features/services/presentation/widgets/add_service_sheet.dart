@@ -122,8 +122,7 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                           ),
                           filled: true
                       ),
-                      validator: (value) =>
-                          value == null || value.isEmpty ? l10n.required  : null,
+                      validator: (value) => value == null || value.isEmpty ? l10n.required  : null,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
@@ -138,6 +137,7 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                           filled: true
                       ),
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      validator: (value) => value == null || value.isEmpty ? l10n.required  : null,
                     ),
                     
                     const SizedBox(height: 32),

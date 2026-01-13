@@ -152,7 +152,7 @@ class CollaborationsPage extends StatelessWidget {
                             children: [Text('Texnik: $technicianName')],
                           ),
                           trailing: Text(
-                            '$price AZN',
+                            '$price ₼',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
