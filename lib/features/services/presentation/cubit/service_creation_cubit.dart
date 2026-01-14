@@ -14,6 +14,7 @@ class ServiceCreationCubit extends Cubit<ServiceCreationState> {
   Future<void> addService({
     required String name,
     double? price,
+    String? description,
   }) async {
     emit(ServiceCreationLoading());
     try {
@@ -23,6 +24,7 @@ class ServiceCreationCubit extends Cubit<ServiceCreationState> {
       final body = {
         'name': name,
         'price': price,
+        if (description != null) 'description': description,
       };
 
       await api.createService(token, body);

@@ -19,11 +19,13 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
   @override
   void dispose() {
     _nameController.dispose();
     _priceController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -36,6 +38,9 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
       context.read<ServiceCreationCubit>().addService(
             name: _nameController.text.trim(),
             price: price,
+            description: _descriptionController.text.trim().isNotEmpty
+                ? _descriptionController.text.trim()
+                : null,
           );
     }
   }
@@ -138,6 +143,21 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                       ),
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       validator: (value) => value == null || value.isEmpty ? l10n.required  : null,
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration: InputDecoration(
+                        labelText: l10n.description,
+                        prefixIcon: const Icon(Icons.description_outlined),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                      ),
+                      maxLines: 3,
+                      minLines: 2,
                     ),
                     
                     const SizedBox(height: 32),

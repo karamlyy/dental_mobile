@@ -30,6 +30,33 @@ class ServicesCubit extends Cubit<ServicesState> {
       ));
     }
   }
+
+  Future<void> deleteService(int serviceId) async {
+    try {
+      final token = await storage.read('accessToken');
+      if (token == null) throw Exception('No access token');
+
+      // Keep current state while deleting
+      final currentState = state;
+      if (currentState is ServicesLoaded) {
+        emit(ServicesLoaded(currentState.services));
+      }
+
+      await api.deleteService(token, serviceId);
+      
+      // Refresh the services list after deletion
+      await fetchServices();
+    } catch (e) {
+      if (isClosed) return;
+      final error = ErrorHandler.handle(e);
+      emit(ServicesError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
+    }
+  }
+
   void clear() {
     emit(ServicesInitial());
   }

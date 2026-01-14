@@ -317,6 +317,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serviceName => 'Service name';
 
   @override
+  String get deleteService => 'Delete service';
+
+  @override
+  String get serviceDeleted => 'Service deleted';
+
+  @override
   String get technician => 'Technician';
 
   @override

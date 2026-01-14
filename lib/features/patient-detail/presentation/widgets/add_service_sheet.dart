@@ -25,12 +25,14 @@ class AddServiceSheet extends StatefulWidget {
 class _AddServiceSheetState extends State<AddServiceSheet> {
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
+  final _searchController = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
     _nameController.dispose();
     _priceController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -50,6 +52,184 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
       patientId: widget.patientId,
       name: name,
       price: price,
+    );
+  }
+
+  void _showServicesDialog() {
+    _searchController.clear();
+    
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return BlocBuilder<ServicesCubit, ServicesState>(
+              builder: (context, servicesState) {
+                if (servicesState is ServicesLoaded) {
+                  final searchQuery = _searchController.text.toLowerCase();
+                  final filteredServices = servicesState.services.where((service) {
+                    final name = (service['name'] ?? '').toLowerCase();
+                    return name.contains(searchQuery);
+                  }).toList();
+
+                  return DraggableScrollableSheet(
+                    initialChildSize: 0.7,
+                    minChildSize: 0.5,
+                    maxChildSize: 0.95,
+                    expand: false,
+                    builder: (context, scrollController) {
+                      return Column(
+                        children: [
+                          /// Drag Handle
+                          Container(
+                            width: 40,
+                            height: 4,
+                            margin: const EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade400,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+
+                          /// Title
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Xidmət seçin',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.close),
+                                  onPressed: () => Navigator.pop(sheetContext),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          /// Search Field
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            child: TextFormField(
+                              controller: _searchController,
+
+                              decoration:  InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: BorderSide.none,
+                                ),
+                                hintText: 'Xidmət axtar...',
+                                prefixIcon: const Icon(Icons.search),
+                                suffixIcon: _searchController.text.isNotEmpty
+                                    ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    setModalState(() {
+                                      _searchController.clear();
+                                    });
+                                  },
+                                )
+                                    : null,
+                                filled: true,
+                              ),
+                              onChanged: (value) {
+                                setModalState(() {});
+                              },
+                            ),
+                          ),
+
+                          const Divider(height: 1),
+
+                          /// Services List
+                          Expanded(
+                            child: filteredServices.isEmpty
+                                ? Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.search_off,
+                                          size: 64,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          'Xidmət tapılmadı',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    controller: scrollController,
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    itemCount: filteredServices.length,
+                                    itemBuilder: (context, index) {
+                                      final service = filteredServices[index];
+                                      return ListTile(
+                                        leading: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue.shade700.withValues(alpha: 0.1),
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          child: Icon(
+                                            Icons.medical_services_outlined,
+                                            color: Colors.blue.shade700,
+                                          ),
+                                        ),
+                                        title: Text(
+                                          service['name'] ?? '',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        subtitle: Text('${service['price']} ₼'),
+                                        trailing: const Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 16,
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            _nameController.text = service['name'] ?? '';
+                                            _priceController.text =
+                                                service['price']?.toString() ?? '';
+                                          });
+                                          Navigator.pop(sheetContext);
+                                        },
+                                      );
+                                    },
+                                  ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+                return const SizedBox(
+                  height: 200,
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 
@@ -117,74 +297,53 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
 
                   const SizedBox(height: 16),
 
-                  /// 🔹 Service Name Card
+                  /// 🔹 Browse Services Button
                   BlocBuilder<ServicesCubit, ServicesState>(
                     builder: (context, servicesState) {
                       if (servicesState is ServicesLoaded &&
                           servicesState.services.isNotEmpty) {
-                        return Card(
-                          elevation: 0,
-                          color: theme.colorScheme.surfaceContainerHighest,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 4),
-                            child: DropdownButtonFormField<Map<String, dynamic>>(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                labelText: l10n.serviceName,
-                                prefixIcon:
-                                    Icon(Icons.medical_services_outlined),
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: OutlinedButton.icon(
+                            onPressed: _showServicesDialog,
+                            icon: const Icon(Icons.list_alt),
+                            label: const Text('Mövcud xidmətlərdən seçin'),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
                               ),
-                              items: servicesState.services.map((service) {
-                                return DropdownMenuItem(
-                                  value: service,
-                                  child: Text(
-                                    service['name'] ?? '',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                if (value != null) {
-                                  _nameController.text = value['name'] ?? '';
-                                  _priceController.text =
-                                      value['price']?.toString() ?? '';
-                                }
-                              },
-                              hint: const Text('Xidmət seçin'),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
                             ),
                           ),
                         );
                       }
-
-                      // Fallback to manual entry if no services or loading
-                      return Card(
-                        elevation: 0,
-                        color: theme.colorScheme.surfaceContainerHighest,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                          child: TextFormField(
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              labelText: l10n.serviceName,
-                              hintText: 'Məs: İmplant',
-                              prefixIcon: Icon(Icons.medical_services_outlined),
-
-                            ),
-                            validator: (value) => value == null || value.isEmpty ? l10n.required  : null,
-                            autofocus: true,
-                          ),
-                        ),
-                      );
+                      return const SizedBox.shrink();
                     },
+                  ),
+
+                  /// 🔹 Service Name Card
+                  Card(
+                    elevation: 0,
+                    color: theme.colorScheme.surfaceContainerHighest,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      child: TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: l10n.serviceName,
+                          hintText: 'Məs: İmplant',
+                          prefixIcon: const Icon(Icons.medical_services_outlined),
+                        ),
+                        autofocus: true,
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: 16),
@@ -206,9 +365,8 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                           border: InputBorder.none,
                           labelText: l10n.price,
                           hintText: 'Məs: 500',
-                          prefixIcon: Icon(Icons.attach_money),
+                          prefixIcon: const Icon(Icons.attach_money),
                         ),
-
                       ),
                     ),
                   ),
@@ -221,7 +379,6 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                     onPressed: _submit,
                     icon: Icons.check,
                   ),
-
                 ],
               ),
             ),

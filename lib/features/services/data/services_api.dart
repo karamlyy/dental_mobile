@@ -36,4 +36,14 @@ class ServicesApi {
     );
     return res.data;
   }
+
+  Future<void> deleteService(
+    String accessToken,
+    int serviceId,
+  ) async {
+    await dioClient.dio.delete(
+      '/services/$serviceId',
+      options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+    );
+  }
 }

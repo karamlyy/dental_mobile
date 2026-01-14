@@ -319,6 +319,12 @@ class AppLocalizationsAz extends AppLocalizations {
   String get serviceName => 'Xidmətin adı';
 
   @override
+  String get deleteService => 'Xidməti sil';
+
+  @override
+  String get serviceDeleted => 'Xidmət silindi';
+
+  @override
   String get technician => 'Texnik';
 
   @override

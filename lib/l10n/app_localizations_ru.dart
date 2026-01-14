@@ -318,6 +318,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get serviceName => 'Название услуги';
 
   @override
+  String get deleteService => 'Удалить услугу';
+
+  @override
+  String get serviceDeleted => 'Услуга удалена';
+
+  @override
   String get technician => 'Техник';
 
   @override

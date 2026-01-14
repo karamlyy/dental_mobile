@@ -6,11 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/services_cubit.dart';
 import '../widgets/add_service_sheet.dart';
+import '../widgets/service_detail_sheet.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ServicesPage extends StatelessWidget {
   const ServicesPage({super.key});
+
+  void _showServiceDetail(BuildContext context, Map<String, dynamic> service) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => ServiceDetailSheet(service: service),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +142,7 @@ class ServicesPage extends StatelessWidget {
                             ? Text('$price ₼')
                             : const Text('Qiymət təyin edilməyib'),
                         trailing: const Icon(Icons.chevron_right),
+                        onTap: () => _showServiceDetail(context, service),
                       ),
                     );
                   },

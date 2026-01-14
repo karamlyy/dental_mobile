@@ -107,6 +107,8 @@
   "newService": "New service",
   "enterNewServiceInfo": "Enter new service details",
   "serviceName": "Service name",
+  "deleteService": "Delete service",
+  "serviceDeleted": "Service deleted",
 
   "technician": "Technician",
   "newCollaboration": "New collaboration",

@@ -107,6 +107,8 @@
   "newService": "Новая услуга",
   "enterNewServiceInfo": "Введите данные новой услуги",
   "serviceName": "Название услуги",
+  "deleteService": "Удалить услугу",
+  "serviceDeleted": "Услуга удалена",
 
   "technician": "Техник",
   "newCollaboration": "Новое сотрудничество",

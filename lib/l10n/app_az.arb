@@ -107,6 +107,8 @@
   "newService": "Yeni xidmət",
   "enterNewServiceInfo": "Yeni xidmət məlumatlarını daxil edin",
   "serviceName": "Xidmətin adı",
+  "deleteService": "Xidməti sil",
+  "serviceDeleted": "Xidmət silindi",
 
   "technician": "Texnik",
   "newCollaboration": "Yeni əməkdaşlıq",

@@ -712,6 +712,18 @@ abstract class AppLocalizations {
   /// **'Xidmətin adı'**
   String get serviceName;
 
+  /// No description provided for @deleteService.
+  ///
+  /// In az, this message translates to:
+  /// **'Xidməti sil'**
+  String get deleteService;
+
+  /// No description provided for @serviceDeleted.
+  ///
+  /// In az, this message translates to:
+  /// **'Xidmət silindi'**
+  String get serviceDeleted;
+
   /// No description provided for @technician.
   ///
   /// In az, this message translates to:
