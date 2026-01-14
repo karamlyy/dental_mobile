@@ -225,7 +225,7 @@ class ProfilePage extends StatelessWidget {
                           elevation: 0,
                           child: ListTile(
                             leading: const Icon(
-                              Icons.logout,
+                              CupertinoIcons.arrow_right_circle,
                               color: Colors.red,
                             ),
                             title: Text(

@@ -32,15 +32,29 @@ class PatientPaymentsCubit extends Cubit<PatientPaymentsState> {
     }
   }
 
-  Future<void> createPayment(int patientId, String amount, String note) async {
+  Future<void> createPayment(
+    int patientId,
+    String amount,
+    String note,
+    DateTime? date,
+  ) async {
     try {
       final token = await storage.read('accessToken');
       if (token == null) throw Exception('No access token');
 
-      await api.createPayment(patientId, token, {
+      final body = <String, dynamic>{
         'amount': int.parse(amount),
         'note': note,
-      });
+      };
+
+      // Add date to the request if provided
+      if (date != null) {
+        // Convert to UTC at noon to avoid timezone issues
+        final utcDate = DateTime.utc(date.year, date.month, date.day, 12, 0, 0);
+        body['date'] = utcDate.toIso8601String();
+      }
+
+      await api.createPayment(patientId, token, body);
 
       // Refresh list
       await fetchPayments(patientId);

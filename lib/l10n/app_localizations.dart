@@ -855,6 +855,30 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Təhlükəsizlik'**
   String get security;
+
+  /// No description provided for @appointmentStatus.
+  ///
+  /// In az, this message translates to:
+  /// **'Görüş statusu'**
+  String get appointmentStatus;
+
+  /// No description provided for @updateAppointmentStatus.
+  ///
+  /// In az, this message translates to:
+  /// **'Görüş cari vəziyyətini yeniləyin'**
+  String get updateAppointmentStatus;
+
+  /// No description provided for @confirm.
+  ///
+  /// In az, this message translates to:
+  /// **'Təsdiqlə'**
+  String get confirm;
+
+  /// No description provided for @status.
+  ///
+  /// In az, this message translates to:
+  /// **'Status'**
+  String get status;
 }
 
 class _AppLocalizationsDelegate

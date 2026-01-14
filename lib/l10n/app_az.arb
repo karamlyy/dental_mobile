@@ -132,7 +132,11 @@
   "paid": "Ödənilib",
   "notifications": "Bildirişlər",
   "privacy": "Məxfilik",
-  "security": "Təhlükəsizlik"
+  "security": "Təhlükəsizlik",
+  "appointmentStatus": "Görüş statusu",
+  "updateAppointmentStatus": "Görüş cari vəziyyətini yeniləyin",
+  "confirm": "Təsdiqlə",
+  "status": "Status"
 
 
 }

@@ -132,7 +132,11 @@
   "paid": "Оплачено",
   "notifications": "Уведомления",
   "privacy": "Конфиденциальность",
-  "security": "Безопасность"
+  "security": "Безопасность",
+  "appointmentStatus": "Статус приёма",
+  "updateAppointmentStatus": "Обновить статус приёма",
+  "confirm": "Подтвердить",
+  "status": "Статус"
 
 
 }

@@ -3,6 +3,7 @@ import 'package:dental_mobile/config/theme/text_theme_extension.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -42,11 +43,11 @@ class HomeStats extends StatelessWidget {
               Row(
                 children: [
                   StatCard(
-                    title: l10n.todayAppointments,
+                    title: l10n.appointments,
                     value: state.todayAppointments.toString(),
                     color: Colors.blue,
-                    icon: Icons.calendar_today_rounded,
-                    subtitle: 'Bugün',
+                    icon: CupertinoIcons.calendar_today,
+                    subtitle: l10n.today,
                     useGradient: true,
                   ),
                   const SizedBox(width: 12),
@@ -54,13 +55,13 @@ class HomeStats extends StatelessWidget {
                     title: l10n.patients,
                     value: state.totalPatients.toString(),
                     color: Colors.green,
-                    icon: Icons.people_rounded,
-                    subtitle: 'Toplam',
+                    icon: CupertinoIcons.person_2_fill,
+                    subtitle: l10n.overall,
                     useGradient: true,
                     onTap: () => context.push('/patients'),
                     iconButton: IconButton(
                       onPressed: () => context.push('/add-patient'),
-                      icon: const Icon(Icons.add_rounded, color: Colors.green, size: 20),
+                      icon: const Icon(CupertinoIcons.add, color: Colors.green, size: 20),
                     ),
                   ),
                 ],
@@ -92,7 +93,7 @@ class HomeStats extends StatelessWidget {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.access_time, color: Theme.of(context).colorScheme.primary),
+                              Icon(CupertinoIcons.clock, color: Theme.of(context).colorScheme.primary),
                               const SizedBox(height: 4),
                               Text(
                                 state.nextAppointment?['startTime'] ?? '--:--',
@@ -147,7 +148,7 @@ class HomeStats extends StatelessWidget {
                               borderRadius: BorderRadius.circular(14),
                             ),
                             child: const Icon(
-                              Icons.call,
+                              CupertinoIcons.phone,
                               color: Colors.green,
                               size: 20,
                             ),

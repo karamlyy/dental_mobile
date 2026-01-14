@@ -5,6 +5,7 @@ import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'add_payment_sheet.dart';
 
 class PaymentsTab extends StatelessWidget {
@@ -84,7 +85,9 @@ class PaymentsTab extends StatelessWidget {
                       ),
 
                       trailing: Text(
-                        payment['createdAt'].substring(0, 10),
+                        DateFormat('dd.MM.yyyy').format(
+                          DateTime.parse(payment['date']),
+                        ),
                         style: const TextStyle(color: Colors.grey),
                       ),
                     ),

@@ -102,7 +102,7 @@ class CollaborationsPage extends StatelessWidget {
                 final collaborations = state.collaborations;
 
                 if (collaborations.isEmpty) {
-                  return const Center(child: Text('Hələ ki əməkdaşlıq yoxdur'));
+                  return  Center(child: Text(l10n.noCollaborationsFound));
                 }
 
                 return ListView.separated(
@@ -149,7 +149,7 @@ class CollaborationsPage extends StatelessWidget {
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [Text('Texnik: $technicianName')],
+                            children: [Text('${l10n.technician}: $technicianName')],
                           ),
                           trailing: Text(
                             '$price ₼',

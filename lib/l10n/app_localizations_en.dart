@@ -387,4 +387,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get security => 'Security';
+
+  @override
+  String get appointmentStatus => 'Appointment status';
+
+  @override
+  String get updateAppointmentStatus => 'Update appointment status';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get status => 'Status';
 }

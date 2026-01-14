@@ -3,6 +3,7 @@ import 'package:dental_mobile/features/profile/presentation/cubit/profile_cubit.
 import 'package:dental_mobile/features/profile/presentation/cubit/profile_update_cubit.dart';
 import 'package:dental_mobile/features/profile/presentation/cubit/profile_form_cubit.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -106,7 +107,7 @@ class EditProfilePage extends StatelessWidget {
                         controller: formCubit.clinicNameController,
                         decoration: InputDecoration(
                           labelText: l10n.clinicName,
-                          prefixIcon: const Icon(Icons.business),
+                          prefixIcon: const Icon(CupertinoIcons.building_2_fill),
                           filled: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -127,7 +128,7 @@ class EditProfilePage extends StatelessWidget {
                             initialValue: state.gender,
                             decoration: InputDecoration(
                               labelText: l10n.gender,
-                              prefixIcon: const Icon(Icons.person),
+                              prefixIcon: const Icon(CupertinoIcons.person),
                               filled: true,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
@@ -159,7 +160,7 @@ class EditProfilePage extends StatelessWidget {
                         controller: formCubit.phoneNumberController,
                         decoration: InputDecoration(
                           labelText: l10n.phoneNumber,
-                          prefixIcon: const Icon(Icons.phone),
+                          prefixIcon: const Icon(CupertinoIcons.phone),
                           filled: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -179,7 +180,7 @@ class EditProfilePage extends StatelessWidget {
                         controller: formCubit.addressController,
                         decoration: InputDecoration(
                           labelText: l10n.address,
-                          prefixIcon: const Icon(Icons.location_on),
+                          prefixIcon: const Icon(Icons.location_on_outlined),
                           filled: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -198,7 +199,7 @@ class EditProfilePage extends StatelessWidget {
                         controller: formCubit.specializationController,
                         decoration: InputDecoration(
                           labelText: l10n.specialization,
-                          prefixIcon: const Icon(Icons.school),
+                          prefixIcon: const Icon(Icons.school_outlined),
                           filled: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -224,7 +225,7 @@ class EditProfilePage extends StatelessWidget {
                             child: InputDecorator(
                               decoration: InputDecoration(
                                 labelText: l10n.birthDate,
-                                prefixIcon: const Icon(Icons.calendar_today),
+                                prefixIcon: const Icon(CupertinoIcons.calendar),
                                 filled: true,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),

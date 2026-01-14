@@ -1,4 +1,5 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../home/presentation/cubit/appointments_cubit.dart';
@@ -71,6 +72,7 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocListener<PatientAppointmentsCubit, PatientAppointmentsState>(
       bloc: widget.cubit,
@@ -119,14 +121,14 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
   
               /// 🔹 Title
               Text(
-                'Appointment statusu',
+                l10n.appointmentStatus,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
-                'Görüşün cari vəziyyətini dəyişin',
+                l10n.updateAppointmentStatus,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: Colors.grey.shade600,
                 ),
@@ -162,8 +164,8 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
                   onChanged: (val) {
                     if (val != null) setState(() => _selectedStatus = val);
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Status',
+                  decoration: InputDecoration(
+                    labelText: l10n.status,
                     border: InputBorder.none,
                     contentPadding:
                     EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -175,7 +177,7 @@ class _UpdateAppointmentSheetState extends State<UpdateAppointmentSheet> {
   
               /// 🔹 Action button
               PrimaryButton(
-                text: 'Təsdiqlə',
+                text: l10n.confirm,
                 isLoading: _isLoading,
                 onPressed: _save,
                 icon: Icons.check,

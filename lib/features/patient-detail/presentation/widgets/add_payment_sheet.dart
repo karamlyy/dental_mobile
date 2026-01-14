@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../cubit/patient_payments_cubit.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
@@ -28,12 +29,24 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
   bool _isLoading = false;
+  DateTime? _selectedDate;
 
   @override
   void dispose() {
     _amountController.dispose();
     _noteController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? now,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(now.year + 1),
+    );
+    if (picked != null) setState(() => _selectedDate = picked);
   }
 
   Future<void> _save() async {
@@ -51,6 +64,7 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
       widget.patientId,
       amount,
       _noteController.text.trim(),
+      _selectedDate,
     );
   }
 
@@ -139,6 +153,28 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
                     ),
                     autofocus: true,
                   ),
+                ),
+              ),
+  
+              const SizedBox(height: 16),
+
+              /// 🔹 Date Card
+              Card(
+                elevation: 0,
+                color: theme.colorScheme.surfaceContainerHighest,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: ListTile(
+                  onTap: _pickDate,
+                  leading: const Icon(Icons.calendar_month_outlined),
+                  title: Text(l10n.date),
+                  subtitle: Text(
+                    _selectedDate == null
+                        ? l10n.selectDate
+                        : DateFormat('dd.MM.yyyy').format(_selectedDate!),
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
                 ),
               ),
   

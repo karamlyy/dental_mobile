@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -9,6 +12,7 @@ class CollaborationDetailSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final serviceName = collaboration['serviceName'] ?? 'Xidmət adı yoxdur';
     final technicianName =
         collaboration['technicianName'] ?? 'Texnik adı yoxdur';
@@ -71,13 +75,13 @@ class CollaborationDetailSheet extends StatelessWidget {
   
               _DetailRow(
                 icon: Icons.person_outline,
-                label: 'Texnik',
+                label: l10n.technician,
                 value: technicianName,
               ),
               const SizedBox(height: 16),
               _DetailRow(
                 icon: Icons.attach_money,
-                label: 'Qiymət',
+                label: l10n.price,
                 value: '$price ₼',
                 valueColor: theme.colorScheme.primary,
                 isBold: true,
@@ -85,14 +89,14 @@ class CollaborationDetailSheet extends StatelessWidget {
               const SizedBox(height: 16),
               _DetailRow(
                 icon: Icons.description_outlined,
-                label: 'Təsvir',
+                label: l10n.description,
                 value: description,
               ),
               if (formattedDate.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 _DetailRow(
                   icon: Icons.calendar_today_outlined,
-                  label: 'Yaradılıb',
+                  label: l10n.createdAt,
                   value: formattedDate,
                 ),
               ],

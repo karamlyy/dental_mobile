@@ -390,4 +390,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get security => 'Безопасность';
+
+  @override
+  String get appointmentStatus => 'Статус приёма';
+
+  @override
+  String get updateAppointmentStatus => 'Обновить статус приёма';
+
+  @override
+  String get confirm => 'Подтвердить';
+
+  @override
+  String get status => 'Статус';
 }

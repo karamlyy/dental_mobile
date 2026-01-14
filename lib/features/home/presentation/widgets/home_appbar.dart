@@ -1,4 +1,5 @@
 import 'package:dental_mobile/core/storage/secure_storage.dart';
+import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,11 +9,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(72);
 
-  String _greeting() {
+  String _greeting(BuildContext context) {
     final hour = DateTime.now().hour;
-    if (hour < 12) return 'Sabahınız xeyir👋';
-    if (hour < 18) return 'Günortanız xeyir👋';
-    return 'Axşamınız xeyir👋';
+    final l10n = AppLocalizations.of(context)!;
+
+    if (hour < 12) return '${l10n.goodMorning} 👋';
+    if (hour < 18) return '${l10n.goodAfternoon} 👋';
+    return '${l10n.goodEvening} 👋';
   }
 
   @override
@@ -56,7 +59,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    _greeting(),
+                    _greeting(context),
                     style: Theme.of(
                       context,
                     ).textTheme.bodySmall?.copyWith(color: Colors.grey),

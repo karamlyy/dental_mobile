@@ -391,4 +391,16 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get security => 'Təhlükəsizlik';
+
+  @override
+  String get appointmentStatus => 'Görüş statusu';
+
+  @override
+  String get updateAppointmentStatus => 'Görüş cari vəziyyətini yeniləyin';
+
+  @override
+  String get confirm => 'Təsdiqlə';
+
+  @override
+  String get status => 'Status';
 }

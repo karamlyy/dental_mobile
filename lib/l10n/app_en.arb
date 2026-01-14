@@ -132,7 +132,11 @@
   "paid": "Paid",
   "notifications": "Notifications",
   "privacy": "Privacy",
-  "security": "Security"
+  "security": "Security",
+  "appointmentStatus": "Appointment status",
+  "updateAppointmentStatus": "Update appointment status",
+  "confirm": "Confirm",
+  "status": "Status"
 
 
 }
