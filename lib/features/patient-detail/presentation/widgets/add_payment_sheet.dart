@@ -4,6 +4,7 @@ import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:another_flushbar/flushbar.dart';
 import '../cubit/patient_payments_cubit.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
@@ -52,9 +53,13 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
   Future<void> _save() async {
     final amount = _amountController.text.trim();
     if (amount.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Məbləğ daxil edin')),
-      );
+      Flushbar(
+        message: 'Məbləğ daxil edin',
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+        backgroundColor: Colors.red,
+      ).show(context);
       return;
     }
 

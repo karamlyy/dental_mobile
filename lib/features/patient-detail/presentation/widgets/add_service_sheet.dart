@@ -1,6 +1,7 @@
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:another_flushbar/flushbar.dart';
 import '../../../../common/widgets/primary_button.dart';
 import '../../../services/presentation/cubit/services_cubit.dart';
 import '../cubit/patient_service_creation_cubit.dart';
@@ -41,9 +42,13 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
     final price = double.tryParse(_priceController.text.trim());
 
     if (name.isEmpty || price == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Zəhmət olmasa xanaları düzgün doldurun')),
-      );
+      Flushbar(
+        message: 'Zəhmət olmasa xanaları düzgün doldurun',
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+        backgroundColor: Colors.red,
+      ).show(context);
       return;
     }
     setState(() => _isLoading = true);
@@ -57,7 +62,7 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
 
   void _showServicesDialog() {
     _searchController.clear();
-    
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -71,7 +76,9 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
               builder: (context, servicesState) {
                 if (servicesState is ServicesLoaded) {
                   final searchQuery = _searchController.text.toLowerCase();
-                  final filteredServices = servicesState.services.where((service) {
+                  final filteredServices = servicesState.services.where((
+                    service,
+                  ) {
                     final name = (service['name'] ?? '').toLowerCase();
                     return name.contains(searchQuery);
                   }).toList();
@@ -125,7 +132,7 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                             child: TextFormField(
                               controller: _searchController,
 
-                              decoration:  InputDecoration(
+                              decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   borderSide: BorderSide.none,
@@ -134,13 +141,13 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                                 prefixIcon: const Icon(Icons.search),
                                 suffixIcon: _searchController.text.isNotEmpty
                                     ? IconButton(
-                                  icon: const Icon(Icons.clear),
-                                  onPressed: () {
-                                    setModalState(() {
-                                      _searchController.clear();
-                                    });
-                                  },
-                                )
+                                        icon: const Icon(Icons.clear),
+                                        onPressed: () {
+                                          setModalState(() {
+                                            _searchController.clear();
+                                          });
+                                        },
+                                      )
                                     : null,
                                 filled: true,
                               ),
@@ -177,7 +184,9 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                                   )
                                 : ListView.builder(
                                     controller: scrollController,
-                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 8,
+                                    ),
                                     itemCount: filteredServices.length,
                                     itemBuilder: (context, index) {
                                       final service = filteredServices[index];
@@ -185,8 +194,11 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                                         leading: Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            color: Colors.blue.shade700.withValues(alpha: 0.1),
-                                            borderRadius: BorderRadius.circular(12),
+                                            color: Colors.blue.shade700
+                                                .withValues(alpha: 0.1),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                           ),
                                           child: Icon(
                                             Icons.medical_services_outlined,
@@ -206,9 +218,11 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                                         ),
                                         onTap: () {
                                           setState(() {
-                                            _nameController.text = service['name'] ?? '';
+                                            _nameController.text =
+                                                service['name'] ?? '';
                                             _priceController.text =
-                                                service['price']?.toString() ?? '';
+                                                service['price']?.toString() ??
+                                                '';
                                           });
                                           Navigator.pop(sheetContext);
                                         },
@@ -240,151 +254,167 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
 
     return BlocProvider.value(
       value: widget.cubit,
-      child: BlocConsumer<PatientServiceCreationCubit,
-          PatientServiceCreationState>(
-        listener: (context, state) {
-          if (state is PatientServiceCreationSuccess) {
-            Navigator.pop(context);
-            widget.onSuccess();
-          } else if (state is PatientServiceCreationError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
-          }
-        },
-        builder: (context, state) {
-          final isLoading = state is PatientServiceCreationLoading;
+      child:
+          BlocConsumer<
+            PatientServiceCreationCubit,
+            PatientServiceCreationState
+          >(
+            listener: (context, state) {
+              if (state is PatientServiceCreationSuccess) {
+                Navigator.pop(context);
+                widget.onSuccess();
+              } else if (state is PatientServiceCreationError) {
+                Flushbar(
+                  message: state.message,
+                  duration: const Duration(seconds: 3),
+                  margin: const EdgeInsets.all(8),
+                  borderRadius: BorderRadius.circular(8),
+                  backgroundColor: Colors.red,
+                ).show(context);
+              }
+            },
+            builder: (context, state) {
+              final isLoading = state is PatientServiceCreationLoading;
 
-          return SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-                top: 8,
-                left: 16,
-                right: 16,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  /// 🔹 Drag Handle
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 4,
-                      margin: const EdgeInsets.only(bottom: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade400,
-                        borderRadius: BorderRadius.circular(8),
+              return SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                    top: 8,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      /// 🔹 Drag Handle
+                      Center(
+                        child: Container(
+                          width: 40,
+                          height: 4,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade400,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
 
-                  /// 🔹 Title
-                  Text(
-                    l10n.newService,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    l10n.enterNewServiceInfo,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey.shade600,
-                    ),
-                  ),
+                      /// 🔹 Title
+                      Text(
+                        l10n.newService,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.enterNewServiceInfo,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
 
-                  const SizedBox(height: 16),
+                      const SizedBox(height: 16),
 
-                  /// 🔹 Browse Services Button
-                  BlocBuilder<ServicesCubit, ServicesState>(
-                    builder: (context, servicesState) {
-                      if (servicesState is ServicesLoaded &&
-                          servicesState.services.isNotEmpty) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: OutlinedButton.icon(
-                            onPressed: _showServicesDialog,
-                            icon: const Icon(Icons.list_alt),
-                            label: const Text('Mövcud xidmətlərdən seçin'),
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
+                      /// 🔹 Browse Services Button
+                      BlocBuilder<ServicesCubit, ServicesState>(
+                        builder: (context, servicesState) {
+                          if (servicesState is ServicesLoaded &&
+                              servicesState.services.isNotEmpty) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: OutlinedButton.icon(
+                                onPressed: _showServicesDialog,
+                                icon: const Icon(Icons.list_alt),
+                                label: const Text('Mövcud xidmətlərdən seçin'),
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+
+                      /// 🔹 Service Name Card
+                      Card(
+                        elevation: 0,
+                        color: theme.colorScheme.surfaceContainerHighest,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
+                          child: TextFormField(
+                            controller: _nameController,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: l10n.serviceName,
+                              hintText: 'Məs: İmplant',
+                              prefixIcon: const Icon(
+                                Icons.medical_services_outlined,
                               ),
                             ),
+                            autofocus: true,
                           ),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-
-                  /// 🔹 Service Name Card
-                  Card(
-                    elevation: 0,
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      child: TextFormField(
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          labelText: l10n.serviceName,
-                          hintText: 'Məs: İmplant',
-                          prefixIcon: const Icon(Icons.medical_services_outlined),
-                        ),
-                        autofocus: true,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  /// 🔹 Price Card
-                  Card(
-                    elevation: 0,
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      child: TextFormField(
-                        controller: _priceController,
-                        keyboardType:
-                            const TextInputType.numberWithOptions(decimal: true),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          labelText: l10n.price,
-                          hintText: 'Məs: 500',
-                          prefixIcon: const Icon(Icons.attach_money),
                         ),
                       ),
-                    ),
-                  ),
 
-                  const SizedBox(height: 16),
+                      const SizedBox(height: 16),
 
-                  PrimaryButton(
-                    text: l10n.save,
-                    isLoading: isLoading,
-                    onPressed: _submit,
-                    icon: Icons.check,
+                      /// 🔹 Price Card
+                      Card(
+                        elevation: 0,
+                        color: theme.colorScheme.surfaceContainerHighest,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
+                          child: TextFormField(
+                            controller: _priceController,
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: l10n.price,
+                              hintText: 'Məs: 500',
+                              prefixIcon: const Icon(Icons.attach_money),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      PrimaryButton(
+                        text: l10n.save,
+                        isLoading: isLoading,
+                        onPressed: _submit,
+                        icon: Icons.check,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                ),
+              );
+            },
+          ),
     );
   }
 }

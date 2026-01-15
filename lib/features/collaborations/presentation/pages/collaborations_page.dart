@@ -5,8 +5,9 @@ import 'package:dental_mobile/features/collaborations/presentation/widgets/colla
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:dental_mobile/core/error/app_error.dart';
+import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
 
 class CollaborationsPage extends StatelessWidget {
   const CollaborationsPage({super.key});
@@ -73,7 +74,19 @@ class CollaborationsPage extends StatelessWidget {
               ),
             ),
           ),
-          BlocBuilder<CollaborationsCubit, CollaborationsState>(
+          BlocConsumer<CollaborationsCubit, CollaborationsState>(
+            listener: (context, state) {
+              if (state is CollaborationsError) {
+                ErrorBottomSheet.show(
+                  context,
+                  AppError(
+                    message: state.message,
+                    error: state.error,
+                    statusCode: state.statusCode,
+                  ),
+                );
+              }
+            },
             builder: (context, state) {
               if (state is CollaborationsLoading &&
                   state is! CollaborationsLoaded) {

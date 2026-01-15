@@ -31,6 +31,32 @@ class ServicesCubit extends Cubit<ServicesState> {
     }
   }
 
+  Future<void> updateService(int serviceId, Map<String, dynamic> body) async {
+    try {
+      final token = await storage.read('accessToken');
+      if (token == null) throw Exception('No access token');
+
+      // Keep current state while updating
+      final currentState = state;
+      if (currentState is ServicesLoaded) {
+        emit(ServicesLoaded(currentState.services));
+      }
+
+      await api.updateService(token, serviceId, body);
+      
+      // Refresh the services list after update
+      await fetchServices();
+    } catch (e) {
+      if (isClosed) return;
+      final error = ErrorHandler.handle(e);
+      emit(ServicesError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
+    }
+  }
+
   Future<void> deleteService(int serviceId) async {
     try {
       final token = await storage.read('accessToken');

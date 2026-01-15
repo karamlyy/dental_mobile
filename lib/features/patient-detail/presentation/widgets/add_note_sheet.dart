@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:another_flushbar/flushbar.dart';
 import '../../../../common/widgets/primary_button.dart';
 import '../cubit/patient_note_creation_cubit.dart';
 import '../cubit/patient_note_creation_state.dart';
@@ -57,9 +58,13 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
             Navigator.pop(context);
             widget.onSuccess();
           } else if (state is PatientNoteCreationError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            Flushbar(
+              message: state.message,
+              duration: const Duration(seconds: 3),
+              margin: const EdgeInsets.all(8),
+              borderRadius: BorderRadius.circular(8),
+              backgroundColor: Colors.red,
+            ).show(context);
           }
         },
         builder: (context, state) {

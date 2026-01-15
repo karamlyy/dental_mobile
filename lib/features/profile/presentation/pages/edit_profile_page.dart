@@ -10,6 +10,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class EditProfilePage extends StatelessWidget {
   const EditProfilePage({super.key});
@@ -47,20 +48,28 @@ class EditProfilePage extends StatelessWidget {
             listener: (context, state) {
               if (state is ProfileUpdateSuccess) {
                 context.read<ProfileCubit>().fetchProfile();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Profil uğurla yeniləndi'),
-                    backgroundColor: Colors.green,
-                  ),
-                );
                 context.pop();
+                // Show success message after navigation
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  if (context.mounted) {
+                    Flushbar(
+                      message: 'Profil uğurla yeniləndi',
+                      duration: const Duration(seconds: 3),
+                      margin: const EdgeInsets.all(8),
+                      borderRadius: BorderRadius.circular(8),
+                      backgroundColor: Colors.green,
+                      icon: const Icon(Icons.check_circle, color: Colors.white),
+                    ).show(context);
+                  }
+                });
               } else if (state is ProfileUpdateError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+                Flushbar(
+                  message: state.message,
+                  duration: const Duration(seconds: 3),
+                  margin: const EdgeInsets.all(8),
+                  borderRadius: BorderRadius.circular(8),
+                  backgroundColor: Colors.red,
+                ).show(context);
               }
             },
             child: Center(

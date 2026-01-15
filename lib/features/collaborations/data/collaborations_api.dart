@@ -25,4 +25,27 @@ class CollaborationsApi {
     );
     return res.data;
   }
+
+  Future<Map<String, dynamic>> updateCollaboration(
+    String accessToken,
+    String collaborationId,
+    Map<String, dynamic> body,
+  ) async {
+    final res = await dioClient.dio.patch(
+      '/collaborations/$collaborationId',
+      data: body,
+      options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+    );
+    return res.data;
+  }
+
+  Future<void> deleteCollaboration(
+    String accessToken,
+    String collaborationId,
+  ) async {
+    await dioClient.dio.delete(
+      '/collaborations/$collaborationId',
+      options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+    );
+  }
 }

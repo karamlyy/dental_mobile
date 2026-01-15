@@ -5,6 +5,7 @@ import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:another_flushbar/flushbar.dart';
 import '../cubit/patient_appointments_cubit.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/appointment_schedule_cubit.dart';
@@ -58,9 +59,13 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
 
   void _save(BuildContext context) {
     if (_selectedDate == null || _startTime == null || _endTime == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tarix və vaxt seçin')),
-      );
+      Flushbar(
+        message: 'Tarix və vaxt seçin',
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+        backgroundColor: Colors.red,
+      ).show(context);
       return;
     }
 
@@ -68,9 +73,13 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
     final endMinutes = _endTime!.hour * 60 + _endTime!.minute;
 
     if (endMinutes <= startMinutes) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.endTimeBeforeStartTime)),
-      );
+      Flushbar(
+        message: AppLocalizations.of(context)!.endTimeBeforeStartTime,
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+        backgroundColor: Colors.red,
+      ).show(context);
       return;
     }
 

@@ -37,6 +37,19 @@ class ServicesApi {
     return res.data;
   }
 
+  Future<Map<String, dynamic>> updateService(
+    String accessToken,
+    int serviceId,
+    Map<String, dynamic> body,
+  ) async {
+    final res = await dioClient.dio.patch(
+      '/services/$serviceId',
+      data: body,
+      options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+    );
+    return res.data;
+  }
+
   Future<void> deleteService(
     String accessToken,
     int serviceId,

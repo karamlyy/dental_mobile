@@ -31,7 +31,42 @@ class CollaborationsCubit extends Cubit<CollaborationsState> {
     }
   }
 
-  
+  Future<void> updateCollaboration(String collaborationId, Map<String, dynamic> body) async {
+    try {
+      final token = await storage.read('accessToken');
+      if (token == null) throw Exception('No access token');
+
+      await api.updateCollaboration(token, collaborationId, body);
+      await fetchCollaborations(); // Reload the list
+    } catch (e) {
+      if (isClosed) return;
+      final error = ErrorHandler.handle(e);
+      emit(CollaborationsError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
+    }
+  }
+
+  Future<void> deleteCollaboration(String collaborationId) async {
+    try {
+      final token = await storage.read('accessToken');
+      if (token == null) throw Exception('No access token');
+
+      await api.deleteCollaboration(token, collaborationId);
+      await fetchCollaborations(); // Reload the list
+    } catch (e) {
+      if (isClosed) return;
+      final error = ErrorHandler.handle(e);
+      emit(CollaborationsError(
+        error.message,
+        error: error.error,
+        statusCode: error.statusCode,
+      ));
+    }
+  }
+
   void clear() {
     emit(CollaborationsInitial());
   }

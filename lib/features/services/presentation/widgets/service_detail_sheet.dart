@@ -1,26 +1,122 @@
+import 'package:dental_mobile/common/widgets/primary_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:another_flushbar/flushbar.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../cubit/services_cubit.dart';
 
-class ServiceDetailSheet extends StatelessWidget {
+class ServiceDetailSheet extends StatefulWidget {
   final Map<String, dynamic> service;
 
-  const ServiceDetailSheet({
-    super.key,
-    required this.service,
-  });
+  const ServiceDetailSheet({super.key, required this.service});
+
+  @override
+  State<ServiceDetailSheet> createState() => _ServiceDetailSheetState();
+}
+
+class _ServiceDetailSheetState extends State<ServiceDetailSheet> {
+  bool _isEditMode = false;
+  late TextEditingController _nameController;
+  late TextEditingController _priceController;
+  late TextEditingController _descriptionController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text: widget.service['name'] ?? '');
+    _priceController = TextEditingController(
+      text: widget.service['price']?.toString() ?? '',
+    );
+    _descriptionController = TextEditingController(
+      text: widget.service['description'] ?? '',
+    );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _priceController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  void _toggleEditMode() {
+    setState(() {
+      _isEditMode = !_isEditMode;
+    });
+  }
+
+  void _cancelEdit() {
+    setState(() {
+      _nameController.text = widget.service['name'] ?? '';
+      _priceController.text = widget.service['price']?.toString() ?? '';
+      _descriptionController.text = widget.service['description'] ?? '';
+      _isEditMode = false;
+    });
+  }
+
+  void _saveChanges() {
+    final l10n = AppLocalizations.of(context)!;
+    final serviceId = widget.service['id'];
+    final name = _nameController.text.trim();
+    final priceValue = double.tryParse(_priceController.text.trim());
+    final desc = _descriptionController.text.trim();
+
+    if (name.isEmpty) {
+      Flushbar(
+        message: 'Xidmət adı boş ola bilməz',
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+        backgroundColor: Colors.red,
+      ).show(context);
+      return;
+    }
+
+    if (priceValue == null) {
+      Flushbar(
+        message: 'Qiymət formatı düzgün deyil',
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+        backgroundColor: Colors.red,
+      ).show(context);
+      return;
+    }
+
+    final body = {'name': name, 'price': priceValue, 'description': desc};
+
+    context.read<ServicesCubit>().updateService(serviceId, body);
+    Navigator.pop(context); // Close bottom sheet
+
+    // Show success message after navigation
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (context.mounted) {
+        Flushbar(
+          message: 'Xidmət yeniləndi',
+          duration: const Duration(seconds: 3),
+          margin: const EdgeInsets.all(8),
+          borderRadius: BorderRadius.circular(8),
+          backgroundColor: Colors.green,
+          icon: const Icon(Icons.check_circle, color: Colors.white),
+        ).show(context);
+      }
+    });
+  }
 
   void _showDeleteDialog(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final serviceId = service['id'];
-    final serviceName = service['name'];
+    final serviceId = widget.service['id'];
+    final serviceName = widget.service['name'];
 
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(l10n.deleteService),
-        content: Text('${serviceName ?? 'Bu xidməti'} silmək istədiyinizdən əminsiniz?'),
+        content: Text(
+          '${serviceName ?? 'Bu xidməti'} silmək istədiyinizdən əminsiniz?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
@@ -31,9 +127,20 @@ class ServiceDetailSheet extends StatelessWidget {
               Navigator.pop(dialogContext); // Close dialog
               Navigator.pop(context); // Close bottom sheet
               context.read<ServicesCubit>().deleteService(serviceId);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l10n.serviceDeleted)),
-              );
+
+              // Show success message after navigation
+              Future.delayed(const Duration(milliseconds: 100), () {
+                if (context.mounted) {
+                  Flushbar(
+                    message: l10n.serviceDeleted,
+                    duration: const Duration(seconds: 3),
+                    margin: const EdgeInsets.all(8),
+                    borderRadius: BorderRadius.circular(8),
+                    backgroundColor: Colors.green,
+                    icon: const Icon(Icons.check_circle, color: Colors.white),
+                  ).show(context);
+                }
+              });
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: Text(l10n.delete),
@@ -47,13 +154,15 @@ class ServiceDetailSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    final serviceName = service['name'] ?? 'Xidmət adı yoxdur';
-    final price = service['price'];
-    final description = service['description'];
 
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          top: 16,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+        ),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -72,119 +181,177 @@ class ServiceDetailSheet extends StatelessWidget {
                 ),
               ),
 
-              Center(
-                child: CircleAvatar(
-                  radius: 32,
-                  backgroundColor: theme.colorScheme.primaryContainer,
-                  child: Icon(
-                    Icons.medical_services_outlined,
-                    size: 32,
-                    color: theme.colorScheme.onPrimaryContainer,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              Text(
-                serviceName,
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 32),
-
-              _DetailRow(
-                icon: Icons.attach_money,
-                label: l10n.price,
-                value: price != null ? '$price ₼' : 'Qiymət təyin edilməyib',
-                valueColor: theme.colorScheme.primary,
-                isBold: true,
-              ),
-              const SizedBox(height: 16),
-              _DetailRow(
-                icon: Icons.description_outlined,
-                label: l10n.description,
-                value: description != null && description.toString().isNotEmpty
-                    ? description.toString()
-                    : 'Təsvir yoxdur',
-              ),
-
-              const SizedBox(height: 32),
-
-              // Delete button
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () => _showDeleteDialog(context),
-                  icon: const Icon(Icons.delete_outline),
-                  label: Text(l10n.delete),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.red,
-                    side: const BorderSide(color: Colors.red),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              if (!_isEditMode) ...[
+                Row(
+                  children: [
+                    Text(
+                      'Xidmət detalları',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+
+                  ],
+                ),
+              ] else ...[
+                Row(
+                  children: [
+                    Text(
+                      'Xidməti redaktə et',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: _cancelEdit,
+                      child: Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Text(
+                          l10n.cancel,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.error,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    )
+
+                  ],
+                ),
+              ],
+              const SizedBox(height: 24),
+
+              TextFormField(
+                controller: _nameController,
+                readOnly: !_isEditMode,
+                decoration: InputDecoration(
+                  labelText: l10n.serviceName,
+                  prefixIcon: Icon(Icons.medical_services),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
                   ),
+                  filled: true,
+                ),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: _isEditMode ? null : theme.colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 16),
+
+              TextFormField(
+                controller: _priceController,
+                readOnly: !_isEditMode,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: l10n.price,
+                  prefixIcon: Icon(Icons.attach_money),
+                  suffixText: '₼',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                ),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: _isEditMode ? null : theme.colorScheme.primary,
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Description field
+              TextFormField(
+                controller: _descriptionController,
+                readOnly: !_isEditMode,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  labelText: l10n.description,
+                  prefixIcon: Icon(Icons.description_outlined),
+                  alignLabelWithHint: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                ),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: _isEditMode ? null : theme.colorScheme.primary,
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              if (!_isEditMode) ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 54,
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () => _showDeleteDialog(context),
+                          icon: Icon(
+                            CupertinoIcons.delete,
+                            color: theme.colorScheme.error,
+                          ),
+                          label: Text(
+                            l10n.delete,
+                            style: TextStyle(color: theme.colorScheme.error),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: theme.colorScheme.error),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: SizedBox(
+                        height: 54,
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: _toggleEditMode,
+                          icon: Icon(CupertinoIcons.pencil),
+                          label: Text(l10n.edit),
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ] else ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: PrimaryButton(
+                        text: l10n.save,
+                        onPressed: _saveChanges,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class _DetailRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-  final Color? valueColor;
-  final bool isBold;
-
-  const _DetailRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-    this.valueColor,
-    this.isBold = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 20, color: Colors.grey.shade600),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                value,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: valueColor,
-                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

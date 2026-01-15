@@ -25,4 +25,27 @@ class ExpensesApi {
     );
     return res.data;
   }
+
+  Future<Map<String, dynamic>> updateExpense(
+    String accessToken,
+    String expenseId,
+    Map<String, dynamic> body,
+  ) async {
+    final res = await dioClient.dio.patch(
+      '/expenses/$expenseId',
+      data: body,
+      options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+    );
+    return res.data;
+  }
+
+  Future<void> deleteExpense(
+    String accessToken,
+    String expenseId,
+  ) async {
+    await dioClient.dio.delete(
+      '/expenses/$expenseId',
+      options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+    );
+  }
 }
