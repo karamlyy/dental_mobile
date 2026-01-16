@@ -1,6 +1,5 @@
 import 'package:dental_mobile/core/widgets/loading_indicator.dart';
 import 'package:dental_mobile/config/theme/text_theme_extension.dart';
-import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:dental_mobile/features/home/presentation/cubit/stats_cubit.dart';
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';

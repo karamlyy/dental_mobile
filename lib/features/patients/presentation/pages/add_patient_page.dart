@@ -150,7 +150,7 @@ class AddPatientPage extends StatelessWidget {
                                 const SizedBox(height: 16),
 
                                 DropdownButtonFormField<String>(
-                                  value: state.gender,
+                                  initialValue: state.gender,
                                   decoration: InputDecoration(
                                     labelText: 'cins',
                                     filled: true,

@@ -164,7 +164,7 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                       ),
                       const SizedBox(height: 12),
                       DropdownButtonFormField<String>(
-                        value: _selectedGender,
+                        initialValue: _selectedGender,
                         decoration: InputDecoration(
                           labelText: l10n.gender,
                           prefixIcon: const Icon(Icons.person_outline),

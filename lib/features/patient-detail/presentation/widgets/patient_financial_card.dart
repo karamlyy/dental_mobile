@@ -1,10 +1,5 @@
 import 'package:dental_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../config/di.dart';
-import '../cubit/patient_detail_cubit.dart';
-import '../cubit/patient_service_creation_cubit.dart';
-import 'add_service_sheet.dart';
 
 class PatientFinancialCard extends StatelessWidget {
   final Map<String, dynamic> patient;

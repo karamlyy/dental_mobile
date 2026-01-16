@@ -1,7 +1,6 @@
 import 'package:dental_mobile/common/widgets/primary_button.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:get_it/get_it.dart';
 

@@ -5,7 +5,7 @@ class SectionCard extends StatelessWidget {
 
   final Widget child;
 
-  const SectionCard({this.title, required this.child});
+  const SectionCard({super.key, this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {

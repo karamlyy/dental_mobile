@@ -106,8 +106,9 @@ class AppointmentsView extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   initialItemCount: cubit.animatedListItems.length,
                   itemBuilder: (context, index, animation) {
-                    if (index >= cubit.animatedListItems.length)
+                    if (index >= cubit.animatedListItems.length) {
                       return const SizedBox();
+                    }
                     final a = cubit.animatedListItems[index];
                     return _buildItem(a, animation, l10n, context);
                   },
