@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/auth_api.dart';
 import '../../../../core/analytics/analytics_service.dart';
+import '../../../../core/cache/cache_service.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../../../core/error/error_handler.dart';
 import '../../../../core/utils/crashlytics_helper.dart';
@@ -11,8 +12,9 @@ class AuthCubit extends Cubit<AuthState> {
   final AuthApi api;
   final SecureStorage storage;
   final AnalyticsService analytics;
+  final CacheService cache;
 
-  AuthCubit(this.api, this.storage, this.analytics) : super(AuthInitial());
+  AuthCubit(this.api, this.storage, this.analytics, this.cache) : super(AuthInitial());
 
   Future<void> register(
     String email,
@@ -131,6 +133,9 @@ class AuthCubit extends Cubit<AuthState> {
     await storage.delete('userId');
     await storage.delete('role');
     await storage.delete('fullName');
+    
+    // Clear all cached data
+    await cache.clearAllCaches();
     
     // Clear user context from Crashlytics and Analytics
     await CrashlyticsHelper.setUserId('');

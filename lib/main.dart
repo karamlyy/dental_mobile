@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dental_mobile/app.dart';
+import 'package:dental_mobile/core/cache/cache_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -27,7 +28,11 @@ void main() async {
       return true;
     };
 
-    await init();
+    // Initialize Hive cache before dependency injection
+    final cacheService = CacheService();
+    await cacheService.init();
+
+    await init(cacheService: cacheService);
 
     await dotenv.load(fileName: ".env");
     final storage = sl<AuthCubit>().storage;
