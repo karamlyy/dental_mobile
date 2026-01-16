@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/collaborations_api.dart';
+import '../../../../core/analytics/analytics_service.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../../../core/error/error_handler.dart';
 
@@ -8,8 +9,9 @@ part 'collaboration_creation_state.dart';
 class CollaborationCreationCubit extends Cubit<CollaborationCreationState> {
   final CollaborationsApi api;
   final SecureStorage storage;
+  final AnalyticsService analytics;
 
-  CollaborationCreationCubit(this.api, this.storage) : super(CollaborationCreationInitial());
+  CollaborationCreationCubit(this.api, this.storage, this.analytics) : super(CollaborationCreationInitial());
 
   Future<void> addCollaboration({
     required String technicianName,
@@ -29,7 +31,15 @@ class CollaborationCreationCubit extends Cubit<CollaborationCreationState> {
         'description': description,
       };
 
-      await api.createCollaboration(token, body);
+      final result = await api.createCollaboration(token, body);
+      
+      // Track collaboration creation in Analytics
+      final collaborationId = result['id'] as int?;
+      await analytics.logCollaborationCreated(
+        collaborationId: collaborationId,
+        type: serviceName,
+      );
+      
       if (isClosed) return;
       emit(CollaborationCreationSuccess());
     } catch (e) {

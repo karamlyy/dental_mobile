@@ -9,7 +9,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class HomePageContent extends StatelessWidget {
-
   const HomePageContent({super.key});
 
   Color _statusColor(String status) {
@@ -56,10 +55,16 @@ class HomePageContent extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(l10n.nextAppointments, style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                l10n.nextAppointments,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               TextButton(
                 style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: 0,
+                  ),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
@@ -79,21 +84,24 @@ class HomePageContent extends StatelessWidget {
                 } else if (state is AppointmentsLoaded) {
                   if (state.appointments.isEmpty) {
                     return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/noData.svg',
-                              width: 200,
-                              height: 200,
-                            ),
-                            const SizedBox(height: 16),
-                            Text('Növbəti 3 gündə təsdiqlənmiş görüş yoxdur',
-                                style: TextStyle(fontSize: 16)),
-                          ],
-                        ));
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/noData.svg',
+                            width: 200,
+                            height: 200,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Növbəti 3 gündə təsdiqlənmiş görüş yoxdur',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    );
                   }
-                  
+
                   return ListView.builder(
                     itemCount: state.appointments.length,
                     itemBuilder: (context, index) {
@@ -113,7 +121,11 @@ class HomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildAppointmentCard(dynamic a, AppLocalizations l10n, BuildContext context) {
+  Widget _buildAppointmentCard(
+    dynamic a,
+    AppLocalizations l10n,
+    BuildContext context,
+  ) {
     final patient = a['patient'];
     final date = DateTime.parse(a['date']);
     final headerDate = DateFormat('dd MMMM yyyy').format(date);
@@ -153,9 +165,7 @@ class HomePageContent extends StatelessWidget {
                         horizontal: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: _statusColor(
-                          a['status'],
-                        ).withValues(alpha: 0.1),
+                        color: _statusColor(a['status']).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(

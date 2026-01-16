@@ -1,5 +1,6 @@
 import 'package:dental_mobile/config/di.dart';
 import 'package:dental_mobile/config/theme/app_theme.dart';
+import 'package:dental_mobile/core/analytics/analytics_service.dart';
 import 'package:dental_mobile/core/utils/globals.dart';
 import 'package:dental_mobile/config/theme/theme_cubit.dart';
 import 'package:dental_mobile/config/theme/theme_state.dart';
@@ -45,6 +46,9 @@ class App extends StatelessWidget {
     final router = GoRouter(
       navigatorKey: rootNavigatorKey,
       initialLocation: isLoggedIn ? '/' : '/login',
+      observers: [
+        sl<AnalyticsService>().observer,
+      ],
       redirect: (context, state) async {
         final storage = sl<SecureStorage>();
         final hasSeenOnboarding = await storage.read('hasSeenOnboarding');

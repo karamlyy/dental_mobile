@@ -1,12 +1,14 @@
 import 'package:dental_mobile/config/theme/theme_state.dart';
+import 'package:dental_mobile/core/analytics/analytics_service.dart';
 import 'package:dental_mobile/core/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
   final SecureStorage storage;
+  final AnalyticsService analytics;
 
-  ThemeCubit(this.storage) : super(ThemeState(themeMode: ThemeMode.system));
+  ThemeCubit(this.storage, this.analytics) : super(ThemeState(themeMode: ThemeMode.system));
 
   Future<void> loadTheme() async {
     final savedTheme = await storage.read('themeMode');
@@ -18,6 +20,7 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   Future<void> setTheme(ThemeMode mode) async {
     await storage.write('themeMode', _themeModeToString(mode));
+    await analytics.logThemeChanged(_themeModeToString(mode));
     emit(state.copyWith(themeMode: mode));
   }
 

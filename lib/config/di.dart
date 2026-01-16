@@ -1,6 +1,8 @@
 import 'package:dental_mobile/config/theme/theme_cubit.dart';
+import 'package:dental_mobile/core/analytics/analytics_service.dart';
 import 'package:dental_mobile/core/localization/locale_cubit.dart';
 import 'package:dental_mobile/features/assistants/data/assistants_api.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistants_cubit.dart';
 import 'package:dental_mobile/features/assistants/presentation/cubit/assistant_creation_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/patient_services_cubit.dart';
@@ -45,6 +47,10 @@ import '../features/patient-detail/data/patient_detail_api.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // Analytics
+  sl.registerLazySingleton<FirebaseAnalytics>(() => FirebaseAnalytics.instance);
+  sl.registerLazySingleton<AnalyticsService>(() => AnalyticsService(sl<FirebaseAnalytics>()));
+
   sl.registerLazySingleton<SecureStorage>(() => SecureStorage());
   sl.registerLazySingleton<DioClient>(() {
     final dio = Dio();
@@ -53,13 +59,13 @@ Future<void> init() async {
   });
 
   // Theme
-  sl.registerLazySingleton<ThemeCubit>(() => ThemeCubit(sl<SecureStorage>()));
+  sl.registerLazySingleton<ThemeCubit>(() => ThemeCubit(sl<SecureStorage>(), sl<AnalyticsService>()));
 
   // Localization
-  sl.registerLazySingleton<LocaleCubit>(() => LocaleCubit(sl<SecureStorage>()));
+  sl.registerLazySingleton<LocaleCubit>(() => LocaleCubit(sl<SecureStorage>(), sl<AnalyticsService>()));
 
   sl.registerLazySingleton<AuthApi>(() => AuthApi(sl<DioClient>()));
-  sl.registerFactory(() => AuthCubit(sl<AuthApi>(), sl<SecureStorage>()));
+  sl.registerFactory(() => AuthCubit(sl<AuthApi>(), sl<SecureStorage>(), sl<AnalyticsService>()));
 
   sl.registerLazySingleton<AppointmentsApi>(
     () => AppointmentsApi(sl<DioClient>()),
@@ -77,7 +83,7 @@ Future<void> init() async {
     () => PatientsCubit(sl<PatientsApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
-    () => AddPatientCubit(sl<PatientsApi>(), sl<SecureStorage>()),
+    () => AddPatientCubit(sl<PatientsApi>(), sl<SecureStorage>(), sl<AnalyticsService>()),
   );
 
   sl.registerLazySingleton<PatientDetailApi>(() => PatientDetailApi(sl<DioClient>()));
@@ -118,7 +124,7 @@ Future<void> init() async {
     () => AssistantsCubit(sl<AssistantsApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
-    () => AssistantCreationCubit(sl<AssistantsApi>(), sl<SecureStorage>()),
+    () => AssistantCreationCubit(sl<AssistantsApi>(), sl<SecureStorage>(), sl<AnalyticsService>()),
   );
 
   sl.registerLazySingleton<ServicesApi>(() => ServicesApi(sl<DioClient>()));
@@ -126,7 +132,7 @@ Future<void> init() async {
     () => ServicesCubit(sl<ServicesApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
-    () => ServiceCreationCubit(sl<ServicesApi>(), sl<SecureStorage>()),
+    () => ServiceCreationCubit(sl<ServicesApi>(), sl<SecureStorage>(), sl<AnalyticsService>()),
   );
 
   sl.registerLazySingleton<CollaborationsApi>(() => CollaborationsApi(sl<DioClient>()));
@@ -134,7 +140,7 @@ Future<void> init() async {
     () => CollaborationsCubit(sl<CollaborationsApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
-    () => CollaborationCreationCubit(sl<CollaborationsApi>(), sl<SecureStorage>()),
+    () => CollaborationCreationCubit(sl<CollaborationsApi>(), sl<SecureStorage>(), sl<AnalyticsService>()),
   );
 
   sl.registerLazySingleton<ExpensesApi>(() => ExpensesApi(sl<DioClient>()));
@@ -142,7 +148,7 @@ Future<void> init() async {
     () => ExpensesCubit(sl<ExpensesApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
-    () => ExpenseCreationCubit(sl<ExpensesApi>(), sl<SecureStorage>()),
+    () => ExpenseCreationCubit(sl<ExpensesApi>(), sl<SecureStorage>(), sl<AnalyticsService>()),
   );
 
   sl.registerLazySingleton<ProfileApi>(() => ProfileApi(sl<DioClient>()));

@@ -1,15 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/auth_api.dart';
+import '../../../../core/analytics/analytics_service.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../../../core/error/error_handler.dart';
+import '../../../../core/utils/crashlytics_helper.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthApi api;
   final SecureStorage storage;
+  final AnalyticsService analytics;
 
-  AuthCubit(this.api, this.storage) : super(AuthInitial());
+  AuthCubit(this.api, this.storage, this.analytics) : super(AuthInitial());
 
   Future<void> register(
     String email,
@@ -22,6 +25,8 @@ class AuthCubit extends Cubit<AuthState> {
   ) async {
     emit(AuthLoading());
     try {
+      await CrashlyticsHelper.log('Starting user registration');
+      
       final res = await api.register({
         'email': email,
         'password': password,
@@ -31,12 +36,33 @@ class AuthCubit extends Cubit<AuthState> {
         'phoneNumber': phoneNumber,
         'specialization': specialization,
       });
+      
       await storage.write('accessToken', res['accessToken']);
       await storage.write('refreshToken', res['refreshToken']);
+      
+      // Set user context for Crashlytics
+      await CrashlyticsHelper.setUserId(res['userId'] ?? 'unknown');
+      await CrashlyticsHelper.setCustomKey('user_email', email);
+      await CrashlyticsHelper.setCustomKey('specialization', specialization);
+      await CrashlyticsHelper.log('User registration successful');
+      
+      // Track registration in Analytics
+      await analytics.logSignUp('email');
+      await analytics.setUserId(res['userId']?.toString());
+      await analytics.setUserProperty(name: 'specialization', value: specialization);
+      
       if (isClosed) return;
       emit(AuthSuccess(res['fullName']));
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (isClosed) return;
+      
+      // Log error to Crashlytics
+      await CrashlyticsHelper.logError(
+        e,
+        stackTrace,
+        reason: 'User registration failed',
+      );
+      
       final error = ErrorHandler.handle(e);
       emit(AuthError(
         error.message,
@@ -49,6 +75,8 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     try {
+      await CrashlyticsHelper.log('Starting user login');
+      
       final res = await api.login({'email': email, 'password': password});
 
       // Tokens
@@ -60,10 +88,29 @@ class AuthCubit extends Cubit<AuthState> {
       await storage.write('role', res['role']);
       await storage.write('fullName', res['fullName']);
 
+      // Set user context for Crashlytics
+      await CrashlyticsHelper.setUserId(res['userId'] ?? 'unknown');
+      await CrashlyticsHelper.setCustomKey('user_email', email);
+      await CrashlyticsHelper.setCustomKey('user_role', res['role'] ?? 'unknown');
+      await CrashlyticsHelper.log('User login successful');
+
+      // Track login in Analytics
+      await analytics.logLogin('email');
+      await analytics.setUserId(res['userId']?.toString());
+      await analytics.setUserProperty(name: 'role', value: res['role']?.toString());
+
       if (isClosed) return;
       emit(AuthSuccess(res['fullName']));
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (isClosed) return;
+      
+      // Log error to Crashlytics
+      await CrashlyticsHelper.logError(
+        e,
+        stackTrace,
+        reason: 'User login failed',
+      );
+      
       final error = ErrorHandler.handle(e);
       emit(AuthError(
         error.message,
@@ -74,11 +121,21 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> logout() async {
+    await CrashlyticsHelper.log('User logging out');
+    
+    // Track logout in Analytics
+    await analytics.logLogout();
+    
     await storage.delete('accessToken');
     await storage.delete('refreshToken');
     await storage.delete('userId');
     await storage.delete('role');
     await storage.delete('fullName');
+    
+    // Clear user context from Crashlytics and Analytics
+    await CrashlyticsHelper.setUserId('');
+    await analytics.setUserId(null);
+    
     emit(AuthInitial());
   }
 }

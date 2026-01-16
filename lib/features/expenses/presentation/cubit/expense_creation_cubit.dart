@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/expenses_api.dart';
+import '../../../../core/analytics/analytics_service.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../../../core/error/error_handler.dart';
 
@@ -8,8 +9,9 @@ part 'expense_creation_state.dart';
 class ExpenseCreationCubit extends Cubit<ExpenseCreationState> {
   final ExpensesApi api;
   final SecureStorage storage;
+  final AnalyticsService analytics;
 
-  ExpenseCreationCubit(this.api, this.storage) : super(ExpenseCreationInitial());
+  ExpenseCreationCubit(this.api, this.storage, this.analytics) : super(ExpenseCreationInitial());
 
   Future<void> addExpense({
     required String title,
@@ -27,7 +29,16 @@ class ExpenseCreationCubit extends Cubit<ExpenseCreationState> {
         'description': description,
       };
 
-      await api.createExpense(token, body);
+      final result = await api.createExpense(token, body);
+      
+      // Track expense creation in Analytics
+      final expenseId = result['id'] as int?;
+      await analytics.logExpenseCreated(
+        expenseId: expenseId,
+        amount: price,
+        category: title,
+      );
+      
       if (isClosed) return;
       emit(ExpenseCreationSuccess());
     } catch (e) {
