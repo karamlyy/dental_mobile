@@ -69,22 +69,30 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
         },
         builder: (context, state) {
            final isLoading = state is ExpenseCreationLoading;
+           final maxHeight = MediaQuery.of(context).size.height - 
+                            MediaQuery.of(context).padding.top - 
+                            kToolbarHeight - 
+                            20;
 
           return SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 8,
-                bottom: MediaQuery.of(context).viewInsets.bottom,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: maxHeight,
               ),
-              child: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 8,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
                       /// 🔹 Drag handle
                       Center(
                         child: Container(
@@ -170,11 +178,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet> {
                         onPressed: () => _submit(context),
                         icon: Icons.add,
                       ),
-                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
               ),
+            ),
             ),
           );
         },

@@ -95,17 +95,25 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
         }
       },
       child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.viewInsetsOf(context).bottom,
-            left: 16,
-            right: 16,
-            top: 8,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height - 
+                       MediaQuery.of(context).padding.top - 
+                       kToolbarHeight - 
+                       20,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.viewInsetsOf(context).bottom + 16,
+              left: 16,
+              right: 16,
+              top: 8,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
               /// 🔹 Drag Handle
               Center(
                 child: Container(
@@ -211,9 +219,9 @@ class _AddPaymentSheetState extends State<AddPaymentSheet> {
                 onPressed: _save,
                 icon: Icons.add,
               ),
-  
-              const SizedBox(height: 16),
             ],
+          ),
+            ),
           ),
         ),
       ),

@@ -275,19 +275,28 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
             },
             builder: (context, state) {
               final isLoading = state is PatientServiceCreationLoading;
+              final maxHeight = MediaQuery.of(context).size.height - 
+                               MediaQuery.of(context).padding.top - 
+                               kToolbarHeight - 
+                               20; // AppBar yüksekliği + boşluk
 
               return SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-                    top: 8,
-                    left: 16,
-                    right: 16,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: maxHeight,
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                      top: 8,
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
                       /// 🔹 Drag Handle
                       Center(
                         child: Container(
@@ -410,6 +419,8 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                         icon: Icons.check,
                       ),
                     ],
+                  ),
+                ),
                   ),
                 ),
               );

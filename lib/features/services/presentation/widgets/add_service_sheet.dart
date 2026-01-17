@@ -71,21 +71,30 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
         },
         builder: (context, state) {
            final isLoading = state is ServiceCreationLoading;
+           final maxHeight = MediaQuery.of(context).size.height - 
+                            MediaQuery.of(context).padding.top - 
+                            kToolbarHeight - 
+                            20; // AppBar yüksekliği + boşluk
 
           return SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 8,
-                bottom: MediaQuery.of(context).viewInsets.bottom,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: maxHeight,
               ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 8,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                ),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
                     /// 🔹 Drag handle
                     Center(
                       child: Container(
@@ -168,10 +177,11 @@ class _AddServiceSheetState extends State<AddServiceSheet> {
                       onPressed: () => _submit(context),
                       icon: Icons.add,
                     ),
-                    const SizedBox(height: 16),
                   ],
                 ),
               ),
+            ),
+          ),
             ),
           );
         },

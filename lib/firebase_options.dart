@@ -41,48 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBvjDW8imOkuOHJMdUZ_HrESEjcZiuQZGI',
-    appId: '1:473019026826:web:3ea10e41630619e51a4c73',
-    messagingSenderId: '473019026826',
-    projectId: 'dental-app-ef4ff',
-    authDomain: 'dental-app-ef4ff.firebaseapp.com',
-    storageBucket: 'dental-app-ef4ff.firebasestorage.app',
-    measurementId: 'G-WL17X94MRN',
+    apiKey: 'AIzaSyCguNSvRXic7ncowBc7hKIcsx9jH0-cWz4',
+    appId: '1:563932823271:web:59722a8fa55f3c0f5bec42',
+    messagingSenderId: '563932823271',
+    projectId: 'stomcab',
+    authDomain: 'stomcab.firebaseapp.com',
+    storageBucket: 'stomcab.firebasestorage.app',
+    measurementId: 'G-CM9G9XJ40B',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA-gl1jpZzbTA6St5gLuOnfnIkoV_MHro8',
-    appId: '1:473019026826:android:081672d92a929a711a4c73',
-    messagingSenderId: '473019026826',
-    projectId: 'dental-app-ef4ff',
-    storageBucket: 'dental-app-ef4ff.firebasestorage.app',
+    apiKey: 'AIzaSyAFWZkiPiLP73cjOmCHZ4kql32MZxq4NcY',
+    appId: '1:563932823271:android:255d2b894a441a685bec42',
+    messagingSenderId: '563932823271',
+    projectId: 'stomcab',
+    storageBucket: 'stomcab.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDru2t7Idkr3lRsvWkaZYQ1x6bZVGOOhMQ',
-    appId: '1:473019026826:ios:b6ab471aeac17f3f1a4c73',
-    messagingSenderId: '473019026826',
-    projectId: 'dental-app-ef4ff',
-    storageBucket: 'dental-app-ef4ff.firebasestorage.app',
+    apiKey: 'AIzaSyC_2aIb_CLuCF79lJdg_fH-GD6unmwoCrs',
+    appId: '1:563932823271:ios:a97eac11c255d3485bec42',
+    messagingSenderId: '563932823271',
+    projectId: 'stomcab',
+    storageBucket: 'stomcab.firebasestorage.app',
     iosBundleId: 'com.karamlyy.dentalMobile',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDru2t7Idkr3lRsvWkaZYQ1x6bZVGOOhMQ',
-    appId: '1:473019026826:ios:b6ab471aeac17f3f1a4c73',
-    messagingSenderId: '473019026826',
-    projectId: 'dental-app-ef4ff',
-    storageBucket: 'dental-app-ef4ff.firebasestorage.app',
+    apiKey: 'AIzaSyC_2aIb_CLuCF79lJdg_fH-GD6unmwoCrs',
+    appId: '1:563932823271:ios:a97eac11c255d3485bec42',
+    messagingSenderId: '563932823271',
+    projectId: 'stomcab',
+    storageBucket: 'stomcab.firebasestorage.app',
     iosBundleId: 'com.karamlyy.dentalMobile',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBvjDW8imOkuOHJMdUZ_HrESEjcZiuQZGI',
-    appId: '1:473019026826:web:a316f786fd2fe4231a4c73',
-    messagingSenderId: '473019026826',
-    projectId: 'dental-app-ef4ff',
-    authDomain: 'dental-app-ef4ff.firebaseapp.com',
-    storageBucket: 'dental-app-ef4ff.firebasestorage.app',
-    measurementId: 'G-ER8WQ444YZ',
+    apiKey: 'AIzaSyCguNSvRXic7ncowBc7hKIcsx9jH0-cWz4',
+    appId: '1:563932823271:web:39612d318c03d3d95bec42',
+    messagingSenderId: '563932823271',
+    projectId: 'stomcab',
+    authDomain: 'stomcab.firebaseapp.com',
+    storageBucket: 'stomcab.firebasestorage.app',
+    measurementId: 'G-DJBVLFNXX1',
   );
 }

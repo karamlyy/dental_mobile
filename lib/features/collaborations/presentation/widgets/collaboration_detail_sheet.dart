@@ -188,18 +188,25 @@ class _CollaborationDetailSheetState extends State<CollaborationDetailSheet> {
     final l10n = AppLocalizations.of(context)!;
 
     return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 16,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height - 
+                     MediaQuery.of(context).padding.top - 
+                     kToolbarHeight - 
+                     20,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
               /// 🔹 Drag handle
               Center(
                 child: Container(
@@ -401,7 +408,8 @@ class _CollaborationDetailSheetState extends State<CollaborationDetailSheet> {
             ],
           ),
         ),
-      ),
-    );
+          ),
+        ),
+      );
   }
 }

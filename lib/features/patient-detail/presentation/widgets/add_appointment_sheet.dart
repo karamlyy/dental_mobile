@@ -124,19 +124,28 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
             child: BlocBuilder<PatientAppointmentCreationCubit, PatientAppointmentCreationState>(
               builder: (context, state) {
                 final isLoading = state is PatientAppointmentCreationLoading;
+                final maxHeight = MediaQuery.of(context).size.height - 
+                                 MediaQuery.of(context).padding.top - 
+                                 kToolbarHeight - 
+                                 20;
                 
                 return SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      bottom: MediaQuery.viewInsetsOf(context).bottom,
-                      left: 16,
-                      right: 16,
-                      top: 8,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: maxHeight,
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.viewInsetsOf(context).bottom + 16,
+                        left: 16,
+                        right: 16,
+                        top: 8,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
                         /// 🔹 Drag handle
                         Center(
                           child: Container(
@@ -272,9 +281,9 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                           onPressed: () => _save(context),
                           icon: Icons.add,
                         ),
-            
-                        const SizedBox(height: 16),
                       ],
+                    ),
+                      ),
                     ),
                   ),
                 );
