@@ -33,10 +33,24 @@ class ProfilePage extends StatelessWidget {
         centerTitle: true,
         forceMaterialTransparency: true,
         actions: [
-          TextButton(
-              onPressed: () => context.push('/edit-profile'),
-              child: Text(l10n.edit),
-          )
+          BlocSelector<ProfileCubit, ProfileState, String?>(
+            selector: (state) {
+              if (state is ProfileLoaded) {
+                return state.profile.role;
+              }
+              return null;
+            },
+            builder: (context, role) {
+              // Only show edit button for DOCTOR role
+              if (role == 'DOCTOR') {
+                return TextButton(
+                  onPressed: () => context.push('/edit-profile'),
+                  child: Text(l10n.edit),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
         ],
       ),
       body: Stack(
