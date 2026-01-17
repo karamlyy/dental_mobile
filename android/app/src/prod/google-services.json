@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "473019026826",
+    "project_id": "dental-app-ef4ff",
+    "storage_bucket": "dental-app-ef4ff.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473019026826:android:081672d92a929a711a4c73",
+        "android_client_info": {
+          "package_name": "com.karamlyy.dental_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-gl1jpZzbTA6St5gLuOnfnIkoV_MHro8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

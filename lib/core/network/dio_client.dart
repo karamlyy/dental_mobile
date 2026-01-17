@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
-import '../constants.dart';
+import '../../config/flavor_config.dart';
 
 class DioClient {
   final Dio dio;
   DioClient(this.dio) {
-    dio.options.baseUrl = AppConstants.baseUrl;
+    // Use flavor-specific base URL
+    dio.options.baseUrl = FlavorConfig.instance.apiBaseUrl;
     dio.options.headers = {
       'Content-Type': 'application/json',
       'accept': '*/*',

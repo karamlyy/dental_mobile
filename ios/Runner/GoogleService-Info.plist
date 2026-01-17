@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyDru2t7Idkr3lRsvWkaZYQ1x6bZVGOOhMQ</string>
+	<string>AIzaSyBieXH_d0Gext5crvoOsPeu6iZk76CWHHQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>473019026826</string>
+	<string>464019647766</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.karamlyy.dentalMobile</string>
 	<key>PROJECT_ID</key>
-	<string>dental-app-ef4ff</string>
+	<string>dental-app-dev-96fda</string>
 	<key>STORAGE_BUCKET</key>
-	<string>dental-app-ef4ff.firebasestorage.app</string>
+	<string>dental-app-dev-96fda.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:473019026826:ios:b6ab471aeac17f3f1a4c73</string>
+	<string>1:464019647766:ios:92f2d9279e012fe450b437</string>
 </dict>
 </plist>

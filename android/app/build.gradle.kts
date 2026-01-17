@@ -34,6 +34,21 @@ android {
         versionName = flutter.versionName
     }
 
+    // Flutter Flavors
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            resValue("string", "app_name", "Dental Mobile DEV")
+        }
+        create("prod") {
+            dimension = "environment"
+            resValue("string", "app_name", "Dental Mobile")
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.

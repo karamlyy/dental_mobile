@@ -1,4 +1,5 @@
 import 'package:dental_mobile/config/di.dart';
+import 'package:dental_mobile/config/flavor_config.dart';
 import 'package:dental_mobile/config/theme/app_theme.dart';
 import 'package:dental_mobile/core/analytics/analytics_service.dart';
 import 'package:dental_mobile/core/utils/globals.dart';
@@ -170,7 +171,7 @@ class App extends StatelessWidget {
                 return MaterialApp.router(
                   debugShowCheckedModeBanner: false,
                   routerConfig: router,
-                  title: 'Dental CRM',
+                  title: FlavorConfig.instance.title,
                   theme: AppTheme.light,
                   darkTheme: AppTheme.dark,
                   themeMode: themeState.themeMode,
