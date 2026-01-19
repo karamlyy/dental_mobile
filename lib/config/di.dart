@@ -129,7 +129,7 @@ Future<void> init({required CacheService cacheService}) async {
 
   sl.registerLazySingleton<AssistantsApi>(() => AssistantsApi(sl<DioClient>()));
   sl.registerFactory(
-    () => AssistantsCubit(sl<AssistantsApi>(), sl<SecureStorage>(), sl<CacheService>()),
+    () => AssistantsCubit(sl<AssistantsApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
     () => AssistantCreationCubit(sl<AssistantsApi>(), sl<SecureStorage>(), sl<AnalyticsService>()),
@@ -137,7 +137,7 @@ Future<void> init({required CacheService cacheService}) async {
 
   sl.registerLazySingleton<ServicesApi>(() => ServicesApi(sl<DioClient>()));
   sl.registerFactory(
-    () => ServicesCubit(sl<ServicesApi>(), sl<SecureStorage>(), sl<CacheService>()),
+    () => ServicesCubit(sl<ServicesApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
     () => ServiceCreationCubit(sl<ServicesApi>(), sl<SecureStorage>(), sl<AnalyticsService>()),
@@ -145,7 +145,7 @@ Future<void> init({required CacheService cacheService}) async {
 
   sl.registerLazySingleton<CollaborationsApi>(() => CollaborationsApi(sl<DioClient>()));
   sl.registerFactory(
-    () => CollaborationsCubit(sl<CollaborationsApi>(), sl<SecureStorage>(), sl<CacheService>()),
+    () => CollaborationsCubit(sl<CollaborationsApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
     () => CollaborationCreationCubit(sl<CollaborationsApi>(), sl<SecureStorage>(), sl<AnalyticsService>()),
@@ -153,7 +153,7 @@ Future<void> init({required CacheService cacheService}) async {
 
   sl.registerLazySingleton<ExpensesApi>(() => ExpensesApi(sl<DioClient>()));
   sl.registerFactory(
-    () => ExpensesCubit(sl<ExpensesApi>(), sl<SecureStorage>(), sl<CacheService>()),
+    () => ExpensesCubit(sl<ExpensesApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
     () => ExpenseCreationCubit(sl<ExpensesApi>(), sl<SecureStorage>(), sl<AnalyticsService>()),
@@ -161,7 +161,7 @@ Future<void> init({required CacheService cacheService}) async {
 
   sl.registerLazySingleton<ProfileApi>(() => ProfileApi(sl<DioClient>()));
   sl.registerFactory(
-    () => ProfileCubit(sl<ProfileApi>(), sl<SecureStorage>(), sl<CacheService>()),
+    () => ProfileCubit(sl<ProfileApi>(), sl<SecureStorage>()),
   );
   sl.registerFactory(
     () => ProfileUpdateCubit(sl<ProfileApi>(), sl<SecureStorage>()),

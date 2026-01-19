@@ -129,37 +129,36 @@ class App extends StatelessWidget {
         BlocProvider<AuthCubit>(
           create: (_) => sl<AuthCubit>(),
         ),
+        // Only fetch home page data on app start
         BlocProvider<StatsCubit>(
           create: (_) => sl<StatsCubit>()..fetchStats(),
         ),
         BlocProvider<AppointmentsCubit>(
           create: (_) => sl<AppointmentsCubit>()..fetchAppointments(),
         ),
-        BlocProvider<AssistantsCubit>(
-          create: (_) => sl<AssistantsCubit>()..fetchAssistants(),
-        ),
-        BlocProvider<ServicesCubit>(
-          create: (_) => sl<ServicesCubit>()..fetchServices(),
-        ),
-        BlocProvider<CollaborationsCubit>(
-          create: (_) => sl<CollaborationsCubit>()..fetchCollaborations(),
-        ),
-        BlocProvider<ExpensesCubit>(
-          create: (_) => sl<ExpensesCubit>()..fetchExpenses(),
-        ),
         BlocProvider<ProfileCubit>(
           create: (_) => sl<ProfileCubit>()..fetchProfile(),
+        ),
+        // These will fetch only when their pages are opened
+        BlocProvider<AssistantsCubit>(
+          create: (_) => sl<AssistantsCubit>(),
+        ),
+        BlocProvider<ServicesCubit>(
+          create: (_) => sl<ServicesCubit>(),
+        ),
+        BlocProvider<CollaborationsCubit>(
+          create: (_) => sl<CollaborationsCubit>(),
+        ),
+        BlocProvider<ExpensesCubit>(
+          create: (_) => sl<ExpensesCubit>(),
         ),
       ],
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
+            // Only fetch home page and profile data after login
             context.read<StatsCubit>().fetchStats();
             context.read<AppointmentsCubit>().fetchAppointments();
-            context.read<AssistantsCubit>().fetchAssistants();
-            context.read<ServicesCubit>().fetchServices();
-            context.read<CollaborationsCubit>().fetchCollaborations();
-            context.read<ExpensesCubit>().fetchExpenses();
             context.read<ProfileCubit>().fetchProfile();
           }
         },

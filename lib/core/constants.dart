@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConstants {
   static String get baseUrl {
-    final String baseUrl = dotenv.env['BASE_URL'] ?? 'https://api.stomcab.com';
-    return baseUrl;
+    // final String baseUrl = dotenv.env['BASE_URL'] ?? 'https://api.stomcab.com';
+    // return baseUrl;
 
-    /*
+
 
     if (Platform.isAndroid) {
       // Android Emulator üçün
@@ -17,6 +19,6 @@ class AppConstants {
       return 'http://localhost:3000';
     }
 
-     */
+
   }
 }

@@ -9,8 +9,22 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
 
-class ExpensesPage extends StatelessWidget {
+class ExpensesPage extends StatefulWidget {
   const ExpensesPage({super.key});
+
+  @override
+  State<ExpensesPage> createState() => _ExpensesPageState();
+}
+
+class _ExpensesPageState extends State<ExpensesPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch expenses when page opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ExpensesCubit>().fetchExpenses();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

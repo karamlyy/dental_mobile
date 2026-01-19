@@ -26,18 +26,18 @@ class AddPatientState {
     String? phone,
     String? gender,
     AddPatientStatus? status,
-    String? errorMessage,
-    String? error,
-    int? statusCode,
+    String? Function()? errorMessage,
+    String? Function()? error,
+    int? Function()? statusCode,
   }) {
     return AddPatientState(
       fullName: fullName ?? this.fullName,
       phone: phone ?? this.phone,
       gender: gender ?? this.gender,
       status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-      error: error ?? this.error,
-      statusCode: statusCode ?? this.statusCode,
+      errorMessage: errorMessage != null ? errorMessage() : this.errorMessage,
+      error: error != null ? error() : this.error,
+      statusCode: statusCode != null ? statusCode() : this.statusCode,
     );
   }
 }

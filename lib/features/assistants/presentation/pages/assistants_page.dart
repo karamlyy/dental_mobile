@@ -7,8 +7,22 @@ import '../widgets/add_assistant_sheet.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AssistantsPage extends StatelessWidget {
+class AssistantsPage extends StatefulWidget {
   const AssistantsPage({super.key});
+
+  @override
+  State<AssistantsPage> createState() => _AssistantsPageState();
+}
+
+class _AssistantsPageState extends State<AssistantsPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch assistants when page opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AssistantsCubit>().fetchAssistants();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

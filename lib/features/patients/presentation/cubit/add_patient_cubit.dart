@@ -14,11 +14,23 @@ class AddPatientCubit extends Cubit<AddPatientState> {
   AddPatientCubit(this.api, this.storage, this.analytics) : super(const AddPatientState());
 
   void fullNameChanged(String value) {
-    emit(state.copyWith(fullName: value));
+    emit(state.copyWith(
+      fullName: value,
+      status: AddPatientStatus.initial,
+      errorMessage: () => null,
+      error: () => null,
+      statusCode: () => null,
+    ));
   }
 
   void phoneChanged(String value) {
-    emit(state.copyWith(phone: value));
+    emit(state.copyWith(
+      phone: value,
+      status: AddPatientStatus.initial,
+      errorMessage: () => null,
+      error: () => null,
+      statusCode: () => null,
+    ));
   }
 
   void genderChanged(String value) {
@@ -26,10 +38,10 @@ class AddPatientCubit extends Cubit<AddPatientState> {
   }
 
   Future<void> submit() async {
-    if (state.fullName.isEmpty || state.phone.isEmpty) {
+    if (state.fullName.trim().isEmpty || state.phone.trim().isEmpty) {
       emit(state.copyWith(
         status: AddPatientStatus.error,
-        errorMessage: 'Bütün xanaları doldurun',
+        errorMessage: () => 'Bütün xanaları doldurun',
       ));
       return;
     }
@@ -47,7 +59,11 @@ class AddPatientCubit extends Cubit<AddPatientState> {
       });
 
       // Track patient creation in Analytics
-      final patientId = result['id'] as int?;
+      // Handle id as either String or int from backend
+      final dynamic idValue = result['id'];
+      final int? patientId = idValue != null 
+          ? (idValue is int ? idValue : int.tryParse(idValue.toString()))
+          : null;
       await analytics.logPatientCreated(patientId: patientId);
 
       if (isClosed) return;
@@ -57,9 +73,9 @@ class AddPatientCubit extends Cubit<AddPatientState> {
       final error = ErrorHandler.handle(e);
       emit(state.copyWith(
         status: AddPatientStatus.error,
-        errorMessage: error.message,
-        error: error.error,
-        statusCode: error.statusCode,
+        errorMessage: () => error.message,
+        error: () => error.error,
+        statusCode: () => error.statusCode,
       ));
     }
   }

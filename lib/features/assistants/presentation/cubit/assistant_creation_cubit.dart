@@ -34,7 +34,11 @@ class AssistantCreationCubit extends Cubit<AssistantCreationState> {
       });
 
       // Track assistant creation in Analytics
-      final assistantId = result['id'] as int?;
+      // Handle id as either String or int from backend
+      final dynamic idValue = result['id'];
+      final int? assistantId = idValue != null 
+          ? (idValue is int ? idValue : int.tryParse(idValue.toString()))
+          : null;
       await analytics.logAssistantCreated(assistantId: assistantId, name: fullName);
 
       if (isClosed) return;
