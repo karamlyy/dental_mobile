@@ -9,13 +9,27 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
+import 'package:dental_mobile/core/utils/validators.dart';
 import '../cubit/auth_cubit.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +70,11 @@ class LoginPage extends StatelessWidget {
                 return Center(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
                         KeyboardVisibilityBuilder(
                           builder: (context, isKeyboardVisible) {
                             return AnimatedContainer(
@@ -95,8 +111,9 @@ class LoginPage extends StatelessWidget {
 
                         const SizedBox(height: 10),
 
-                        TextField(
+                        TextFormField(
                           controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             labelText: l10n.email,
                             filled: true,
@@ -105,11 +122,12 @@ class LoginPage extends StatelessWidget {
                               borderSide: BorderSide.none,
                             ),
                           ),
+                          validator: Validators.validateEmail,
                         ),
 
                         const SizedBox(height: 16),
 
-                        TextField(
+                        TextFormField(
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
@@ -120,6 +138,12 @@ class LoginPage extends StatelessWidget {
                               borderSide: BorderSide.none,
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Şifrə tələb olunur';
+                            }
+                            return null;
+                          },
                         ),
 
                         const SizedBox(height: 32),
@@ -128,10 +152,12 @@ class LoginPage extends StatelessWidget {
                           text: l10n.login,
                           isLoading: state is AuthLoading,
                           onPressed: () {
-                            context.read<AuthCubit>().login(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
-                            );
+                            if (_formKey.currentState!.validate()) {
+                              context.read<AuthCubit>().login(
+                                _emailController.text.trim(),
+                                _passwordController.text.trim(),
+                              );
+                            }
                           },
                         ),
 
@@ -147,7 +173,8 @@ class LoginPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
