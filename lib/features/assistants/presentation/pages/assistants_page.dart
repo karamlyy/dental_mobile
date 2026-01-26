@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/assistants_cubit.dart';
 import '../widgets/add_assistant_sheet.dart';
+import '../widgets/assistant_detail_sheet.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -128,24 +129,36 @@ class _AssistantsPageState extends State<AssistantsPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: theme.colorScheme.primaryContainer,
-                          child: Text(
-                            (assistant['fullName'] as String? ?? '?')[0]
-                                .toUpperCase(),
-                            style: TextStyle(
-                              color: theme.colorScheme.onPrimaryContainer,
-                              fontWeight: FontWeight.bold,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => AssistantDetailSheet(
+                              assistant: assistant,
+                            ),
+                          );
+                        },
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: theme.colorScheme.primaryContainer,
+                            child: Text(
+                              (assistant['fullName'] as String? ?? '?')[0]
+                                  .toUpperCase(),
+                              style: TextStyle(
+                                color: theme.colorScheme.onPrimaryContainer,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
+                          title: Text(
+                            assistant['fullName'] ?? 'Adsız',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(assistant['email'] ?? ''),
+                          trailing: const Icon(Icons.chevron_right),
                         ),
-                        title: Text(
-                          assistant['fullName'] ?? 'Adsız',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text(assistant['email'] ?? ''),
-                        trailing: const Icon(Icons.chevron_right),
                       ),
                     );
                   },
