@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'add_service_sheet.dart';
 import '../cubit/patient_service_creation_cubit.dart';
 import '../cubit/patient_detail_cubit.dart';
+import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
 
 class ServicesTab extends StatelessWidget {
   final int patientId;
@@ -115,6 +116,8 @@ class ServicesTab extends StatelessWidget {
               borderRadius: BorderRadius.circular(18),
               onTap: () {
                 final cubit = context.read<PatientServicesCubit>();
+                // Load services before opening the sheet
+                context.read<ServicesCubit>().fetchServices();
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
