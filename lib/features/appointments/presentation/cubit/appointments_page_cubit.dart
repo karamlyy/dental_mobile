@@ -12,24 +12,41 @@ class AppointmentsPageCubit extends Cubit<AppointmentsPageState> {
 
   final GlobalKey<AnimatedListState> listKey = GlobalKey();
   final List<dynamic> animatedListItems = [];
+  
+  DateTime selectedDate = DateTime.now();
 
-  Future<void> fetchAppointments() async {
+  String _formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> fetchAppointments({DateTime? date}) async {
+    if (date != null) {
+      selectedDate = date;
+    }
+    
     emit(AppointmentsPageLoading());
     try {
       final token = await storage.read('accessToken');
       if (token == null) throw Exception('No access token');
 
-      final appointments = await api.getAppointments(token);
+      final appointments = await api.getAppointments(
+        token,
+        date: _formatDate(selectedDate),
+      );
 
       appointments.sort((a, b) {
-        final dateA = DateTime.parse(a['date']);
-        final dateB = DateTime.parse(b['date']);
-        return dateA.compareTo(dateB);
+        final startA = a['startTime'] as String;
+        final startB = b['startTime'] as String;
+        return startA.compareTo(startB);
       });
 
       emit(AppointmentsPageLoaded(appointments));
     } catch (e) {
       emit(AppointmentsPageError(e.toString()));
     }
+  }
+
+  void changeDate(DateTime date) {
+    fetchAppointments(date: date);
   }
 }
