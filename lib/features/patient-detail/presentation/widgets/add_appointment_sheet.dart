@@ -11,6 +11,7 @@ import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/appointment_schedule_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/widgets/day_schedule_view.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
 
 class AddAppointmentSheet extends StatefulWidget {
   final int patientId;
@@ -43,9 +44,10 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
   }
 
   Future<void> _pickTime(bool isStart) async {
+    final currentTime = isStart ? _startTime : _endTime;
     final picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: currentTime ?? TimeOfDay.now(),
     );
     if (picked != null) {
       setState(() {
@@ -56,6 +58,11 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
 
   String _formatTime(TimeOfDay time) =>
       '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+
+  TimeOfDay _addMinutesToTime(TimeOfDay time, int minutes) {
+    final totalMinutes = time.hour * 60 + time.minute + minutes;
+    return TimeOfDay(hour: totalMinutes ~/ 60, minute: totalMinutes % 60);
+  }
 
   void _save(BuildContext context) {
     if (_selectedDate == null || _startTime == null || _endTime == null) {
@@ -117,7 +124,9 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                   ),
                 );
               } else if (state is PatientAppointmentCreationSuccess) {
-                widget.cubit.fetchAppointments(widget.patientId); // Refresh the list
+                widget.cubit.fetchAppointments(widget.patientId); // Refresh patient detail list
+                // Refresh home screen appointments list
+                context.read<AppointmentsCubit>().fetchAppointments();
                 Navigator.pop(context);
               }
             },
@@ -215,6 +224,11 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                                   selectedDate: _selectedDate!,
                                   selectedStartTime: _startTime,
                                   appointments: scheduleState.schedule,
+                                  onTimeSelected: (time) {
+                                    setState(() {
+                                      _startTime = time;
+                                    });
+                                  },
                                 );
                               } else if (scheduleState is AppointmentScheduleError) {
                                 return Text(scheduleState.message, style: const TextStyle(color: Colors.red));
@@ -224,6 +238,54 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                           ),
 
                         const SizedBox(height: 16),
+
+                        // Duration chips - shown when start time is selected
+                        if (_startTime != null)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Müddət',
+                                style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 8),
+                              SizedBox(
+                                height: 40,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 8,
+                                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                                  itemBuilder: (context, index) {
+                                    final durations = [15, 30, 45, 60, 90, 120, 150, 180];
+                                    final minutes = durations[index];
+                                    final endTime = _addMinutesToTime(_startTime!, minutes);
+                                    final isSelected = _endTime != null && 
+                                        _endTime!.hour == endTime.hour && 
+                                        _endTime!.minute == endTime.minute;
+                                    
+                                    final label = minutes >= 60 
+                                        ? '${minutes ~/ 60} saat${minutes % 60 > 0 ? ' ${minutes % 60} dəq' : ''}'
+                                        : '$minutes dəq';
+                                    
+                                    return ChoiceChip(
+                                      label: Text(label),
+                                      selected: isSelected,
+                                      onSelected: (_) {
+                                        setState(() {
+                                          _endTime = endTime;
+                                        });
+                                      },
+                                      selectedColor: theme.colorScheme.primary,
+                                      labelStyle: TextStyle(
+                                        color: isSelected ? theme.colorScheme.onPrimary : null,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                            ],
+                          ),
             
                         /// ⏰ Time cards
                         Row(

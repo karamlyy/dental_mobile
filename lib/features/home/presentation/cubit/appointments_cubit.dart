@@ -32,7 +32,7 @@ class AppointmentsCubit extends Cubit<AppointmentsState> {
         // We use !isBefore(today) to include today since date is likely just YYYY-MM-DD (midnight)
         return !date.isBefore(today) &&
             date.isBefore(threeDaysLater.add(const Duration(days: 1))) &&
-            a['status'] == 'CONFIRMED';
+            (a['status'] == 'CONFIRMED' || a['status'] == 'SCHEDULED');
       }).toList();
 
       if (isClosed) return;

@@ -254,7 +254,7 @@ class _ServiceDetailSheetState extends State<ServiceDetailSheet> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: l10n.price,
-                  prefixIcon: Icon(Icons.attach_money),
+                  prefixIcon: Icon(CupertinoIcons.money_dollar_circle),
                   suffixText: '₼',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -276,7 +276,7 @@ class _ServiceDetailSheetState extends State<ServiceDetailSheet> {
                 maxLines: 3,
                 decoration: InputDecoration(
                   labelText: l10n.description,
-                  prefixIcon: Icon(Icons.description_outlined),
+                  prefixIcon: Icon(CupertinoIcons.square_favorites_fill),
                   alignLabelWithHint: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),

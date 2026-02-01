@@ -25,4 +25,30 @@ class PatientServicesCubit extends Cubit<PatientServicesState> {
       emit(PatientServicesError(e.toString()));
     }
   }
+
+  Future<void> updateService({
+    required int patientId,
+    required int serviceId,
+    required String name,
+    required double price,
+  }) async {
+    try {
+      emit(PatientServicesLoading());
+      final token = await storage.read('accessToken');
+      if (token == null) {
+        emit(PatientServicesError('Unauthorized'));
+        return;
+      }
+
+      await api.updatePatientService(token, patientId, serviceId, {
+        'name': name,
+        'price': price,
+      });
+      
+      // Refresh the list after update
+      await fetchServices(patientId);
+    } catch (e) {
+      emit(PatientServicesError(e.toString()));
+    }
+  }
 }

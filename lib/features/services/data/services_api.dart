@@ -59,4 +59,18 @@ class ServicesApi {
       options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
     );
   }
+
+  Future<Map<String, dynamic>> updatePatientService(
+    String accessToken,
+    int patientId,
+    int serviceId,
+    Map<String, dynamic> body,
+  ) async {
+    final res = await dioClient.dio.patch(
+      '/patients/$patientId/services/$serviceId',
+      data: body,
+      options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+    );
+    return res.data;
+  }
 }

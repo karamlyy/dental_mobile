@@ -9,8 +9,22 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
 
-class CollaborationsPage extends StatelessWidget {
+class CollaborationsPage extends StatefulWidget {
   const CollaborationsPage({super.key});
+
+  @override
+  State<CollaborationsPage> createState() => _CollaborationsPageState();
+}
+
+class _CollaborationsPageState extends State<CollaborationsPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch collaborations when page opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CollaborationsCubit>().fetchCollaborations();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

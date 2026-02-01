@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
+import 'package:dental_mobile/core/utils/validators.dart';
 import '../cubit/assistants_cubit.dart';
 
 class AddAssistantSheet extends StatefulWidget {
@@ -134,8 +135,12 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                           ),
                           filled: true
                       ),
-                      validator: (value) =>
-                          value == null || value.isEmpty ? l10n.required : null,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Ad və soyad tələb olunur';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 12),
                       TextFormField(
@@ -150,9 +155,7 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                             filled: true
                         ),
                         keyboardType: TextInputType.emailAddress,
-                        validator: (value) => value == null || !value.contains('@')
-                            ? 'Düzgün email daxil edin'
-                            : null,
+                        validator: Validators.validateEmail,
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
@@ -167,8 +170,12 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                           filled: true,
                         ),
                         keyboardType: TextInputType.phone,
-                        validator: (value) =>
-                            value == null || value.isEmpty ? l10n.required  : null,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Telefon nömrəsi tələb olunur';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 12),
                       DropdownButtonFormField<String>(
@@ -207,9 +214,15 @@ class _AddAssistantSheetState extends State<AddAssistantSheet> {
                         filled: true
                       ),
                       obscureText: true,
-                      validator: (value) => value == null || value.length < 6
-                          ? 'Minimum 6 simvol'
-                          : null,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Şifrə tələb olunur';
+                        }
+                        if (value.trim().length < 6) {
+                          return 'Şifrə ən azı 6 simvol olmalıdır';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 32),
       

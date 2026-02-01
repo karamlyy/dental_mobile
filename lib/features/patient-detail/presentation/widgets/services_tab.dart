@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'add_service_sheet.dart';
+import 'edit_patient_service_sheet.dart';
 import '../cubit/patient_service_creation_cubit.dart';
 import '../cubit/patient_detail_cubit.dart';
+import 'package:dental_mobile/features/services/presentation/cubit/services_cubit.dart';
 
 class ServicesTab extends StatelessWidget {
   final int patientId;
@@ -69,7 +71,22 @@ class ServicesTab extends StatelessWidget {
 
                     ),
                     child: ListTile(
-
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (_) => BlocProvider.value(
+                            value: context.read<PatientServicesCubit>(),
+                            child: BlocProvider.value(
+                              value: context.read<PatientDetailCubit>(),
+                              child: EditPatientServiceSheet(
+                                patientId: patientId,
+                                service: service,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                       leading: Icon(
                         Icons.medical_services_rounded,
                         color: Colors.blue.shade700,
@@ -115,6 +132,8 @@ class ServicesTab extends StatelessWidget {
               borderRadius: BorderRadius.circular(18),
               onTap: () {
                 final cubit = context.read<PatientServicesCubit>();
+                // Load services before opening the sheet
+                context.read<ServicesCubit>().fetchServices();
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,

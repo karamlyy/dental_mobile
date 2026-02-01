@@ -8,8 +8,22 @@ import '../widgets/service_detail_sheet.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ServicesPage extends StatelessWidget {
+class ServicesPage extends StatefulWidget {
   const ServicesPage({super.key});
+
+  @override
+  State<ServicesPage> createState() => _ServicesPageState();
+}
+
+class _ServicesPageState extends State<ServicesPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch services when page opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ServicesCubit>().fetchServices();
+    });
+  }
 
   void _showServiceDetail(BuildContext context, Map<String, dynamic> service) {
     showModalBottomSheet(

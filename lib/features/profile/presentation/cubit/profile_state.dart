@@ -8,6 +8,7 @@ class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
   final UserProfileModel profile;
+  
   ProfileLoaded(this.profile);
 }
 

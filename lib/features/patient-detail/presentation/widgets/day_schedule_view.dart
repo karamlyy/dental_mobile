@@ -4,12 +4,14 @@ class DayScheduleView extends StatelessWidget {
   final DateTime selectedDate;
   final TimeOfDay? selectedStartTime;
   final List<Map<String, dynamic>> appointments;
+  final ValueChanged<TimeOfDay>? onTimeSelected;
 
   const DayScheduleView({
     super.key,
     required this.selectedDate,
     required this.appointments,
     this.selectedStartTime,
+    this.onTimeSelected,
   });
 
   @override
@@ -85,33 +87,40 @@ class DayScheduleView extends StatelessWidget {
                 textColor = theme.colorScheme.onSurface;
               }
 
-              return Container(
-                width: 80,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: bgColor,
-                  border: Border.all(color: borderColor),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _formatTime(slotStart),
-                      style: TextStyle(
-                        color: textColor,
-                        fontWeight: FontWeight.bold,
+              final bool canSelect = !isBusy && !isPast;
+
+              return GestureDetector(
+                onTap: canSelect && onTimeSelected != null
+                    ? () => onTimeSelected!(slotStart)
+                    : null,
+                child: Container(
+                  width: 80,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: bgColor,
+                    border: Border.all(color: borderColor),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        _formatTime(slotStart),
+                        style: TextStyle(
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    if (isBusy || isPast)
-                    Text(
-                      isBusy ? 'Məşğul' : 'Keçib',
-                      style: TextStyle(
-                        color: textColor.withValues(alpha: 0.8),
-                        fontSize: 10,
+                      if (isBusy || isPast)
+                      Text(
+                        isBusy ? 'Məşğul' : 'Keçib',
+                        style: TextStyle(
+                          color: textColor.withValues(alpha: 0.8),
+                          fontSize: 10,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

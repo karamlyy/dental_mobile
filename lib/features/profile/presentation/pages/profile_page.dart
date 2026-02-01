@@ -112,9 +112,9 @@ class ProfilePage extends StatelessWidget {
                                 width: 50,
                                 height: 50,
                                 child: SvgPicture.asset(
-                                  profile.gender == 'MALE'
-                                      ? 'assets/icons/maleDoctor.svg'
-                                      : 'assets/icons/femaleDoctor.svg',
+                                  profile.gender == 'FEMALE'
+                                      ? 'assets/icons/femaleDoctor.svg'
+                                      : 'assets/icons/maleDoctor.svg',
                                   fit: BoxFit.cover,
                                 ),
                               ),

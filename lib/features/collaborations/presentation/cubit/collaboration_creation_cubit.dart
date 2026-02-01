@@ -34,7 +34,11 @@ class CollaborationCreationCubit extends Cubit<CollaborationCreationState> {
       final result = await api.createCollaboration(token, body);
       
       // Track collaboration creation in Analytics
-      final collaborationId = result['id'] as int?;
+      // Handle id as either String or int from backend
+      final dynamic idValue = result['id'];
+      final int? collaborationId = idValue != null 
+          ? (idValue is int ? idValue : int.tryParse(idValue.toString()))
+          : null;
       await analytics.logCollaborationCreated(
         collaborationId: collaborationId,
         type: serviceName,

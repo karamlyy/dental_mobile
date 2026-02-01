@@ -8,6 +8,7 @@ class AssistantsLoading extends AssistantsState {}
 
 class AssistantsLoaded extends AssistantsState {
   final List<Map<String, dynamic>> assistants;
+  
   AssistantsLoaded(this.assistants);
 }
 

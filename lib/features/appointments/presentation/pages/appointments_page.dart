@@ -60,9 +60,29 @@ class AppointmentsView extends StatelessWidget {
     final cubit = context.read<AppointmentsPageCubit>();
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appointments),forceMaterialTransparency: true,),
+      appBar: AppBar(
+        title: Text(l10n.appointments),
+        forceMaterialTransparency: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.calendar_month),
+            onPressed: () async {
+              final picked = await showDatePicker(
+                context: context,
+                initialDate: cubit.selectedDate,
+                firstDate: DateTime(2020),
+                lastDate: DateTime(2030),
+              );
+              if (picked != null) {
+                cubit.changeDate(picked);
+              }
+            },
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           Positioned.fill(
@@ -74,54 +94,129 @@ class AppointmentsView extends StatelessWidget {
               ),
             ),
           ),
-          BlocConsumer<AppointmentsPageCubit, AppointmentsPageState>(
-            listener: (context, state) {
-              if (state is AppointmentsPageLoaded) {
-                _refreshList(state.appointments, cubit, context);
-              }
-            },
-            builder: (context, state) {
-              if (state is AppointmentsPageLoading) {
-                return const LoadingIndicator();
-              } else if (state is AppointmentsPageLoaded) {
-                if (state.appointments.isEmpty && cubit.animatedListItems.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/noData.svg',
-                          width: 200,
-                          height: 200,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(l10n.noAppointments),
-                      ],
+          Column(
+            children: [
+              // Date strip
+              BlocBuilder<AppointmentsPageCubit, AppointmentsPageState>(
+                buildWhen: (previous, current) => true, // Rebuild on any state change
+                builder: (context, state) {
+                  return SizedBox(
+                    height: 80,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      itemCount: 30, // Show 30 days
+                      itemBuilder: (context, index) {
+                        final date = DateTime.now().add(Duration(days: index - 7)); // 7 days before today to 22 days after
+                        final isSelected = _isSameDay(date, cubit.selectedDate);
+                        final isToday = _isSameDay(date, DateTime.now());
+                        
+                        return GestureDetector(
+                          onTap: () => cubit.changeDate(date),
+                          child: Container(
+                            width: 56,
+                            margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: isSelected 
+                                  ? theme.colorScheme.primary 
+                                  : isToday 
+                                      ? theme.colorScheme.primary.withOpacity(0.1)
+                                      : theme.colorScheme.surfaceContainerHighest,
+                              borderRadius: BorderRadius.circular(16),
+                              border: isToday && !isSelected 
+                                  ? Border.all(color: theme.colorScheme.primary, width: 2)
+                                  : null,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  DateFormat('EEE', 'az').format(date).toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: isSelected 
+                                        ? theme.colorScheme.onPrimary 
+                                        : theme.colorScheme.onSurface.withOpacity(0.6),
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  date.day.toString(),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: isSelected 
+                                        ? theme.colorScheme.onPrimary 
+                                        : theme.colorScheme.onSurface,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   );
-                }
-  
-                return AnimatedList(
-                  key: cubit.listKey,
-                  padding: const EdgeInsets.all(16),
-                  initialItemCount: cubit.animatedListItems.length,
-                  itemBuilder: (context, index, animation) {
-                    if (index >= cubit.animatedListItems.length) {
-                      return const SizedBox();
+                },
+              ),
+              // Appointments list
+              Expanded(
+                child: BlocConsumer<AppointmentsPageCubit, AppointmentsPageState>(
+                  listener: (context, state) {
+                    if (state is AppointmentsPageLoaded) {
+                      _refreshList(state.appointments, cubit, context);
                     }
-                    final a = cubit.animatedListItems[index];
-                    return _buildItem(a, animation, l10n, context);
                   },
-                );
-              } else if (state is AppointmentsPageError) {
-                return Center(child: Text(state.message));
-              }
-              return const SizedBox();
-            },
+                  builder: (context, state) {
+                    if (state is AppointmentsPageLoading) {
+                      return const LoadingIndicator();
+                    } else if (state is AppointmentsPageLoaded) {
+                      if (state.appointments.isEmpty && cubit.animatedListItems.isEmpty) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/icons/noData.svg',
+                                width: 200,
+                                height: 200,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(l10n.noAppointments),
+                            ],
+                          ),
+                        );
+                      }
+        
+                      return AnimatedList(
+                        key: cubit.listKey,
+                        padding: const EdgeInsets.all(16),
+                        initialItemCount: cubit.animatedListItems.length,
+                        itemBuilder: (context, index, animation) {
+                          if (index >= cubit.animatedListItems.length) {
+                            return const SizedBox();
+                          }
+                          final a = cubit.animatedListItems[index];
+                          return _buildItem(a, animation, l10n, context);
+                        },
+                      );
+                    } else if (state is AppointmentsPageError) {
+                      return Center(child: Text(state.message));
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  bool _isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
   void _refreshList(
@@ -180,9 +275,13 @@ class AppointmentsView extends StatelessWidget {
           elevation: 0,
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
-            onTap: () {
+            onTap: () async {
               if (patientId != null) {
-                context.push('/patient/$patientId');
+                await context.push('/patient/$patientId');
+                // Refresh appointments after returning from patient detail
+                if (context.mounted) {
+                  context.read<AppointmentsPageCubit>().fetchAppointments();
+                }
               }
             },
             child: Padding(

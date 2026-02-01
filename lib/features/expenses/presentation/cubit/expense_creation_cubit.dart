@@ -32,7 +32,11 @@ class ExpenseCreationCubit extends Cubit<ExpenseCreationState> {
       final result = await api.createExpense(token, body);
       
       // Track expense creation in Analytics
-      final expenseId = result['id'] as int?;
+      // Handle id as either String or int from backend
+      final dynamic idValue = result['id'];
+      final int? expenseId = idValue != null 
+          ? (idValue is int ? idValue : int.tryParse(idValue.toString()))
+          : null;
       await analytics.logExpenseCreated(
         expenseId: expenseId,
         amount: price,

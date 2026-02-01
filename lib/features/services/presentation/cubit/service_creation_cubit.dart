@@ -32,7 +32,11 @@ class ServiceCreationCubit extends Cubit<ServiceCreationState> {
       final result = await api.createService(token, body);
       
       // Track service creation in Analytics
-      final serviceId = result['id'] as int?;
+      // Handle id as either String or int from backend
+      final dynamic idValue = result['id'];
+      final int? serviceId = idValue != null 
+          ? (idValue is int ? idValue : int.tryParse(idValue.toString()))
+          : null;
       await analytics.logServiceCreated(serviceId: serviceId, serviceName: name);
       
       if (isClosed) return;

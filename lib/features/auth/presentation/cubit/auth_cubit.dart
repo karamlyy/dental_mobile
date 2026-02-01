@@ -5,6 +5,7 @@ import '../../../../core/cache/cache_service.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../../../core/error/error_handler.dart';
 import '../../../../core/utils/crashlytics_helper.dart';
+import '../../../../core/utils/validators.dart';
 
 part 'auth_state.dart';
 
@@ -25,18 +26,61 @@ class AuthCubit extends Cubit<AuthState> {
     String phoneNumber,
     String specialization,
   ) async {
+    // Email validasiya
+    final emailError = Validators.validateEmail(email);
+    if (emailError != null) {
+      emit(AuthError(emailError));
+      return;
+    }
+
+    // Digər xanaların validasiyası
+    if (fullName.trim().isEmpty) {
+      emit(AuthError('Ad və soyad tələb olunur'));
+      return;
+    }
+
+    if (clinicName.trim().isEmpty) {
+      emit(AuthError('Klinika adı tələb olunur'));
+      return;
+    }
+
+    if (address.trim().isEmpty) {
+      emit(AuthError('Ünvan tələb olunur'));
+      return;
+    }
+
+    if (phoneNumber.trim().isEmpty) {
+      emit(AuthError('Telefon nömrəsi tələb olunur'));
+      return;
+    }
+
+    if (specialization.trim().isEmpty) {
+      emit(AuthError('İxtisas tələb olunur'));
+      return;
+    }
+
+    if (password.trim().isEmpty) {
+      emit(AuthError('Şifrə tələb olunur'));
+      return;
+    }
+
+    if (password.trim().length < 6) {
+      emit(AuthError('Şifrə ən azı 6 simvol olmalıdır'));
+      return;
+    }
+
     emit(AuthLoading());
     try {
       await CrashlyticsHelper.log('Starting user registration');
       
       final res = await api.register({
-        'email': email,
-        'password': password,
-        'fullName': fullName,
-        'clinicName': clinicName,
-        'address': address,
-        'phoneNumber': phoneNumber,
-        'specialization': specialization,
+        'email': email.trim(),
+        'password': password.trim(),
+        'fullName': fullName.trim(),
+        'clinicName': clinicName.trim(),
+        'address': address.trim(),
+        'phoneNumber': phoneNumber.trim(),
+        'specialization': specialization.trim(),
       });
       
       await storage.write('accessToken', res['accessToken']);
@@ -75,11 +119,24 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> login(String email, String password) async {
+    // Email validasiya
+    final emailError = Validators.validateEmail(email);
+    if (emailError != null) {
+      emit(AuthError(emailError));
+      return;
+    }
+
+    // Password validasiya
+    if (password.trim().isEmpty) {
+      emit(AuthError('Şifrə tələb olunur'));
+      return;
+    }
+
     emit(AuthLoading());
     try {
       await CrashlyticsHelper.log('Starting user login');
       
-      final res = await api.login({'email': email, 'password': password});
+      final res = await api.login({'email': email.trim(), 'password': password.trim()});
 
       // Tokens
       await storage.write('accessToken', res['accessToken']);

@@ -7,11 +7,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
+import 'package:dental_mobile/core/utils/validators.dart';
 import '../cubit/auth_cubit.dart';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
   final _fullNameController = TextEditingController();
   final _clinicNameController = TextEditingController();
   final _addressController = TextEditingController();
@@ -19,6 +26,18 @@ class RegisterPage extends StatelessWidget {
   final _specializationController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _clinicNameController.dispose();
+    _addressController.dispose();
+    _phoneNumberController.dispose();
+    _specializationController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +77,11 @@ class RegisterPage extends StatelessWidget {
             return Center(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
                     KeyboardVisibilityBuilder(
                       builder: (context, isKeyboardVisible) {
                         return AnimatedContainer(
@@ -98,7 +119,7 @@ class RegisterPage extends StatelessWidget {
 
                     const SizedBox(height: 10),
 
-                    TextField(
+                    TextFormField(
                       controller: _fullNameController,
                       decoration: InputDecoration(
                         labelText: l10n.nameAndSurname,
@@ -108,11 +129,17 @@ class RegisterPage extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Ad və soyad tələb olunur';
+                        }
+                        return null;
+                      },
                     ),
 
                     const SizedBox(height: 16),
 
-                    TextField(
+                    TextFormField(
                       controller: _clinicNameController,
                       decoration: InputDecoration(
                         labelText: l10n.clinicName,
@@ -122,11 +149,17 @@ class RegisterPage extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Klinika adı tələb olunur';
+                        }
+                        return null;
+                      },
                     ),
 
                     const SizedBox(height: 16),
 
-                    TextField(
+                    TextFormField(
                       controller: _addressController,
                       decoration: InputDecoration(
                         labelText: l10n.address,
@@ -136,12 +169,19 @@ class RegisterPage extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Ünvan tələb olunur';
+                        }
+                        return null;
+                      },
                     ),
 
                     const SizedBox(height: 16),
 
-                    TextField(
+                    TextFormField(
                       controller: _phoneNumberController,
+                      keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         labelText: l10n.phoneNumber,
                         filled: true,
@@ -150,11 +190,17 @@ class RegisterPage extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Telefon nömrəsi tələb olunur';
+                        }
+                        return null;
+                      },
                     ),
 
                     const SizedBox(height: 16),
 
-                    TextField(
+                    TextFormField(
                       controller: _specializationController,
                       decoration: InputDecoration(
                         labelText: l10n.specialization,
@@ -164,12 +210,19 @@ class RegisterPage extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'İxtisas tələb olunur';
+                        }
+                        return null;
+                      },
                     ),
 
                     const SizedBox(height: 16),
 
-                    TextField(
+                    TextFormField(
                       controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: l10n.email,
                         filled: true,
@@ -178,11 +231,12 @@ class RegisterPage extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      validator: Validators.validateEmail,
                     ),
 
                     const SizedBox(height: 16),
 
-                    TextField(
+                    TextFormField(
                       controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
@@ -193,6 +247,15 @@ class RegisterPage extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Şifrə tələb olunur';
+                        }
+                        if (value.trim().length < 6) {
+                          return 'Şifrə ən azı 6 simvol olmalıdır';
+                        }
+                        return null;
+                      },
                     ),
 
                     const SizedBox(height: 32),
@@ -201,15 +264,17 @@ class RegisterPage extends StatelessWidget {
                       text: l10n.createAccount,
                       isLoading: state is AuthLoading,
                       onPressed: () {
-                        context.read<AuthCubit>().register(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
-                              _fullNameController.text.trim(),
-                              _clinicNameController.text.trim(),
-                              _addressController.text.trim(),
-                              _phoneNumberController.text.trim(),
-                              _specializationController.text.trim(),
-                            );
+                        if (_formKey.currentState!.validate()) {
+                          context.read<AuthCubit>().register(
+                                _emailController.text.trim(),
+                                _passwordController.text.trim(),
+                                _fullNameController.text.trim(),
+                                _clinicNameController.text.trim(),
+                                _addressController.text.trim(),
+                                _phoneNumberController.text.trim(),
+                                _specializationController.text.trim(),
+                              );
+                        }
                       },
                     ),
 
@@ -224,7 +289,8 @@ class RegisterPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
