@@ -11,6 +11,7 @@ import 'package:dental_mobile/core/error/app_error.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/cubit/appointment_schedule_cubit.dart';
 import 'package:dental_mobile/features/patient-detail/presentation/widgets/day_schedule_view.dart';
 import 'package:dental_mobile/common/widgets/error_bottom_sheet.dart';
+import 'package:dental_mobile/features/home/presentation/cubit/appointments_cubit.dart';
 
 class AddAppointmentSheet extends StatefulWidget {
   final int patientId;
@@ -123,7 +124,9 @@ class _AddAppointmentSheetState extends State<AddAppointmentSheet> {
                   ),
                 );
               } else if (state is PatientAppointmentCreationSuccess) {
-                widget.cubit.fetchAppointments(widget.patientId); // Refresh the list
+                widget.cubit.fetchAppointments(widget.patientId); // Refresh patient detail list
+                // Refresh home screen appointments list
+                context.read<AppointmentsCubit>().fetchAppointments();
                 Navigator.pop(context);
               }
             },

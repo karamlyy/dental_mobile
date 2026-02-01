@@ -38,10 +38,10 @@ class AddPatientCubit extends Cubit<AddPatientState> {
   }
 
   Future<void> submit() async {
-    if (state.fullName.trim().isEmpty || state.phone.trim().isEmpty) {
+    if (state.fullName.trim().isEmpty) {
       emit(state.copyWith(
         status: AddPatientStatus.error,
-        errorMessage: () => 'Bütün xanaları doldurun',
+        errorMessage: () => 'Ad və soyad daxil edin',
       ));
       return;
     }
